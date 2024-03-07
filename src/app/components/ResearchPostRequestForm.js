@@ -54,7 +54,7 @@ const ResearchPostRequestForm = () => {
   const dateInputClass = 'form-input w-full text-black';
   const formContainerClass = 'flex justify-center items-center min-h-screen';
   const formSectionClass = 'bg-white p-6 rounded shadow-md w-full max-w-md mx-auto mb-4';
-  const buttonClass = 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline';
+  const buttonClass = 'bg-primary hover:bg-primary-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline';
   const navigationContainerClass = 'flex justify-between';
   const totalSteps = 10;
   
@@ -93,7 +93,7 @@ const ResearchPostRequestForm = () => {
       name="irbNumber"
       value={formData.irbNumber}
       onChange={handleInputChange}
-      placeholder="IRB or Research Number"
+      placeholder="IRB or Research Number (Optional)"
       className={inputClass}
     />
   );
@@ -155,7 +155,7 @@ const ResearchPostRequestForm = () => {
   const LocationField = () => (
     <TextAreaField
       name="location"
-      placeholder="Study Location (Virtual or In-Person)"
+      placeholder="Study Location (Virtual, In-Person, Hybrid?)"
       value={formData.location}
       onChange={handleInputChange}
       className={textareaClass}
@@ -303,6 +303,7 @@ const ResearchPostRequestForm = () => {
         {currentStep === 1 && (
           <div>
             <h2 className="text-lg font-bold mb-4 text-black text-center">Step 1: Basic Information</h2>
+            <p className="text-sm mb-4 text-black">Please complete the fields below.</p>
             <TitleField />
             <IrbNumberField />
             <PrincipalInvestigatorField />
@@ -311,6 +312,7 @@ const ResearchPostRequestForm = () => {
         {currentStep === 2 && (
           <div>
             <h2 className="text-lg font-bold mb-4 text-black text-center">Step 2: Area of Study</h2>
+            <p className="text-sm mb-4 text-black">Provide any topics or conditions being studied and then write a paragraph explaining your research goals in common terms.</p>
             <ResearchTopicsField />
             <DescriptionAndPurposeField />
           </div>
@@ -318,18 +320,22 @@ const ResearchPostRequestForm = () => {
         {currentStep === 3 && (
           <div>
             <h2 className="text-lg font-bold mb-4 text-black text-center">Step 3: Participant Experience</h2>
+            <p className="text-sm mb-4 text-black">Please provide details on particpant expectations such as required meetings, duration of meetings, required procedures, and overall experience.</p>
             <ParticipantExperienceField />
           </div>
         )}
         {currentStep === 4 && (
           <div>
             <h2 className="text-lg font-bold mb-4 text-black text-center">Step 4: Location</h2>
+            <p className="text-sm mb-4 text-black">Please provide details on the location of the study. If the study is in-person list a city and state.</p>
             <LocationField />
           </div>
         )}
         {currentStep === 5 && (
           <div>
             <h2 className="text-lg font-bold mb-4 text-black text-center">Step 5: Compensation</h2>
+            <p className="text-sm mb-4 text-black">Please provide any compenstation details below. If yes, please list an amount.</p>
+        
             <NfaCompensationField />
             <CompensationField />
           </div>
@@ -337,6 +343,7 @@ const ResearchPostRequestForm = () => {
         {currentStep === 6 && (
           <div>
             <h2 className="text-lg font-bold mb-4 text-black text-center">Step 6: Participant Prefrences</h2>
+            <p className="text-sm mb-4 text-black">Please provide the basic requirements of the research.</p>
             <InclusionCriteriaField />
             <ExclusionCriteriaField />
           </div>
@@ -344,6 +351,7 @@ const ResearchPostRequestForm = () => {
         {currentStep === 7 && (
           <div>
             <h2 className="text-lg font-bold mb-4 text-black text-center">Step 7: Contact Info</h2>
+            <p className="text-sm mb-4 text-black">Please provide a contact for the study.</p>
             <ContactNameField />
             <ContactEmailField />
             <ContactPhoneField />
@@ -352,6 +360,7 @@ const ResearchPostRequestForm = () => {
         {currentStep === 8 && (
           <div>
             <h2 className="text-lg font-bold mb-4 text-black text-center">Step 8: External Links</h2>
+            <p className="text-sm mb-4 text-black">Please provide any additonal information below.</p>
             <ContactWebsiteField />
             <AdditionalLinksField />
             <RelatedResearchField />
@@ -360,13 +369,15 @@ const ResearchPostRequestForm = () => {
         {currentStep === 9 && (
           <div>
             <h2 className="text-lg font-bold mb-4 text-black text-center">Step 9: Media </h2>
+            <p className="text-sm mb-4 text-black">Please upload a logo for you organization. Optionally, you can also provide a video summary explaining your study.</p>
             <LogoField />
             <VideoField />
           </div>
         )}
         {currentStep === 10 && (
           <div>
-            <h2 className="text-lg font-bold mb-4 text-black text-center">Step 10: Post Expiration Date</h2>
+            <h2 className="text-lg font-bold mb-4 text-black text-center">Step 10: Recruitment Expiration Date</h2>
+            <p className="text-sm mb-4 text-black">When will recruitment close for this study?</p>
             <PostExpirationDateField />
           </div>
         )}

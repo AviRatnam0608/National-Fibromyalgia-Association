@@ -1,11 +1,11 @@
+import NavBar from '/src/app/components/NavBar'; 
 import '/workspaces/National-Fibromyalgia-Association/src/app/globals.css'; 
 
 function MyApp({ Component, pageProps }) {
   return (
     <>
-      {/* Global components like navbar can be added here */}
+      <NavBar />
       <Component {...pageProps} />
-      {/*  footer can be added here */}
     </>
   );
 }

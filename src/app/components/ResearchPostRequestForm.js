@@ -49,8 +49,8 @@ const ResearchPostRequestForm = () => {
 
   const inputClass = 'border rounded w-full py-2 px-3 text-black mb-4';
   const textareaClass = 'border rounded w-full py-2 px-3 text-black mb-4';
-  const fileInputClass = 'form-input w-full text-black';
-  const dateInputClass = 'form-input w-full text-black';
+  const fileInputClass = 'form-input w-full border rounded w-full py-2 px-3 text-black';
+  const dateInputClass = 'form-input w-full border rounded w-full py-2 px-3 text-black';
   const formContainerClass = 'flex justify-center items-center min-h-screen';
   const formSectionClass = 'bg-white p-6 rounded shadow-md w-full max-w-md mx-auto mb-4';
   const buttonClass = 'bg-primary hover:bg-primary-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline';
@@ -323,8 +323,8 @@ const ResearchPostRequestForm = () => {
             <h2 className="text-lg font-bold mb-4 text-black text-center">Step 1: Basic Information</h2>
             <p className="text-sm mb-4 text-black font-bold">Please complete the fields below.</p>
             <TitleField />
-            <IrbNumberField />
             <PrincipalInvestigatorField />
+            <IrbNumberField />
           </div>
         )}
         {currentStep === 2 && (

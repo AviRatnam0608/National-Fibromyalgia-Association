@@ -1,34 +1,46 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import {
+  inputClass,
+  textareaClass,
+  fileInputClass,
+  dateInputClass,
+  formContainerClass,
+  formSectionClass,
+  buttonClass,
+  navigationContainerClass,
+} from "./ResearchPostRequestForm.styles";
 
 const ResearchPostRequestForm = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({
-    irbNumber: '',
-    principalInvestigator: '',
-    title: '',
-    researchTopics: '',
-    descriptionAndPurpose: '',
-    participantExperience: '',
-    location: '',
-    compensation: '',
-    nfaCompensation: '',
+    irbNumber: "",
+    principalInvestigator: "",
+    title: "",
+    researchTopics: "",
+    descriptionAndPurpose: "",
+    participantExperience: "",
+    location: "",
+    compensation: "",
+    nfaCompensation: "",
     logo: null,
     video: null,
-    inclusionCriteria: '',
-    exclusionCriteria: '',
-    contactName: '',
-    contactEmail: '',
-    contactPhone: '',
-    contactWebsite: '',
-    additionalLinks: '',
-    relatedResearch: '',
-    postExpirationDate: '',
+    inclusionCriteria: "",
+    exclusionCriteria: "",
+    contactName: "",
+    contactEmail: "",
+    contactPhone: "",
+    contactWebsite: "",
+    additionalLinks: "",
+    relatedResearch: "",
+    postExpirationDate: "",
   });
+
+  const totalSteps = 10;
 
   const handleInputChange = (e) => {
     const { name, type } = e.target;
-    const value = type === 'checkbox' ? e.target.checked : e.target.value;
-    if (type === 'file') {
+    const value = type === "checkbox" ? e.target.checked : e.target.value;
+    if (type === "file") {
       setFormData({ ...formData, [name]: e.target.files[0] });
     } else {
       setFormData({ ...formData, [name]: value });
@@ -47,16 +59,6 @@ const ResearchPostRequestForm = () => {
     }
   };
 
-  const inputClass = 'border rounded w-full py-2 px-3 text-black mb-4';
-  const textareaClass = 'border rounded w-full py-2 px-3 text-black mb-4';
-  const fileInputClass = 'form-input w-full border rounded w-full py-2 px-3 text-black';
-  const dateInputClass = 'form-input w-full border rounded w-full py-2 px-3 text-black';
-  const formContainerClass = 'flex justify-center items-center min-h-screen';
-  const formSectionClass = 'bg-white p-6 rounded shadow-md w-full max-w-md mx-auto mb-4';
-  const buttonClass = 'bg-primary hover:bg-primary-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline';
-  const navigationContainerClass = 'flex justify-between';
-  const totalSteps = 10;
-  
   const TextAreaField = ({ name, placeholder, value, onChange }) => (
     <textarea
       name={name}
@@ -75,7 +77,7 @@ const ResearchPostRequestForm = () => {
       className={fileInputClass}
     />
   );
-  
+
   const DateField = ({ name, value, onChange }) => (
     <input
       type="date"
@@ -84,7 +86,7 @@ const ResearchPostRequestForm = () => {
       onChange={onChange}
       className={dateInputClass}
     />
-  );  
+  );
 
   const IrbNumberField = () => (
     <input
@@ -96,7 +98,6 @@ const ResearchPostRequestForm = () => {
       className={inputClass}
     />
   );
-  
 
   const TitleField = () => (
     <input
@@ -109,7 +110,6 @@ const ResearchPostRequestForm = () => {
     />
   );
 
-
   const PrincipalInvestigatorField = () => (
     <input
       type="text"
@@ -120,7 +120,7 @@ const ResearchPostRequestForm = () => {
       className={inputClass}
     />
   );
-  
+
   const ResearchTopicsField = () => (
     <TextAreaField
       name="researchTopics"
@@ -130,7 +130,7 @@ const ResearchPostRequestForm = () => {
       className={textareaClass}
     />
   );
-  
+
   const DescriptionAndPurposeField = () => (
     <TextAreaField
       name="descriptionAndPurpose"
@@ -140,7 +140,7 @@ const ResearchPostRequestForm = () => {
       className={textareaClass}
     />
   );
-  
+
   const ParticipantExperienceField = () => (
     <TextAreaField
       name="participantExperience"
@@ -150,7 +150,7 @@ const ResearchPostRequestForm = () => {
       className={textareaClass}
     />
   );
-  
+
   const LocationField = () => (
     <TextAreaField
       name="location"
@@ -160,7 +160,6 @@ const ResearchPostRequestForm = () => {
       className={textareaClass}
     />
   );
-  
 
   const CompensationField = () => (
     <input
@@ -172,7 +171,7 @@ const ResearchPostRequestForm = () => {
       className={inputClass}
     />
   );
-  
+
   const NfaCompensationField = () => (
     <input
       type="text"
@@ -183,7 +182,7 @@ const ResearchPostRequestForm = () => {
       className={inputClass}
     />
   );
-  
+
   const LogoField = () => (
     <FileField
       name="logo"
@@ -191,7 +190,7 @@ const ResearchPostRequestForm = () => {
       className={fileInputClass}
     />
   );
-  
+
   const VideoField = () => (
     <FileField
       name="video"
@@ -199,7 +198,7 @@ const ResearchPostRequestForm = () => {
       className={fileInputClass}
     />
   );
-  
+
   const InclusionCriteriaField = () => (
     <TextAreaField
       name="inclusionCriteria"
@@ -209,7 +208,7 @@ const ResearchPostRequestForm = () => {
       className={textareaClass}
     />
   );
-  
+
   const ExclusionCriteriaField = () => (
     <TextAreaField
       name="exclusionCriteria"
@@ -219,7 +218,7 @@ const ResearchPostRequestForm = () => {
       className={textareaClass}
     />
   );
-  
+
   const ContactNameField = () => (
     <TextAreaField
       name="contactName"
@@ -229,7 +228,7 @@ const ResearchPostRequestForm = () => {
       className={textareaClass}
     />
   );
-  
+
   const ContactEmailField = () => (
     <TextAreaField
       name="contactEmail"
@@ -239,7 +238,7 @@ const ResearchPostRequestForm = () => {
       className={textareaClass}
     />
   );
-  
+
   const ContactPhoneField = () => (
     <TextAreaField
       name="contactPhone"
@@ -249,7 +248,7 @@ const ResearchPostRequestForm = () => {
       className={textareaClass}
     />
   );
-  
+
   const ContactWebsiteField = () => (
     <TextAreaField
       name="contactWebsite"
@@ -259,7 +258,7 @@ const ResearchPostRequestForm = () => {
       className={textareaClass}
     />
   );
-  
+
   const AdditionalLinksField = () => (
     <TextAreaField
       name="additionalLinks"
@@ -269,7 +268,7 @@ const ResearchPostRequestForm = () => {
       className={textareaClass}
     />
   );
-  
+
   const RelatedResearchField = () => (
     <TextAreaField
       name="relatedResearch"
@@ -279,7 +278,6 @@ const ResearchPostRequestForm = () => {
       className={textareaClass}
     />
   );
-
 
   const PostExpirationDateField = () => (
     <DateField
@@ -309,19 +307,23 @@ const ResearchPostRequestForm = () => {
   );
 
   const handleSubmit = (e) => {
-  e.preventDefault();
-  // Send Form Data to Firebase 
-  console.log(formData);
-  // display a success message and redirect to dashboard
-};
+    e.preventDefault();
+    // Send Form Data to Firebase
+    console.log(formData);
+    // display a success message and redirect to dashboard
+  };
 
   return (
     <div className={formContainerClass}>
       <div className={formSectionClass}>
         {currentStep === 1 && (
           <div>
-            <h2 className="text-lg font-bold mb-4 text-black text-center">Step 1: Basic Information</h2>
-            <p className="text-sm mb-4 text-black font-bold">Please complete the fields below.</p>
+            <h2 className="text-lg font-bold mb-4 text-black text-center">
+              Step 1: Basic Information
+            </h2>
+            <p className="text-sm mb-4 text-black font-bold">
+              Please complete the fields below.
+            </p>
             <TitleField />
             <PrincipalInvestigatorField />
             <IrbNumberField />
@@ -329,47 +331,76 @@ const ResearchPostRequestForm = () => {
         )}
         {currentStep === 2 && (
           <div>
-            <h2 className="text-lg font-bold mb-4 text-black text-center">Step 2: Area of Study</h2>
-            <p className="text-sm mb-4 text-black font-bold">List any topics or conditions being studied. Aftewards, write a paragraph explaining your research goals in common terms.</p>
+            <h2 className="text-lg font-bold mb-4 text-black text-center">
+              Step 2: Area of Study
+            </h2>
+            <p className="text-sm mb-4 text-black font-bold">
+              List any topics or conditions being studied. Aftewards, write a
+              paragraph explaining your research goals in common terms.
+            </p>
             <ResearchTopicsField />
             <DescriptionAndPurposeField />
           </div>
         )}
         {currentStep === 3 && (
           <div>
-            <h2 className="text-lg font-bold mb-4 text-black text-center">Step 3: Participant Experience</h2>
-            <p className="text-sm mb-4 text-black font-bold">Please provide details on timeline, required meetings, duration of meetings, required procedures, and any other essential participant experiences.</p>
+            <h2 className="text-lg font-bold mb-4 text-black text-center">
+              Step 3: Participant Experience
+            </h2>
+            <p className="text-sm mb-4 text-black font-bold">
+              Please provide details on timeline, required meetings, duration of
+              meetings, required procedures, and any other essential participant
+              experiences.
+            </p>
             <ParticipantExperienceField />
           </div>
         )}
         {currentStep === 4 && (
           <div>
-            <h2 className="text-lg font-bold mb-4 text-black text-center">Step 4: Location</h2>
-            <p className="text-sm mb-4 text-black font-bold">Please provide details on the location of the study. If the study is in-person list a city and state.</p>
+            <h2 className="text-lg font-bold mb-4 text-black text-center">
+              Step 4: Location
+            </h2>
+            <p className="text-sm mb-4 text-black font-bold">
+              Please provide details on the location of the study. If the study
+              is in-person list a city and state.
+            </p>
             <LocationField />
           </div>
         )}
         {currentStep === 5 && (
           <div>
-            <h2 className="text-lg font-bold mb-4 text-black text-center">Step 5: Compensation</h2>
-            <p className="text-sm mb-4 text-black font-bold">Please provide any compenstation details below. If yes, please list an amount.</p>
-        
+            <h2 className="text-lg font-bold mb-4 text-black text-center">
+              Step 5: Compensation
+            </h2>
+            <p className="text-sm mb-4 text-black font-bold">
+              Please provide any compenstation details below. If yes, please
+              list an amount.
+            </p>
+
             <NfaCompensationField />
             <CompensationField />
           </div>
         )}
         {currentStep === 6 && (
           <div>
-            <h2 className="text-lg font-bold mb-4 text-black text-center">Step 6: Participant Prefrences</h2>
-            <p className="text-sm mb-4 text-black font-bold">Please provide the basic requirements of the research.</p>
+            <h2 className="text-lg font-bold mb-4 text-black text-center">
+              Step 6: Participant Prefrences
+            </h2>
+            <p className="text-sm mb-4 text-black font-bold">
+              Please provide the basic requirements of the research.
+            </p>
             <InclusionCriteriaField />
             <ExclusionCriteriaField />
           </div>
         )}
         {currentStep === 7 && (
           <div>
-            <h2 className="text-lg font-bold mb-4 text-black text-center">Step 7: Contact Info</h2>
-            <p className="text-sm mb-4 text-black font-bold">Please provide a contact for the study.</p>
+            <h2 className="text-lg font-bold mb-4 text-black text-center">
+              Step 7: Contact Info
+            </h2>
+            <p className="text-sm mb-4 text-black font-bold">
+              Please provide a contact for the study.
+            </p>
             <ContactNameField />
             <ContactEmailField />
             <ContactPhoneField />
@@ -377,8 +408,12 @@ const ResearchPostRequestForm = () => {
         )}
         {currentStep === 8 && (
           <div>
-            <h2 className="text-lg font-bold mb-4 text-black text-center">Step 8: External Links</h2>
-            <p className="text-sm mb-4 text-black font-bold">Please provide any additonal information below.</p>
+            <h2 className="text-lg font-bold mb-4 text-black text-center">
+              Step 8: External Links
+            </h2>
+            <p className="text-sm mb-4 text-black font-bold">
+              Please provide any additonal information below.
+            </p>
             <ContactWebsiteField />
             <AdditionalLinksField />
             <RelatedResearchField />
@@ -386,27 +421,43 @@ const ResearchPostRequestForm = () => {
         )}
         {currentStep === 9 && (
           <div>
-            <h2 className="text-lg font-bold mb-4 text-black text-center">Step 9: Media </h2>
+            <h2 className="text-lg font-bold mb-4 text-black text-center">
+              Step 9: Media{" "}
+            </h2>
             <LogoField />
-            <p className="text-sm mb-4 text-black">Please upload a logo for you organization.</p>
+            <p className="text-sm mb-4 text-black">
+              Please upload a logo for you organization.
+            </p>
             <VideoField />
-            <p className="text-sm mb-4 text-black">Optionally, you can also provide a video summary explaining your study. Max 5min</p>
-            
+            <p className="text-sm mb-4 text-black">
+              Optionally, you can also provide a video summary explaining your
+              study. Max 5min
+            </p>
           </div>
         )}
         {currentStep === 10 && (
           <div>
-            <h2 className="text-lg font-bold mb-4 text-black text-center">Step 10: Timeline</h2>
-            <p className="text-sm mb-4 text-black font-bold">Please give your best estimate for the dates below.</p> 
+            <h2 className="text-lg font-bold mb-4 text-black text-center">
+              Step 10: Timeline
+            </h2>
+            <p className="text-sm mb-4 text-black font-bold">
+              Please give your best estimate for the dates below.
+            </p>
             <PostExpirationDateField />
-            <p className="text-sm mb-4 text-black">What day will recruitment close for this study?</p>
+            <p className="text-sm mb-4 text-black">
+              What day will recruitment close for this study?
+            </p>
             <StartDateField />
-            <p className="text-sm mb-4 text-black">What day will this study begin?</p>
+            <p className="text-sm mb-4 text-black">
+              What day will this study begin?
+            </p>
             <EndDateField />
-            <p className="text-sm mb-4 text-black">Please list an estimate of when you will have results.</p>
+            <p className="text-sm mb-4 text-black">
+              Please list an estimate of when you will have results.
+            </p>
           </div>
         )}
-  
+
         <div className={navigationContainerClass}>
           {currentStep > 1 && (
             <button onClick={prevStep} className={buttonClass}>
@@ -427,6 +478,6 @@ const ResearchPostRequestForm = () => {
       </div>
     </div>
   );
-}; 
+};
 
 export default ResearchPostRequestForm;

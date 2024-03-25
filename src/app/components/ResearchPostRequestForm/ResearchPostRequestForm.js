@@ -1,4 +1,8 @@
 import React, { useState } from "react";
+import { db, storage } from '../../firebase'; 
+import { collection, addDoc } from 'firebase/firestore';
+import { ref, uploadBytes } from 'firebase/storage';
+
 import {
   inputClass,
   textareaClass,
@@ -59,15 +63,31 @@ const ResearchPostRequestForm = () => {
     }
   };
 
-  const TextAreaField = ({ name, placeholder, value, onChange }) => (
-    <textarea
-      name={name}
-      placeholder={placeholder}
-      value={value}
-      onChange={onChange}
-      className={textareaClass}
-    />
-  );
+  const TextAreaField = ({ name, placeholder, globalValue }) => {
+    const [localValue, setLocalValue] = useState(globalValue);
+  
+    const handleChange = (e) => {
+      setLocalValue(e.target.value);
+    };
+  
+    const handleBlur = () => {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: localValue,
+      }));
+    };
+  
+    return (
+      <textarea
+        name={name}
+        placeholder={placeholder}
+        value={localValue}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        className={textareaClass}
+      />
+    );
+  };
 
   const FileField = ({ name, onChange }) => (
     <input
@@ -88,100 +108,221 @@ const ResearchPostRequestForm = () => {
     />
   );
 
-  const IrbNumberField = () => (
-    <input
-      type="text"
-      name="irbNumber"
-      value={formData.irbNumber}
-      onChange={handleInputChange}
-      placeholder="IRB or Research Number (Optional)"
-      className={inputClass}
-    />
-  );
+  const IrbNumberField = () => {
+    const [localValue, setLocalValue] = useState(formData.irbNumber);
+  
+    const handleChange = (e) => {
+      setLocalValue(e.target.value);
+    };
+  
+    const handleBlur = () => {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        irbNumber: localValue,
+      }));
+    };
+  
+    return (
+      <input
+        type="text"
+        name="irbNumber"
+        value={localValue}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        placeholder="IRB or Research Number (Optional)"
+        className={inputClass}
+      />
+    );
+  };
 
-  const TitleField = () => (
-    <input
-      type="text"
-      name="title"
-      value={formData.title}
-      onChange={handleInputChange}
-      placeholder="Title"
-      className={inputClass}
-    />
-  );
+  const TitleField = () => {
+    const [localValue, setLocalValue] = useState(formData.title);
+    const handleChange = (e) => {
+      setLocalValue(e.target.value);
+    };
+    const handleBlur = () => {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        title: localValue,
+      }));
+    };
+    return (
+      <input
+        type="text"
+        name="title"
+        value={localValue} 
+        onChange={handleChange} 
+        onBlur={handleBlur} 
+        placeholder="Title"
+        className={inputClass}
+      />
+    );
+  };
 
-  const PrincipalInvestigatorField = () => (
-    <input
-      type="text"
-      name="principalInvestigator"
-      value={formData.principalInvestigator}
-      onChange={handleInputChange}
-      placeholder="Principal Investigator Name"
-      className={inputClass}
-    />
-  );
+  const PrincipalInvestigatorField = () => {
+    const [localValue, setLocalValue] = useState(formData.principalInvestigator);
+    const handleChange = (e) => {
+      setLocalValue(e.target.value);
+    };
+    const handleBlur = () => {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        principalInvestigator: localValue,
+      }));
+    };
+    return (
+      <input
+        type="text"
+        name="principalInvestigator"
+        value={localValue}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        placeholder="Principal Investigator Name"
+        className={inputClass}
+      />
+    );
+  };
 
   const ResearchTopicsField = () => (
     <TextAreaField
       name="researchTopics"
       placeholder="Research Topics or Conditions"
-      value={formData.researchTopics}
-      onChange={handleInputChange}
+      globalValue={formData.researchTopics}
       className={textareaClass}
     />
   );
 
-  const DescriptionAndPurposeField = () => (
-    <TextAreaField
-      name="descriptionAndPurpose"
-      placeholder="Description & Purpose of the Study"
-      value={formData.descriptionAndPurpose}
-      onChange={handleInputChange}
-      className={textareaClass}
-    />
-  );
+  const DescriptionAndPurposeField = () => {
+    const [localValue, setLocalValue] = useState(formData.descriptionAndPurpose);
+  
+    const handleChange = (e) => {
+      setLocalValue(e.target.value);
+    };
+  
+    const handleBlur = () => {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        descriptionAndPurpose: localValue,
+      }));
+    };
+  
+    return (
+      <textarea
+        name="descriptionAndPurpose"
+        placeholder="Description & Purpose of the Study"
+        value={localValue}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        className={textareaClass}
+      />
+    );
+  };
 
-  const ParticipantExperienceField = () => (
-    <TextAreaField
-      name="participantExperience"
-      placeholder="Participant Experience Details"
-      value={formData.participantExperience}
-      onChange={handleInputChange}
-      className={textareaClass}
-    />
-  );
+  const ParticipantExperienceField = () => {
+    const [localValue, setLocalValue] = useState(formData.participantExperience);
+  
+    const handleChange = (e) => {
+      setLocalValue(e.target.value);
+    };
+  
+    const handleBlur = () => {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        participantExperience: localValue,
+      }));
+    };
+  
+    return (
+      <textarea
+        name="participantExperience"
+        placeholder="Participant Experience Details"
+        value={localValue}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        className={textareaClass}
+      />
+    );
+  };
 
-  const LocationField = () => (
-    <TextAreaField
-      name="location"
-      placeholder="Study Location (Virtual, In-Person, Hybrid?)"
-      value={formData.location}
-      onChange={handleInputChange}
-      className={textareaClass}
-    />
-  );
+  const LocationField = () => {
+    const [localValue, setLocalValue] = useState(formData.location);
+  
+    const handleChange = (e) => {
+      setLocalValue(e.target.value);
+    };
+  
+    const handleBlur = () => {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        location: localValue,
+      }));
+    };
+  
+    return (
+      <textarea
+        name="location"
+        placeholder="Study Location (Virtual, In-Person, Hybrid?)"
+        value={localValue}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        className={textareaClass}
+      />
+    );
+  };
 
-  const CompensationField = () => (
-    <input
-      type="text"
-      name="compensation"
-      value={formData.compensation}
-      onChange={handleInputChange}
-      placeholder="Will participants be compensated?"
-      className={inputClass}
-    />
-  );
+  const CompensationField = () => {
+    const [localValue, setLocalValue] = useState(formData.compensation);
+  
+    const handleChange = (e) => {
+      setLocalValue(e.target.value);
+    };
+  
+    const handleBlur = () => {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        compensation: localValue,
+      }));
+    };
+  
+    return (
+      <input
+        type="text"
+        name="compensation"
+        value={localValue}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        placeholder="Will participants be compensated?"
+        className={inputClass}
+      />
+    );
+  };
 
-  const NfaCompensationField = () => (
-    <input
-      type="text"
-      name="nfaCompensation"
-      value={formData.nfaCompensation}
-      onChange={handleInputChange}
-      placeholder="Will NFA be compensated?"
-      className={inputClass}
-    />
-  );
+  const NfaCompensationField = () => {
+    const [localValue, setLocalValue] = useState(formData.nfaCompensation);
+  
+    const handleChange = (e) => {
+      setLocalValue(e.target.value);
+    };
+  
+    const handleBlur = () => {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        nfaCompensation: localValue,
+      }));
+    };
+  
+    return (
+      <input
+        type="text"
+        name="nfaCompensation"
+        value={localValue}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        placeholder="Will NFA be compensated?"
+        className={inputClass}
+      />
+    );
+  };
 
   const LogoField = () => (
     <FileField
@@ -199,118 +340,318 @@ const ResearchPostRequestForm = () => {
     />
   );
 
-  const InclusionCriteriaField = () => (
-    <TextAreaField
-      name="inclusionCriteria"
-      placeholder="Participant Inclusion Criteria"
-      value={formData.inclusionCriteria}
-      onChange={handleInputChange}
-      className={textareaClass}
-    />
-  );
+  const InclusionCriteriaField = () => {
+    const [localValue, setLocalValue] = useState(formData.inclusionCriteria);
+  
+    const handleChange = (e) => {
+      setLocalValue(e.target.value);
+    };
+  
+    const handleBlur = () => {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        inclusionCriteria: localValue,
+      }));
+    };
+  
+    return (
+      <textarea
+        name="inclusionCriteria"
+        placeholder="Participant Inclusion Criteria"
+        value={localValue}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        className={textareaClass}
+      />
+    );
+  };
 
-  const ExclusionCriteriaField = () => (
-    <TextAreaField
-      name="exclusionCriteria"
-      placeholder="Participant Exclusion Criteria"
-      value={formData.exclusionCriteria}
-      onChange={handleInputChange}
-      className={textareaClass}
-    />
-  );
+  const ExclusionCriteriaField = () => {
+    const [localValue, setLocalValue] = useState(formData.exclusionCriteria);
+  
+    const handleChange = (e) => {
+      setLocalValue(e.target.value);
+    };
+  
+    const handleBlur = () => {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        exclusionCriteria: localValue,
+      }));
+    };
+  
+    return (
+      <textarea
+        name="exclusionCriteria"
+        placeholder="Participant Exclusion Criteria"
+        value={localValue}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        className={textareaClass}
+      />
+    );
+  };
 
-  const ContactNameField = () => (
-    <TextAreaField
-      name="contactName"
-      placeholder="Contact Name"
-      value={formData.contactName}
-      onChange={handleInputChange}
-      className={textareaClass}
-    />
-  );
+  const ContactNameField = () => {
+    const [localValue, setLocalValue] = useState(formData.contactName);
+  
+    const handleChange = (e) => {
+      setLocalValue(e.target.value);
+    };
+  
+    const handleBlur = () => {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        contactName: localValue,
+      }));
+    };
+  
+    return (
+      <textarea
+        name="contactName"
+        placeholder="Contact Name"
+        value={localValue}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        className={textareaClass}
+      />
+    );
+  };
 
-  const ContactEmailField = () => (
-    <TextAreaField
-      name="contactEmail"
-      placeholder="Contact Email"
-      value={formData.contactEmail}
-      onChange={handleInputChange}
-      className={textareaClass}
-    />
-  );
+  const ContactEmailField = () => {
+    const [localValue, setLocalValue] = useState(formData.contactEmail);
+  
+    const handleChange = (e) => {
+      setLocalValue(e.target.value);
+    };
+  
+    const handleBlur = () => {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        contactEmail: localValue,
+      }));
+    };
+  
+    return (
+      <input
+        type="email"
+        name="contactEmail"
+        value={localValue}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        placeholder="Contact Email"
+        className={inputClass}
+      />
+    );
+  };
 
-  const ContactPhoneField = () => (
-    <TextAreaField
-      name="contactPhone"
-      placeholder="Contact Phone (optional)"
-      value={formData.contactPhone}
-      onChange={handleInputChange}
-      className={textareaClass}
-    />
-  );
+  const ContactPhoneField = () => {
+    const [localValue, setLocalValue] = useState(formData.contactPhone);
+  
+    const handleChange = (e) => {
+      setLocalValue(e.target.value);
+    };
+  
+    const handleBlur = () => {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        contactPhone: localValue,
+      }));
+    };
+  
+    return (
+      <input
+        type="tel"
+        name="contactPhone"
+        value={localValue}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        placeholder="Contact Phone (optional)"
+        className={inputClass}
+      />
+    );
+  };
 
-  const ContactWebsiteField = () => (
-    <TextAreaField
-      name="contactWebsite"
-      placeholder="Contact Website (optional)"
-      value={formData.contactWebsite}
-      onChange={handleInputChange}
-      className={textareaClass}
-    />
-  );
+  const ContactWebsiteField = () => {
+    const [localValue, setLocalValue] = useState(formData.contactWebsite);
+  
+    const handleChange = (e) => {
+      setLocalValue(e.target.value);
+    };
+  
+    const handleBlur = () => {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        contactWebsite: localValue,
+      }));
+    };
+  
+    return (
+      <input
+        type="url"
+        name="contactWebsite"
+        value={localValue}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        placeholder="Contact Website (optional)"
+        className={inputClass}
+      />
+    );
+  };
 
-  const AdditionalLinksField = () => (
-    <TextAreaField
-      name="additionalLinks"
-      placeholder="Additional Links, such as surveys (optional)"
-      value={formData.additionalLinks}
-      onChange={handleInputChange}
-      className={textareaClass}
-    />
-  );
+  const AdditionalLinksField = () => {
+    const [localValue, setLocalValue] = useState(formData.additionalLinks);
+  
+    const handleChange = (e) => {
+      setLocalValue(e.target.value);
+    };
+  
+    const handleBlur = () => {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        additionalLinks: localValue,
+      }));
+    };
+  
+    return (
+      <textarea
+        name="additionalLinks"
+        placeholder="Additional Links, such as surveys (optional)"
+        value={localValue}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        className={textareaClass}
+      />
+    );
+  };
+  
 
   const RelatedResearchField = () => (
     <TextAreaField
       name="relatedResearch"
       placeholder="Links to Related Research (optional)"
-      value={formData.relatedResearch}
-      onChange={handleInputChange}
+      globalValue={formData.relatedResearch}
+      setGlobalFormData={setFormData}
       className={textareaClass}
     />
   );
 
-  const PostExpirationDateField = () => (
-    <DateField
-      name="postExpirationDate"
-      value={formData.postExpirationDate}
-      onChange={handleInputChange}
-      className={dateInputClass}
-    />
-  );
+  const PostExpirationDateField = () => {
+    const [localValue, setLocalValue] = useState(formData.postExpirationDate);
+  
+    const handleChange = (e) => {
+      setLocalValue(e.target.value);
+    };
+  
+    const handleBlur = () => {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        postExpirationDate: localValue,
+      }));
+    };
+  
+    return (
+      <input
+        type="date"
+        name="postExpirationDate"
+        value={localValue}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        className={dateInputClass}
+      />
+    );
+  };
+  
 
-  const StartDateField = () => (
-    <DateField
-      name="startDate"
-      value={formData.startDate}
-      onChange={handleInputChange}
-      className={dateInputClass}
-    />
-  );
+  const StartDateField = () => {
+    const [localValue, setLocalValue] = useState(formData.startDate);
+  
+    const handleChange = (e) => {
+      setLocalValue(e.target.value);
+    };
+  
+    const handleBlur = () => {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        startDate: localValue,
+      }));
+    };
+  
+    return (
+      <input
+        type="date"
+        name="startDate"
+        value={localValue}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        className={dateInputClass}
+      />
+    );
+  };
+  
+  const EndDateField = () => {
+    // Similar setup as StartDateField
+    const [localValue, setLocalValue] = useState(formData.endDate);
+  
+    const handleChange = (e) => {
+      setLocalValue(e.target.value);
+    };
+  
+    const handleBlur = () => {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        endDate: localValue,
+      }));
+    };
+  
+    return (
+      <input
+        type="date"
+        name="endDate"
+        value={localValue}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        className={dateInputClass}
+      />
+    );
+  };
 
-  const EndDateField = () => (
-    <DateField
-      name="endDate"
-      value={formData.endDate}
-      onChange={handleInputChange}
-      className={dateInputClass}
-    />
-  );
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submissionError, setSubmissionError] = useState('');
+  const [submissionSuccess, setSubmissionSuccess] = useState(false);
 
-  const handleSubmit = (e) => {
+  const uploadFile = async (file, path) => {
+    if (!file) return null;
+  
+    const fileRef = ref(storage, `${path}/${file.name}`);
+    await uploadBytes(fileRef, file);
+    return fileRef.fullPath; 
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Send Form Data to Firebase
-    console.log(formData);
-    // display a success message and redirect to dashboard
+    setIsSubmitting(true); // Indicate that submission is in progress
+    setSubmissionError(''); // Reset any previous error messages
+    setSubmissionSuccess(false); // Reset the success status
+    
+    try {
+      const logoPath = await uploadFile(formData.logo, 'logos');
+      const videoPath = await uploadFile(formData.video, 'videos');
+    
+      await addDoc(collection(db, "researchPosts"), {
+        ...formData,
+        logo: logoPath, 
+        video: videoPath,
+      });
+      
+      console.log("Form submitted successfully");
+      setSubmissionSuccess(true); 
+    } catch (error) {
+      console.error("Error submitting form: ", error);
+      setSubmissionError('Failed to submit the form. Please try again.'); 
+    } finally {
+      setIsSubmitting(false); 
+    }
   };
 
   return (
@@ -455,6 +796,9 @@ const ResearchPostRequestForm = () => {
             <p className="text-sm mb-4 text-black">
               Please list an estimate of when you will have results.
             </p>
+          {isSubmitting && <p>Submitting form...</p>}
+          {submissionError && <p className="text-red-500">{submissionError}</p>}
+          {submissionSuccess && <p className="text-green-500">Form submitted successfully!</p>}
           </div>
         )}
 

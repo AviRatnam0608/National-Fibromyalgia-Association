@@ -9,20 +9,14 @@ function NavBar() {
           <a href="/login" className="px-4 hover:underline">
             Login
           </a>
-          <a href="/" className="px-4 hover:underline">
-            Home
+          <a href="/admin-dashboard" className="px-4 hover:underline">
+            Dashboard
           </a>
-          <a href="/active-studies" className="px-4 hover:underline">
-            Active Studies
+          <a href="/signup" className="px-4 hover:underline">
+            Pending Approval
           </a>
-          <a href="/pending" className="px-4 hover:underline">
-            Pending 
-          </a>
-          <a href="/past-studies" className="px-4 hover:underline">
-            Past Studies  
-          </a>
-          <a href="/rpr-form" className="px-4 hover:underline">
-            New Post
+          <a href="/researcher-form" className="px-4 hover:underline">
+            Research Post Request
           </a>
         </div>
       </div>

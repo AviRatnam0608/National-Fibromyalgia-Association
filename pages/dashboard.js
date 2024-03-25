@@ -17,7 +17,7 @@ const Dashboard = () => {
   return (
     <div className="px-11 bg-red-400">
       <BigHeader>
-        Welcome to the National Fibromyalgia Association Researcher Portal
+        Welcome to the NFA Researcher Portal
       </BigHeader>
       <div className="flex justify-start align-middle gap-10">
         <span className="bg-red-500 p-52 cursor-pointer">Active Research</span>

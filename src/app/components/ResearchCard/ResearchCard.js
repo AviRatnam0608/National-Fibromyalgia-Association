@@ -1,11 +1,11 @@
 "use client";
 import React from "react";
-// import PropTypes from "prop-types";
 import { FaChevronRight } from "react-icons/fa";
+import { buttonClass } from "../ResearchPostRequestForm/ResearchPostRequestForm.styles";
 
 const ResearchCard = ({ title, imageUrl, body, buttonText, onButtonClick }) => {
   return (
-    <div className="max-w-md rounded overflow-hidden shadow-lg bg-white m-auto">
+    <div className="max-w-lg rounded overflow-hidden shadow-lg bg-white m-5">
       {imageUrl && (
         <img className="w-full h-48 object-cover" src={imageUrl} alt={title} />
       )}
@@ -16,10 +16,7 @@ const ResearchCard = ({ title, imageUrl, body, buttonText, onButtonClick }) => {
       </div>
       {buttonText && onButtonClick && (
         <div className="px-6 pt-4 pb-2 flex justify-end">
-          <button
-            onClick={onButtonClick}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          >
+          <button onClick={onButtonClick} className={buttonClass}>
             {buttonText}
             <FaChevronRight className="inline ml-2" />
           </button>

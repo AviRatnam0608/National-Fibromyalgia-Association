@@ -1,6 +1,6 @@
 import React from "react";
-import Dashboard from "../../pages/Dashboard";
 import NavBar from "./components/NavBar/NavBar";
+import Dashboard from "../../pages/Dashboard";
 
 export default function Home() {
   return (

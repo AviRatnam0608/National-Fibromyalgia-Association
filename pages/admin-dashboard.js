@@ -76,7 +76,7 @@ const Dashboard = () => {
   return (
     <div>
       <BigHeader>
-        Welcome to the National Fibromyalgia Association Researcher Portal
+        Welcome to the NFA Admin Portal
       </BigHeader>
 
       <section>

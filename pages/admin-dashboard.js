@@ -1,48 +1,134 @@
 "use client";
 import BigHeader from "@/app/components/BigHeader/BigHeader";
+import ExtendedResearchCard from "@/app/components/ExtendedResearchCard/ExtendedResearchCard";
 import ResearchCard from "@/app/components/ResearchCard/ResearchCard";
-import { useState } from "react";
+import { db } from "@/app/firebase";
+import { collection, getDocs } from "firebase/firestore";
+import { useEffect, useState } from "react";
+import { NoResearchImg, noResearchImg } from "../public/noResearchImg";
+import Tab from "@/app/components/Tab/Tab";
 
-const API = "http://localhost:3000/api/research";
+export const checkIfResearchActive = (research) => {
+  const endDate = new Date(research?.postExpirationDate);
+  const currentDate = new Date();
+  return currentDate < endDate;
+};
 
 const Dashboard = () => {
-  const [researchData, setResearchData] = useState([]);
+  const [activeTab, setActiveTab] = useState("active");
+  const [filteredResearchData, setFilteredResearchData] = useState([]);
+  const [selectedResearch, setSelectedResearch] = useState({});
+  const [showResearchInfo, setShowResearchInfo] = useState(false);
 
-  const fetchResearchData = async () => {
-    const response = await fetch(API);
-    const data = await response.json();
-    setResearchData(data);
+  const [activeResearchData, setActiveResearchData] = useState([]);
+  const [completedResearchData, setCompletedResearchData] = useState([]);
+
+  const fetchResearchPosts = async () => {
+    const researchData = [];
+    const querySnapshot = await getDocs(collection(db, "researchPosts"));
+    querySnapshot.docs.map((doc) => {
+      researchData.push(doc.data());
+    });
+    console.log("hello hello", researchData);
+    filterResearchData(researchData);
+  };
+
+  const filterResearchData = (researchData) => {
+    setActiveResearchData(
+      researchData.filter((research) => checkIfResearchActive(research))
+    );
+    setCompletedResearchData(
+      researchData.filter((research) => !checkIfResearchActive(research))
+    );
+  };
+
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+    if (tab === "active") {
+      setFilteredResearchData(activeResearchData);
+      console.log(filteredResearchData);
+    } else {
+      setFilteredResearchData(completedResearchData);
+      console.log(filteredResearchData);
+    }
+  };
+
+  useEffect(() => {
+    fetchResearchPosts();
+  }, []);
+
+  const showResearchInformation = (research) => {
+    setShowResearchInfo(true);
+    setSelectedResearch(research);
+  };
+
+  const hideResearchInformation = () => {
+    setSelectedResearch({});
+    setShowResearchInfo(false);
+  };
+
+  const handleButtonClick = (status) => {
+    hideResearchInformation();
+    handleTabChange(status);
   };
 
   return (
-    <div className="px-11 bg-red-400">
-      <BigHeader>
-        Welcome to the NFA Admin Portal
-      </BigHeader>
-      <div className="flex justify-start align-middle gap-10">
-        <span className="bg-red-500 p-52 cursor-pointer">Active Research</span>
-        <span>Completed Research</span>
-      </div>
-      <div className="">
-        {researchData &&
-          researchData.map((research) => (
-            <ResearchCard
-              key={research.id}
-              title={research.title}
-              imageUrl={research.imageUrl}
-              body={research.body}
-              buttonText="Read More"
-              onButtonClick={() => alert("Button clicked!")}
-            />
-          ))}
-        <ResearchCard
-          title="Research Title"
-          imageUrl="https://via.placeholder.com/300"
-          body="This is the body of the research ResearchCard. It should contain a brief description of the research."
-          buttonText="Read More"
-          onButtonClick={() => alert("Button clicked!")}
-        />
-      </div>
+    <div>
+      <BigHeader>Welcome to the NFA Admin Portal</BigHeader>
+
+      <section>
+        <div className="">
+          <Tab
+            label={"Active"}
+            onClickFunction={() => handleButtonClick("active")}
+            activeTab={activeTab}
+          />
+          <br />
+          <Tab
+            label={"Completed"}
+            onClickFunction={() => handleButtonClick("completed")}
+            activeTab={activeTab}
+          />
+        </div>
+      </section>
+      <section>
+        <BigHeader>All {activeTab} Research Posts</BigHeader>
+      </section>
+      <section>
+        <div className="flex">
+          <div className="w-full justify-center">
+            {activeTab === "active" &&
+              filteredResearchData.map((research, key) => (
+                <ResearchCard
+                  key={key}
+                  {...research}
+                  buttonText="Read More"
+                  onButtonClick={() => showResearchInformation(research)}
+                />
+              ))}
+
+            {activeTab === "completed" &&
+              filteredResearchData.map((research, key) => (
+                <ResearchCard
+                  key={key}
+                  {...research}
+                  buttonText="Read More"
+                  onButtonClick={() => showResearchInformation(research)}
+                />
+              ))}
+          </div>
+          <div className="bg-blue-500 w-full">
+            {showResearchInfo ? (
+              <ExtendedResearchCard research={selectedResearch} />
+            ) : (
+              <div className="text-center h-1/2 w-1/2">
+                <h1 className="text-xl">No Research Selected</h1>
+                {noResearchImg}
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
     </div>
   );
 };

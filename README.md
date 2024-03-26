@@ -1,4 +1,4 @@
-![Alt text](public\NFALogo.png "NFA Logo")
+![Alt text](./public/NFALogo.png "NFA Logo")
 
 ## Getting Started with NFA Web App
 

@@ -5,6 +5,8 @@ import ResearchCard from "@/app/components/ResearchCard/ResearchCard";
 import { db } from "@/app/firebase";
 import { collection, getDocs } from "firebase/firestore";
 import { useEffect, useState } from "react";
+import { NoResearchImg, noResearchImg } from "../public/noResearchImg";
+import Tab from "@/app/components/Tab/Tab";
 
 export const checkIfResearchActive = (research) => {
   const endDate = new Date(research?.postExpirationDate);
@@ -65,55 +67,51 @@ const Dashboard = () => {
     setShowResearchInfo(false);
   };
 
+  const handleButtonClick = (status) => {
+    hideResearchInformation();
+    handleTabChange(status);
+  };
+
   return (
     <div>
       <BigHeader>Welcome to the NFA Admin Portal</BigHeader>
 
       <section>
-        <div className="flex flex-col align-middle justify-start gap-10">
-          <div
-            onClick={() => {
-              hideResearchInformation();
-              handleTabChange("active");
-            }}
-            className="hover:cursor-pointer border-b-2 border-black p-10"
-          >
-            Active
-          </div>
-          <div
-            onClick={() => {
-              hideResearchInformation();
-              handleTabChange("completed");
-            }}
-            className="cursor-pointer border-b-2 border-black"
-          >
-            Completed
-          </div>
+        <div className="">
+          <Tab
+            label={"Active"}
+            onClickFunction={() => handleButtonClick("active")}
+            activeTab={activeTab}
+          />
+          <br />
+          <Tab
+            label={"Completed"}
+            onClickFunction={() => handleButtonClick("completed")}
+            activeTab={activeTab}
+          />
         </div>
       </section>
-
+      <section>
+        <BigHeader>All {activeTab} Research Posts</BigHeader>
+      </section>
       <section>
         <div className="flex">
           <div className="w-full justify-center">
             {activeTab === "active" &&
-              filteredResearchData.map((research) => (
+              filteredResearchData.map((research, key) => (
                 <ResearchCard
-                  key={research.id}
-                  title={research.title}
-                  imageUrl={research.imageUrl}
-                  body={research.body}
+                  key={key}
+                  {...research}
                   buttonText="Read More"
                   onButtonClick={() => showResearchInformation(research)}
                 />
               ))}
 
             {activeTab === "completed" &&
-              filteredResearchData.map((research) => (
+              filteredResearchData.map((research, key) => (
                 <ResearchCard
-                  key={research.id}
-                  title={research.title}
-                  imageUrl={research.imageUrl}
-                  body={research.body}
+                  key={key}
+                  {...research}
                   buttonText="Read More"
                   onButtonClick={() => showResearchInformation(research)}
                 />
@@ -123,11 +121,9 @@ const Dashboard = () => {
             {showResearchInfo ? (
               <ExtendedResearchCard research={selectedResearch} />
             ) : (
-              <div className="flex justify-center items-center h-full">
-                <img
-                  src="./public/no_research_selected_image.svg"
-                  alt="Select a research project"
-                />
+              <div className="text-center h-1/2 w-1/2">
+                <h1 className="text-xl">No Research Selected</h1>
+                {noResearchImg}
               </div>
             )}
           </div>

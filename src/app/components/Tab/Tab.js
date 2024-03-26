@@ -1,18 +1,12 @@
-const Tab = ({ label, active, onChange }) => {
+const Tab = ({ label, onClickFunction, activeTab }) => {
   return (
     <button
-      className={`flex items-center justify-center ${
-        active ? "bg-red-500" : "bg-red-400"
-      }`}
+      onClick={() => {
+        onClickFunction();
+      }}
+      className="border-b-2 border-black text-xl"
     >
-      <span
-        className={`text-lg font-bold ${
-          active ? "text-white" : "text-red-500"
-        }`}
-      >
-        {label}
-      </span>
-      {active && <div className="text-lg font-bold">Completed Research</div>}
+      {label}
     </button>
   );
 };

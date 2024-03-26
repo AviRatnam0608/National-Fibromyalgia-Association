@@ -2,65 +2,57 @@
 import BigHeader from "@/app/components/BigHeader/BigHeader";
 import ExtendedResearchCard from "@/app/components/ExtendedResearchCard/ExtendedResearchCard";
 import ResearchCard from "@/app/components/ResearchCard/ResearchCard";
+import { db } from "@/app/firebase";
+import { collection, getDocs } from "firebase/firestore";
 import { useEffect, useState } from "react";
 
-const API = "http://localhost:3000/api/research";
-
-const completedResearchData = [
-  {
-    id: 1,
-    title: "Completed Research 1",
-    imageUrl: "https://via.placeholder.com/150",
-    body: "This is a completed research project.",
-    active: false,
-  },
-  {
-    id: 2,
-    title: "Completed Research 2",
-    imageUrl: "https://via.placeholder.com/150",
-    body: "This is an on going research project.",
-    active: true,
-  },
-  {
-    id: 3,
-    title: "Completed Research 3",
-    imageUrl: "https://via.placeholder.com/150",
-    body: "This is a completed research project.",
-    active: false,
-  },
-];
+export const checkIfResearchActive = (research) => {
+  const endDate = new Date(research?.postExpirationDate);
+  const currentDate = new Date();
+  return currentDate < endDate;
+};
 
 const Dashboard = () => {
-  const [researchData, setResearchData] = useState([]);
   const [activeTab, setActiveTab] = useState("active");
   const [filteredResearchData, setFilteredResearchData] = useState([]);
   const [selectedResearch, setSelectedResearch] = useState({});
   const [showResearchInfo, setShowResearchInfo] = useState(false);
 
+  const [activeResearchData, setActiveResearchData] = useState([]);
+  const [completedResearchData, setCompletedResearchData] = useState([]);
+
+  const fetchResearchPosts = async () => {
+    const researchData = [];
+    const querySnapshot = await getDocs(collection(db, "researchPosts"));
+    querySnapshot.docs.map((doc) => {
+      researchData.push(doc.data());
+    });
+    console.log("hello hello", researchData);
+    filterResearchData(researchData);
+  };
+
+  const filterResearchData = (researchData) => {
+    setActiveResearchData(
+      researchData.filter((research) => checkIfResearchActive(research))
+    );
+    setCompletedResearchData(
+      researchData.filter((research) => !checkIfResearchActive(research))
+    );
+  };
+
   const handleTabChange = (tab) => {
     setActiveTab(tab);
-    fetchResearchData();
     if (tab === "active") {
-      setFilteredResearchData(
-        researchData.filter((research) => research.active)
-      );
+      setFilteredResearchData(activeResearchData);
       console.log(filteredResearchData);
     } else {
-      setFilteredResearchData(
-        researchData.filter((research) => !research.active)
-      );
+      setFilteredResearchData(completedResearchData);
       console.log(filteredResearchData);
     }
   };
 
-  const fetchResearchData = async () => {
-    // const response = await fetch(API);
-    // const data = await response.json();
-    setResearchData(completedResearchData);
-  };
-
   useEffect(() => {
-    fetchResearchData();
+    fetchResearchPosts();
   }, []);
 
   const showResearchInformation = (research) => {

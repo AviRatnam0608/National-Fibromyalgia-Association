@@ -75,9 +75,7 @@ const Dashboard = () => {
 
   return (
     <div>
-      <BigHeader>
-        Welcome to the NFA Admin Portal
-      </BigHeader>
+      <BigHeader>Welcome to the NFA Admin Portal</BigHeader>
 
       <section>
         <div className="flex flex-col align-middle justify-start gap-10">
@@ -86,7 +84,7 @@ const Dashboard = () => {
               hideResearchInformation();
               handleTabChange("active");
             }}
-            className="hover:cursor-pointer border-b-2 border-black bg-red-500 p-10"
+            className="hover:cursor-pointer border-b-2 border-black p-10"
           >
             Active
           </div>
@@ -95,7 +93,7 @@ const Dashboard = () => {
               hideResearchInformation();
               handleTabChange("completed");
             }}
-            className="cursor-pointer border-b-2 border-black bg-red-300"
+            className="cursor-pointer border-b-2 border-black"
           >
             Completed
           </div>
@@ -104,7 +102,7 @@ const Dashboard = () => {
 
       <section>
         <div className="flex">
-          <div className="bg-red-400 w-full justify-center">
+          <div className="w-full justify-center">
             {activeTab === "active" &&
               filteredResearchData.map((research) => (
                 <ResearchCard

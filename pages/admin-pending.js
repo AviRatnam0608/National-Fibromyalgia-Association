@@ -1,5 +1,5 @@
 import React from 'react';
-import AdminPending from '../src/app/components/AdminPending.js';
+import AdminPending from '../src/app/components/AdminPendingStudies.js';
 
 const AdminPendingPage = () => {
   return (

@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import AdminNavBar from "@/app/components/NavBar/AdminNavBar";
-import ResearcherNavBar from "@/app/components/NavBar/NavBar";
+import ResearcherNavBar from "@/app/components/NavBar/ResearcherNavBar";
 import "/src/app/globals.css";
 
 function MyApp({ Component, pageProps }) {

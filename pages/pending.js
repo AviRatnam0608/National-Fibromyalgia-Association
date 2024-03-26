@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { db } from '../src/app/firebase';
 import { collection, getDocs, updateDoc, doc } from 'firebase/firestore';
-import Modal from '../src/app/components/ResearcherPopUp';
+import Modal from '../src/app/components/ResearcherFeedbackModal';
 
 const Pending = () => {
   const [submissions, setSubmissions] = useState([]);

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { getDoc, doc } from 'firebase/firestore';
 import { db } from '../firebase';
-import Modal from './AdminPopUp'; // Assuming you have a Modal component
+import Modal from './AdminStudyPopUp'; // Assuming you have a Modal component
 
 const ResearcherPendingPage = () => {
   const [selectedSubmission, setSelectedSubmission] = useState(null);

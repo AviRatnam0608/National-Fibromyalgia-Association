@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { db } from '../firebase';
 import { collection, getDocs, updateDoc, doc } from 'firebase/firestore';
-import Modal from './AdminPopUp';
+import Modal from './AdminStudyPopUp';
 
 const AdminPending = () => {
   const [submissions, setSubmissions] = useState([]);

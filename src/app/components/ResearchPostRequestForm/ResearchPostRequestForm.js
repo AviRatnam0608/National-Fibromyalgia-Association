@@ -590,7 +590,6 @@ const ResearchPostRequestForm = () => {
   };
   
   const EndDateField = () => {
-    // Similar setup as StartDateField
     const [localValue, setLocalValue] = useState(formData.endDate);
   
     const handleChange = (e) => {
@@ -630,7 +629,7 @@ const ResearchPostRequestForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true); // Indicate that submission is in progress
+    setIsSubmitting(true); // submission is in progress
     setSubmissionError(''); // Reset any previous error messages
     setSubmissionSuccess(false); // Reset the success status
     
@@ -642,6 +641,7 @@ const ResearchPostRequestForm = () => {
         ...formData,
         logo: logoPath, 
         video: videoPath,
+        status: 'pending', // Set default status to 'pending'
       });
       
       console.log("Form submitted successfully");
@@ -652,7 +652,8 @@ const ResearchPostRequestForm = () => {
     } finally {
       setIsSubmitting(false); 
     }
-  };
+};
+
 
   return (
     <div className={formContainerClass}>
@@ -807,6 +808,9 @@ const ResearchPostRequestForm = () => {
             <button onClick={prevStep} className={buttonClass}>
               Previous
             </button>
+          )}
+          {currentStep < totalSteps && (
+            <div style={{ flex: 1 }}></div> // Empty div to push next button to the right
           )}
           {currentStep < totalSteps && (
             <button onClick={nextStep} className={buttonClass}>

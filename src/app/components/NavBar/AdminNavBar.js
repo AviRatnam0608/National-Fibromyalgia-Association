@@ -1,22 +1,19 @@
 import { NavBarContainer } from "./NavBar.styles";
 
-function NavBar() {
+function AdminNavBar() {
   return (
     <nav className={NavBarContainer}>
       <div className="max-w-6xl mx-auto flex justify-between items-center">
         <h1 className="text-xl font-bold">National Fibromyalgia Association</h1>
         <div>
-          <a href="/login" className="px-4 hover:underline">
-            Login
-          </a>
           <a href="/admin-dashboard" className="px-4 hover:underline">
             Dashboard
           </a>
-          <a href="/signup" className="px-4 hover:underline">
-            Pending Approval
+          <a href="/admin-pending" className="px-4 hover:underline">
+            Pending Studies
           </a>
-          <a href="/researcher-form" className="px-4 hover:underline">
-            Research Post Request
+          <a href="/admin-profiles" className="px-4 hover:underline">
+            Pending Profiles
           </a>
         </div>
       </div>
@@ -24,4 +21,4 @@ function NavBar() {
   );
 }
 
-export default NavBar;
+export default AdminNavBar;

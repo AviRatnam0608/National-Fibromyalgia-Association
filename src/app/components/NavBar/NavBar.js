@@ -1,6 +1,6 @@
 import { NavBarContainer } from "./NavBar.styles";
 
-function NavBar() {
+function ResearcherNavBar() {
   return (
     <nav className={NavBarContainer}>
       <div className="max-w-6xl mx-auto flex justify-between items-center">
@@ -30,4 +30,4 @@ function NavBar() {
   );
 }
 
-export default NavBar;
+export default ResearcherNavBar;

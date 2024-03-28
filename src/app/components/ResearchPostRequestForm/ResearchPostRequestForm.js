@@ -637,7 +637,7 @@ const ResearchPostRequestForm = () => {
       const logoPath = await uploadFile(formData.logo, 'logos');
       const videoPath = await uploadFile(formData.video, 'videos');
     
-      await addDoc(collection(db, "researchPosts"), {
+      await addDoc(collection(db, "researchStudies"), {
         ...formData,
         logo: logoPath, 
         video: videoPath,

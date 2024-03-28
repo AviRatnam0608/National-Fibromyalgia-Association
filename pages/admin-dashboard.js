@@ -23,9 +23,9 @@ const Dashboard = () => {
   const [activeResearchData, setActiveResearchData] = useState([]);
   const [completedResearchData, setCompletedResearchData] = useState([]);
 
-  const fetchResearchPosts = async () => {
+  const fetchResearchStudies = async () => {
     const researchData = [];
-    const querySnapshot = await getDocs(collection(db, "researchPosts"));
+    const querySnapshot = await getDocs(collection(db, "researchStudies"));
     querySnapshot.docs.map((doc) => {
       researchData.push(doc.data());
     });
@@ -54,7 +54,7 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    fetchResearchPosts();
+    fetchResearchStudies();
   }, []);
 
   const showResearchInformation = (research) => {

@@ -12,7 +12,7 @@ const ResearcherModal = ({ isOpen, onClose, submission }) => {
 
   const updateFeedback = async () => {
     try {
-      const submissionRef = doc(db, "researchPosts", submission.id);
+      const submissionRef = doc(db, "researchStudies", submission.id);
       await updateDoc(submissionRef, { feedback });
       // Optionally, you can provide a success message or handle errors here
     } catch (error) {

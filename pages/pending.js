@@ -13,7 +13,7 @@ const Pending = () => {
   useEffect(() => {
     const fetchSubmissions = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, "researchPosts"));
+        const querySnapshot = await getDocs(collection(db, "researchStudies"));
         const submissionsData = querySnapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data()
@@ -42,7 +42,7 @@ const Pending = () => {
 
   const handleApprove = async (id) => {
     try {
-      const submissionRef = doc(db, "researchPosts", id);
+      const submissionRef = doc(db, "researchStudies", id);
       await updateDoc(submissionRef, { status: 'approved' });
       setSubmissions(submissions.filter(submission => submission.id !== id));
     } catch (err) {

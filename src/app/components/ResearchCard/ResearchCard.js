@@ -13,7 +13,6 @@ const ResearchCard = ({
   onButtonClick,
   selectedResearch,
 }) => {
-  console.log("selectedResearch", selectedResearch);
   return (
     <div
       className={`max-w-lg border-4 border-gray-300 rounded overflow-hidden shadow-lg bg-white m-5 ${

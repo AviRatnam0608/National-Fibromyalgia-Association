@@ -29,7 +29,6 @@ const Dashboard = () => {
     querySnapshot.docs.map((doc) => {
       researchData.push(doc.data());
     });
-    console.log("hello hello", researchData);
     filterResearchData(researchData);
   };
 

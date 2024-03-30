@@ -9,6 +9,8 @@ secrets.js
 .pnp.js
 .yarn/install-state.gz
 
+.github/
+
 # testing
 /coverage
 

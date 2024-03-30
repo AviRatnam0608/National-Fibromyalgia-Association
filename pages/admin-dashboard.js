@@ -104,6 +104,7 @@ const Dashboard = () => {
                   {...research}
                   buttonText="Read More"
                   onButtonClick={() => showResearchInformation(research)}
+                  selectedResearch={selectedResearch}
                 />
               ))}
 
@@ -114,6 +115,7 @@ const Dashboard = () => {
                   {...research}
                   buttonText="Read More"
                   onButtonClick={() => showResearchInformation(research)}
+                  selectedResearch={selectedResearch}
                 />
               ))}
           </div>

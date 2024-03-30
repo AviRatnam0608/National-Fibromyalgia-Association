@@ -29,7 +29,6 @@ const Dashboard = () => {
     querySnapshot.docs.map((doc) => {
       researchData.push(doc.data());
     });
-    console.log("hello hello", researchData);
     filterResearchData(researchData);
   };
 
@@ -104,6 +103,7 @@ const Dashboard = () => {
                   {...research}
                   buttonText="Read More"
                   onButtonClick={() => showResearchInformation(research)}
+                  selectedResearch={selectedResearch}
                 />
               ))}
 
@@ -114,6 +114,7 @@ const Dashboard = () => {
                   {...research}
                   buttonText="Read More"
                   onButtonClick={() => showResearchInformation(research)}
+                  selectedResearch={selectedResearch}
                 />
               ))}
           </div>

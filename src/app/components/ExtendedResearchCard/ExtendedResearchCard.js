@@ -27,6 +27,16 @@ const getDate = (date) => {
   return d.toLocaleDateString("en-US", options);
 };
 
+const ResearchCardSection = ({ title, value, children }) => {
+  return (
+    <div className="my-1 flex items-center gap-1">
+      {children}
+      <span className="font-bold">{title}: </span>
+      <span className="text-gray-800">{value}</span>
+    </div>
+  );
+};
+
 const ExtendedResearchCard = ({ research }) => {
   return (
     <div className="max-w rounded overflow-hidden shadow-lg bg-white m-5 p-5">
@@ -48,33 +58,57 @@ const ExtendedResearchCard = ({ research }) => {
             </span>
           </div>
           <div>
-            <div>
+            <ResearchCardSection
+              title="Principal Investigator"
+              value={research.principalInvestigator}
+            >
               <FaStar className="inline mx-2" />
-              <span className="text-gray-800">
-                {research.principalInvestigator}
-              </span>
-            </div>
-            <div>
+            </ResearchCardSection>
+
+            <ResearchCardSection
+              title="Research Team"
+              value={research.researchTeam}
+            >
               <FaUser className="inline mx-2" />
-              <span className="text-gray-500 mb-2">hello</span>
-            </div>
+            </ResearchCardSection>
           </div>
 
           <div className="my-2">
-            <FaPhoneAlt className="inline mx-2 items-center" />
-            <span className="text-gray-500">{research.contactPhone}</span>
-            <FaEnvelope className="inline mx-2 items-center" />
-            <span className="text-gray-500">{research.contactEmail}</span>
+            <span className="font-bold my-5 border-b-2 border-gray-700">
+              Contact Information
+            </span>
+            <div className="flex flex-col items-start gap-1">
+              <ResearchCardSection
+                title="Contact Name"
+                value={research.contactPerson}
+              >
+                <FaUser className="inline mx-2" />
+              </ResearchCardSection>
+
+              <ResearchCardSection
+                title="Phone Number"
+                value={research.contactPhone}
+              >
+                <FaPhoneAlt className="inline mx-2 items-center" />
+              </ResearchCardSection>
+
+              <ResearchCardSection
+                title="Email Address"
+                value={research.contactEmail}
+              >
+                <FaEnvelope className="inline mx-2 items-center" />
+              </ResearchCardSection>
+            </div>
           </div>
           <div>
-            <div>
-              <span className="font-bold">Start date:</span>{" "}
-              {getDate(research.startDate)}
-            </div>
-            <div>
-              <span className="font-bold">Expiration date:</span>{" "}
-              {getDate(research.postExpirationDate)}
-            </div>
+            <ResearchCardSection
+              title="Start date"
+              value={getDate(research.startDate)}
+            />
+            <ResearchCardSection
+              title="Expiration date"
+              value={getDate(research.postExpirationDate)}
+            />
           </div>
         </div>
       </div>
@@ -98,15 +132,19 @@ const ExtendedResearchCard = ({ research }) => {
         <span className="font-bold my-5 border-b-2 border-gray-700">
           Other Important Information
         </span>
-        <div className="my-3 flex items-center">
+        <ResearchCardSection title="Location" value={research.location}>
           <FaMapMarkerAlt className="inline mx-2" />
-          <span className="text-gray-500">{research.location}</span>
-        </div>
+        </ResearchCardSection>
+        {/* 
         <div className="my-3 flex items-center">
           <FaDollarSign className="inline mx-2" />
           <span className="text-gray-500">{research.compensation}</span>
-        </div>
-        <div className="my-3 flex items-center">
+        </div> */}
+        <ResearchCardSection title="Compensation" value={research.compensation}>
+          <FaDollarSign className="inline mx-2" />
+        </ResearchCardSection>
+
+        <div className="my-1 flex items-center gap-1">
           <FaExternalLinkAlt className="inline mx-2" />
           <span className="text-gray-500 hover:border-gray-800">
             <a
@@ -118,7 +156,7 @@ const ExtendedResearchCard = ({ research }) => {
           </span>
         </div>
       </div>
-      <div>
+      <div className="py-5">
         <span className="font-bold my-5 border-b-2 border-gray-700">
           NFA Important Information
         </span>
@@ -131,12 +169,12 @@ const ExtendedResearchCard = ({ research }) => {
         >
           <span className="">{research.status}</span>
         </div>
-        <div className="my-3 flex items-center">
+        <ResearchCardSection
+          title="NFA Compensation"
+          value={research.nfaCompensation}
+        >
           <FaDollarSign className="inline mx-2" />
-          <span className="text-gray-500 text-center">
-            {research.nfaCompensation}
-          </span>
-        </div>
+        </ResearchCardSection>
       </div>
     </div>
   );

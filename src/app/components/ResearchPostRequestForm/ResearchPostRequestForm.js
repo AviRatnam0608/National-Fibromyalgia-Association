@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { db, storage } from '../../firebase'; 
-import { collection, addDoc } from 'firebase/firestore';
-import { ref, uploadBytes } from 'firebase/storage';
+import { db, storage } from "../../firebase";
+import { collection, addDoc } from "firebase/firestore";
+import { ref, uploadBytes } from "firebase/storage";
 
 import {
   inputClass,
@@ -39,6 +39,11 @@ const ResearchPostRequestForm = () => {
     postExpirationDate: "",
   });
 
+  const [proposedStartAndEndDates, setProposedStartAndEndDates] = useState({
+    startDate: "",
+    endDate: "",
+  });
+
   const totalSteps = 10;
 
   const handleInputChange = (e) => {
@@ -65,18 +70,18 @@ const ResearchPostRequestForm = () => {
 
   const TextAreaField = ({ name, placeholder, globalValue }) => {
     const [localValue, setLocalValue] = useState(globalValue);
-  
+
     const handleChange = (e) => {
       setLocalValue(e.target.value);
     };
-  
+
     const handleBlur = () => {
       setFormData((prevFormData) => ({
         ...prevFormData,
         [name]: localValue,
       }));
     };
-  
+
     return (
       <textarea
         name={name}
@@ -110,18 +115,18 @@ const ResearchPostRequestForm = () => {
 
   const IrbNumberField = () => {
     const [localValue, setLocalValue] = useState(formData.irbNumber);
-  
+
     const handleChange = (e) => {
       setLocalValue(e.target.value);
     };
-  
+
     const handleBlur = () => {
       setFormData((prevFormData) => ({
         ...prevFormData,
         irbNumber: localValue,
       }));
     };
-  
+
     return (
       <input
         type="text"
@@ -150,9 +155,9 @@ const ResearchPostRequestForm = () => {
       <input
         type="text"
         name="title"
-        value={localValue} 
-        onChange={handleChange} 
-        onBlur={handleBlur} 
+        value={localValue}
+        onChange={handleChange}
+        onBlur={handleBlur}
         placeholder="Title"
         className={inputClass}
       />
@@ -160,7 +165,9 @@ const ResearchPostRequestForm = () => {
   };
 
   const PrincipalInvestigatorField = () => {
-    const [localValue, setLocalValue] = useState(formData.principalInvestigator);
+    const [localValue, setLocalValue] = useState(
+      formData.principalInvestigator
+    );
     const handleChange = (e) => {
       setLocalValue(e.target.value);
     };
@@ -193,19 +200,21 @@ const ResearchPostRequestForm = () => {
   );
 
   const DescriptionAndPurposeField = () => {
-    const [localValue, setLocalValue] = useState(formData.descriptionAndPurpose);
-  
+    const [localValue, setLocalValue] = useState(
+      formData.descriptionAndPurpose
+    );
+
     const handleChange = (e) => {
       setLocalValue(e.target.value);
     };
-  
+
     const handleBlur = () => {
       setFormData((prevFormData) => ({
         ...prevFormData,
         descriptionAndPurpose: localValue,
       }));
     };
-  
+
     return (
       <textarea
         name="descriptionAndPurpose"
@@ -219,19 +228,21 @@ const ResearchPostRequestForm = () => {
   };
 
   const ParticipantExperienceField = () => {
-    const [localValue, setLocalValue] = useState(formData.participantExperience);
-  
+    const [localValue, setLocalValue] = useState(
+      formData.participantExperience
+    );
+
     const handleChange = (e) => {
       setLocalValue(e.target.value);
     };
-  
+
     const handleBlur = () => {
       setFormData((prevFormData) => ({
         ...prevFormData,
         participantExperience: localValue,
       }));
     };
-  
+
     return (
       <textarea
         name="participantExperience"
@@ -246,18 +257,18 @@ const ResearchPostRequestForm = () => {
 
   const LocationField = () => {
     const [localValue, setLocalValue] = useState(formData.location);
-  
+
     const handleChange = (e) => {
       setLocalValue(e.target.value);
     };
-  
+
     const handleBlur = () => {
       setFormData((prevFormData) => ({
         ...prevFormData,
         location: localValue,
       }));
     };
-  
+
     return (
       <textarea
         name="location"
@@ -272,18 +283,18 @@ const ResearchPostRequestForm = () => {
 
   const CompensationField = () => {
     const [localValue, setLocalValue] = useState(formData.compensation);
-  
+
     const handleChange = (e) => {
       setLocalValue(e.target.value);
     };
-  
+
     const handleBlur = () => {
       setFormData((prevFormData) => ({
         ...prevFormData,
         compensation: localValue,
       }));
     };
-  
+
     return (
       <input
         type="text"
@@ -299,18 +310,18 @@ const ResearchPostRequestForm = () => {
 
   const NfaCompensationField = () => {
     const [localValue, setLocalValue] = useState(formData.nfaCompensation);
-  
+
     const handleChange = (e) => {
       setLocalValue(e.target.value);
     };
-  
+
     const handleBlur = () => {
       setFormData((prevFormData) => ({
         ...prevFormData,
         nfaCompensation: localValue,
       }));
     };
-  
+
     return (
       <input
         type="text"
@@ -342,18 +353,18 @@ const ResearchPostRequestForm = () => {
 
   const InclusionCriteriaField = () => {
     const [localValue, setLocalValue] = useState(formData.inclusionCriteria);
-  
+
     const handleChange = (e) => {
       setLocalValue(e.target.value);
     };
-  
+
     const handleBlur = () => {
       setFormData((prevFormData) => ({
         ...prevFormData,
         inclusionCriteria: localValue,
       }));
     };
-  
+
     return (
       <textarea
         name="inclusionCriteria"
@@ -368,18 +379,18 @@ const ResearchPostRequestForm = () => {
 
   const ExclusionCriteriaField = () => {
     const [localValue, setLocalValue] = useState(formData.exclusionCriteria);
-  
+
     const handleChange = (e) => {
       setLocalValue(e.target.value);
     };
-  
+
     const handleBlur = () => {
       setFormData((prevFormData) => ({
         ...prevFormData,
         exclusionCriteria: localValue,
       }));
     };
-  
+
     return (
       <textarea
         name="exclusionCriteria"
@@ -394,18 +405,18 @@ const ResearchPostRequestForm = () => {
 
   const ContactNameField = () => {
     const [localValue, setLocalValue] = useState(formData.contactName);
-  
+
     const handleChange = (e) => {
       setLocalValue(e.target.value);
     };
-  
+
     const handleBlur = () => {
       setFormData((prevFormData) => ({
         ...prevFormData,
         contactName: localValue,
       }));
     };
-  
+
     return (
       <textarea
         name="contactName"
@@ -420,18 +431,18 @@ const ResearchPostRequestForm = () => {
 
   const ContactEmailField = () => {
     const [localValue, setLocalValue] = useState(formData.contactEmail);
-  
+
     const handleChange = (e) => {
       setLocalValue(e.target.value);
     };
-  
+
     const handleBlur = () => {
       setFormData((prevFormData) => ({
         ...prevFormData,
         contactEmail: localValue,
       }));
     };
-  
+
     return (
       <input
         type="email"
@@ -447,18 +458,18 @@ const ResearchPostRequestForm = () => {
 
   const ContactPhoneField = () => {
     const [localValue, setLocalValue] = useState(formData.contactPhone);
-  
+
     const handleChange = (e) => {
       setLocalValue(e.target.value);
     };
-  
+
     const handleBlur = () => {
       setFormData((prevFormData) => ({
         ...prevFormData,
         contactPhone: localValue,
       }));
     };
-  
+
     return (
       <input
         type="tel"
@@ -474,18 +485,18 @@ const ResearchPostRequestForm = () => {
 
   const ContactWebsiteField = () => {
     const [localValue, setLocalValue] = useState(formData.contactWebsite);
-  
+
     const handleChange = (e) => {
       setLocalValue(e.target.value);
     };
-  
+
     const handleBlur = () => {
       setFormData((prevFormData) => ({
         ...prevFormData,
         contactWebsite: localValue,
       }));
     };
-  
+
     return (
       <input
         type="url"
@@ -501,18 +512,18 @@ const ResearchPostRequestForm = () => {
 
   const AdditionalLinksField = () => {
     const [localValue, setLocalValue] = useState(formData.additionalLinks);
-  
+
     const handleChange = (e) => {
       setLocalValue(e.target.value);
     };
-  
+
     const handleBlur = () => {
       setFormData((prevFormData) => ({
         ...prevFormData,
         additionalLinks: localValue,
       }));
     };
-  
+
     return (
       <textarea
         name="additionalLinks"
@@ -524,7 +535,6 @@ const ResearchPostRequestForm = () => {
       />
     );
   };
-  
 
   const RelatedResearchField = () => (
     <TextAreaField
@@ -536,20 +546,25 @@ const ResearchPostRequestForm = () => {
     />
   );
 
+  // PARTICIPANT RECRUITMENT END DATE
   const PostExpirationDateField = () => {
     const [localValue, setLocalValue] = useState(formData.postExpirationDate);
-  
+
     const handleChange = (e) => {
       setLocalValue(e.target.value);
     };
-  
+
     const handleBlur = () => {
       setFormData((prevFormData) => ({
         ...prevFormData,
         postExpirationDate: localValue,
       }));
+      setProposedStartAndEndDates({
+        ...proposedStartAndEndDates,
+        endDate: localValue,
+      });
     };
-  
+
     return (
       <input
         type="date"
@@ -561,22 +576,26 @@ const ResearchPostRequestForm = () => {
       />
     );
   };
-  
 
+  // PARTICIPANT RECRUITMENT START DATE
   const StartDateField = () => {
     const [localValue, setLocalValue] = useState(formData.startDate);
-  
+
     const handleChange = (e) => {
       setLocalValue(e.target.value);
     };
-  
+
     const handleBlur = () => {
       setFormData((prevFormData) => ({
         ...prevFormData,
         startDate: localValue,
       }));
+      setProposedStartAndEndDates({
+        ...proposedStartAndEndDates,
+        startDate: localValue,
+      });
     };
-  
+
     return (
       <input
         type="date"
@@ -585,24 +604,26 @@ const ResearchPostRequestForm = () => {
         onChange={handleChange}
         onBlur={handleBlur}
         className={dateInputClass}
+        required
       />
     );
   };
-  
+
+  // OVERALL RESEARCH END DATE
   const EndDateField = () => {
     const [localValue, setLocalValue] = useState(formData.endDate);
-  
+
     const handleChange = (e) => {
       setLocalValue(e.target.value);
     };
-  
+
     const handleBlur = () => {
       setFormData((prevFormData) => ({
         ...prevFormData,
         endDate: localValue,
       }));
     };
-  
+
     return (
       <input
         type="date"
@@ -611,49 +632,57 @@ const ResearchPostRequestForm = () => {
         onChange={handleChange}
         onBlur={handleBlur}
         className={dateInputClass}
+        required
       />
     );
   };
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submissionError, setSubmissionError] = useState('');
+  const [submissionError, setSubmissionError] = useState("");
   const [submissionSuccess, setSubmissionSuccess] = useState(false);
 
   const uploadFile = async (file, path) => {
     if (!file) return null;
-  
+
     const fileRef = ref(storage, `${path}/${file.name}`);
     await uploadBytes(fileRef, file);
-    return fileRef.fullPath; 
+    return fileRef.fullPath;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true); // submission is in progress
-    setSubmissionError(''); // Reset any previous error messages
+    setSubmissionError(""); // Reset any previous error messages
     setSubmissionSuccess(false); // Reset the success status
-    
+
     try {
-      const logoPath = await uploadFile(formData.logo, 'logos');
-      const videoPath = await uploadFile(formData.video, 'videos');
-    
+      const logoPath = await uploadFile(formData.logo, "logos");
+      const videoPath = await uploadFile(formData.video, "videos");
+
       await addDoc(collection(db, "researchStudies"), {
         ...formData,
-        logo: logoPath, 
+        logo: logoPath,
         video: videoPath,
-        status: 'pending', // Set default status to 'pending'
+        status: "pending", // Set default status to 'pending'
       });
-      
+
       console.log("Form submitted successfully");
-      setSubmissionSuccess(true); 
+      setSubmissionSuccess(true);
     } catch (error) {
       console.error("Error submitting form: ", error);
-      setSubmissionError('Failed to submit the form. Please try again.'); 
+      setSubmissionError("Failed to submit the form. Please try again.");
     } finally {
-      setIsSubmitting(false); 
+      setIsSubmitting(false);
     }
-};
+  };
 
+  const calculateDaysBetweenDates = (startDate, endDate) => {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const diffTime = Math.abs(end - start);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays;
+  };
 
   return (
     <div className={formContainerClass}>
@@ -785,21 +814,37 @@ const ResearchPostRequestForm = () => {
             <p className="text-sm mb-4 text-black font-bold">
               Please give your best estimate for the dates below.
             </p>
-            <PostExpirationDateField />
-            <p className="text-sm mb-4 text-black">
-              What day will recruitment close for this study?
-            </p>
             <StartDateField />
             <p className="text-sm mb-4 text-black">
-              What day will this study begin?
+              What day will participant recruitment for this study begin?
             </p>
+            <PostExpirationDateField />
+            <p className="text-sm mb-4 text-black">
+              What day will participant recruitment close for this study?
+            </p>
+            {proposedStartAndEndDates.startDate &&
+              proposedStartAndEndDates.endDate && (
+                <p className="text-sm mb-4 text-black font-bold">
+                  This study will be open to participants for{" "}
+                  {calculateDaysBetweenDates(
+                    proposedStartAndEndDates.startDate,
+                    proposedStartAndEndDates.endDate
+                  )}{" "}
+                  days.
+                </p>
+              )}
             <EndDateField />
             <p className="text-sm mb-4 text-black">
-              Please list an estimate of when you will have results.
+              Please list an estimate of when you will have final research
+              results.
             </p>
-          {isSubmitting && <p>Submitting form...</p>}
-          {submissionError && <p className="text-red-500">{submissionError}</p>}
-          {submissionSuccess && <p className="text-green-500">Form submitted successfully!</p>}
+            {isSubmitting && <p>Submitting form...</p>}
+            {submissionError && (
+              <p className="text-red-500">{submissionError}</p>
+            )}
+            {submissionSuccess && (
+              <p className="text-green-500">Form submitted successfully!</p>
+            )}
           </div>
         )}
 

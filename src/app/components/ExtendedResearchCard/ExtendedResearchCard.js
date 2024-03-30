@@ -39,13 +39,13 @@ const ExtendedResearchCard = ({ research }) => {
           />
         )}
         <div>
-          <div className="flex items-center gap-5">
-            <div className="font-bold text-xl mb-2 text-black">
+          <div className="flex items-center gap-2">
+            <span className="font-bold text-xl mb-2 text-black">
               {research.title}
-            </div>
-            <div className="text-sm mb-2 text-gray-700">
-              # {research.irbNumber}
-            </div>
+            </span>
+            <span className="text-sm mb-2 text-gray-700">
+              {`# ${research.irbNumber}`}
+            </span>
           </div>
           <div>
             <div>

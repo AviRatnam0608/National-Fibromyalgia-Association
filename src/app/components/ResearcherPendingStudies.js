@@ -4,6 +4,7 @@ import { db } from "../firebase";
 import Modal from "./AdminStudyPopUp"; // Assuming you have a Modal component
 import ResearchCard from "./ResearchCard/ResearchCard";
 import BigHeader from "./BigHeader/BigHeader";
+import ResearchFeedbackCard from "./ResarchCardFeedback/ResearchCardFeedback";
 
 const ResearcherPending = () => {
   const [selectedSubmission, setSelectedSubmission] = useState(null);
@@ -45,15 +46,15 @@ const ResearcherPending = () => {
   };
 
   return (
-    <div className="">
+    <div className="px-10">
       <BigHeader>Studies Pending Approval</BigHeader>
-      <span>
+      <div className="text-gray-800 mb-10">
         Review the below research postings that have feedback comments left on
-        them
-      </span>
+        them. Use the 'Accept' or 'Reject' buttons to approve or deny the
+        research/ research feedback posting.
+      </div>
       {selectedSubmission?.map((submissionItem) => (
-        // <ResearchCard key={submissionItem.id} {...submissionItem} />
-        <ResearchPosting key={submissionItem.id} {...submissionItem} />
+        <ResearchFeedbackCard {...submissionItem} />
       ))}
     </div>
   );

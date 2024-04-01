@@ -4,7 +4,6 @@ import { getAnalytics } from "firebase/analytics";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 import { getAuth } from "firebase/auth";
-import { API_KEY } from "../../secrets";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -12,7 +11,7 @@ import { API_KEY } from "../../secrets";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: API_KEY,
+  apiKey: "AIzaSyBmoYh_hWJykHfrWRq0HOsF56jQSny1LxY",
   authDomain: "nfa699-7adef.firebaseapp.com",
   projectId: "nfa699-7adef",
   storageBucket: "nfa699-7adef.appspot.com",

@@ -4,9 +4,11 @@ import Dashboard from "../../pages/admin-dashboard";
 
 export default function Home() {
   return (
-    <React.Fragment>
+    <>
       <NavBar />
-      <Dashboard />
-    </React.Fragment>
+      <div className="mx-5">
+        <Dashboard />
+      </div>
+    </>
   );
 }

@@ -16,7 +16,7 @@ const hello = ({
   return (
     <div
       className={`max-w-lg border-4 border-gray-300 rounded overflow-hidden shadow-lg bg-white m-5 ${
-        title !== "" && selectedResearch?.title === title && "border-primary"
+        title !== "" && selectedResearch.title === title && "border-primary"
       }`}
     >
       {imageUrl && (

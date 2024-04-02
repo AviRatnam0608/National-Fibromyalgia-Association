@@ -38,8 +38,6 @@ const ResearchPostRequestForm = () => {
     additionalLinks: "",
     relatedResearch: "",
     postExpirationDate: "",
-    nfaApproved: false,
-    researcherApproved: false,
   });
 
   const [proposedStartAndEndDates, setProposedStartAndEndDates] = useState({
@@ -735,8 +733,6 @@ const ResearchPostRequestForm = () => {
         logo: logoPath,
         video: videoPath,
         status: "pending", // Set default status to 'pending'
-        nfaApproved: false,
-        researcherApproved: true,
       });
 
       console.log("Form submitted successfully");

@@ -38,6 +38,9 @@ const ResearchPostRequestForm = () => {
     additionalLinks: "",
     relatedResearch: "",
     postExpirationDate: "",
+    startDate: "",
+    endDate: "",
+    status: "adminPending",
   });
 
   const [proposedStartAndEndDates, setProposedStartAndEndDates] = useState({
@@ -48,8 +51,7 @@ const ResearchPostRequestForm = () => {
   const totalSteps = 10;
 
   const handleInputChange = (e) => {
-    const { name, type } = e.target;
-    const value = type === "checkbox" ? e.target.checked : e.target.value;
+    const { name, value, type } = e.target;
     if (type === "file") {
       setFormData({ ...formData, [name]: e.target.files[0] });
     } else {
@@ -728,12 +730,25 @@ const ResearchPostRequestForm = () => {
       const logoPath = await uploadFile(formData.logo, "logos");
       const videoPath = await uploadFile(formData.video, "videos");
 
-      await addDoc(collection(db, "researchStudies"), {
-        ...formData,
-        logo: logoPath,
-        video: videoPath,
-        status: "pending", // Set default status to 'pending'
-      });
+      const isResubmission = formData.id != null;
+      if (isResubmission) {
+        // Update the existing document for a resubmission
+        const docRef = doc(db, "researchStudies", formData.id);
+        await updateDoc(docRef, {
+          ...formData,
+          logo: logoPath,
+          video: videoPath,
+          status: "adminPending", // Ensure status is set to 'adminPending' on resubmission
+        });
+      } else {
+        // Create a new document for a new submission
+        await addDoc(collection(db, "researchStudies"), {
+          ...formData,
+          logo: logoPath,
+          video: videoPath,
+          status: "adminPending",
+        });
+      }
 
       console.log("Form submitted successfully");
       setSubmissionSuccess(true);

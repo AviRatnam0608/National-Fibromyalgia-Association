@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { updateDoc, doc } from 'firebase/firestore';
-import { db } from '../firebase';
+import { db } from '../../firebase';
 
 const Modal = ({ isOpen, onClose, submission }) => {
   const [feedback, setFeedback] = useState('');

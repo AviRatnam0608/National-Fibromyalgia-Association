@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { logIn } from '../services/authService';
+import { logIn } from '../../services/authService';
 import { useHistory } from 'react-router-dom';
 
 const Login = () => {

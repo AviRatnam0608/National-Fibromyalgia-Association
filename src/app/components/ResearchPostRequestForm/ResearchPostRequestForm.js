@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { db, storage } from "../../firebase";
 import { collection, addDoc } from "firebase/firestore";
-import { ref, uploadBytes } from "firebase/storage";
+import { ref, uploadBytes, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+
 
 import {
   inputClass,
@@ -57,6 +58,82 @@ const ResearchPostRequestForm = () => {
       setFormData({ ...formData, [name]: value });
     }
   };
+
+  const handleLogoUpload = (e) => {
+    const file = e.target.files[0]; // Get the file
+  
+    // Check if the file is an image and its size is under 100MB
+    if (file && file.type.startsWith('image/') && file.size <= 100 * 1024 * 1024) {
+      const fileRef = ref(storage, `logos/${file.name}`); // Create a reference
+  
+      const uploadTask = uploadBytesResumable(fileRef, file); // Start the upload
+  
+      uploadTask.on(
+        'state_changed',
+        (snapshot) => {
+          // Optional: handle progress
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log('Upload is ' + progress + '% done');
+          // Here, you could update the UI with the upload progress
+        },
+        (error) => {
+          // Handle unsuccessful uploads
+          console.error("Error uploading file:", error);
+          // Here, you could update the UI to show the error
+        },
+        () => {
+          // Handle successful uploads on complete
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            console.log('File available at', downloadURL);
+            // Here, you could update your database with the downloadURL and update the UI to show the uploaded logo
+          });
+        }
+      );
+    } else {
+      // File is not an image or is larger than 100MB
+      console.error("File must be an image and less than 100MB");
+      // Here, you could update the UI to inform the user about the issue
+    }
+  };
+
+  const handleUpload = (e) => {
+    const file = e.target.files[0]; // Get the file
+  
+    // Check if the file is a video and its size is under 100MB
+    if (file && file.type.startsWith('video/') && file.size <= 100 * 1024 * 1024) {
+      const fileRef = ref(storage, `videos/${file.name}`); // Create a reference
+  
+      const uploadTask = uploadBytesResumable(fileRef, file); // Start the upload
+  
+      uploadTask.on(
+        'state_changed',
+        (snapshot) => {
+          // Optional: handle progress
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log('Upload is ' + progress + '% done');
+          // Here, you could update the UI with the upload progress
+        },
+        (error) => {
+          // Handle unsuccessful uploads
+          console.error("Error uploading file:", error);
+          // Here, you could update the UI to show the error
+        },
+        () => {
+          // Handle successful uploads on complete
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            console.log('File available at', downloadURL);
+            // Here, you could update your database with the downloadURL and update the UI to show the uploaded file
+          });
+        }
+      );
+    } else {
+      // File is not a video or is larger than 100MB
+      console.error("File must be a video and less than 100MB");
+      // Here, you could update the UI to inform the user about the issue
+    }
+  };
+  
+  
 
   const nextStep = () => {
     if (currentStep < totalSteps) {
@@ -338,19 +415,11 @@ const ResearchPostRequestForm = () => {
   };
 
   const LogoField = () => (
-    <FileField
-      name="logo"
-      onChange={handleInputChange}
-      className={fileInputClass}
-    />
+    <input type="file" accept="image/*" onChange={handleLogoUpload} />
   );
 
   const VideoField = () => (
-    <FileField
-      name="video"
-      onChange={handleInputChange}
-      className={fileInputClass}
-    />
+    <input type="file" accept="video/*" onChange={handleUpload} />
   );
 
   const InclusionCriteriaField = () => {

@@ -37,144 +37,169 @@ const ResearchCardSection = ({ title, value, children }) => {
   );
 };
 
+const Divider = () => {
+  return <div class="border-t border-gray-200 my-5"></div>;
+};
+
 const ExtendedResearchCard = ({ research }) => {
+  const getDate = (date) => {
+    const d = new Date(date);
+    const options = { year: "numeric", month: "short", day: "numeric" };
+    return d.toLocaleDateString("en-US", options);
+  };
+
   return (
-    <div className="max-w rounded overflow-hidden shadow-lg bg-white m-5 p-5">
-      <div className="flex gap-5">
-        {research?.logo && (
-          <img
-            className="w-1/2 h-48 object-cover"
-            src={research.logo}
-            alt={research.title}
-          />
-        )}
-        <div>
-          <div className="flex items-center gap-2">
-            <span className="font-bold text-xl mb-2 text-black">
+    <div class="max-w-4xl mx-auto bg-white rounded-lg border border-gray-200 shadow-md overflow-hidden my-5">
+      <div class="flex-1 p-4">
+        <div class="flex justify-between items-center">
+          <div className="flex items-center gap-5">
+            <h5 class="text-xl font-semibold tracking-tight text-gray-900">
               {research.title}
-            </span>
-            <span className="text-sm mb-2 text-gray-700">
-              {`# ${research.irbNumber}`}
-            </span>
+            </h5>
+            <p className="text-sm text-gray-700">
+              IRB Number: {research.irbNumber}
+            </p>
           </div>
-          <div>
-            <ResearchCardSection
-              title="Principal Investigator"
-              value={research.principalInvestigator}
-            >
-              <FaStar className="inline mx-2" />
-            </ResearchCardSection>
-
-            <ResearchCardSection
-              title="Research Team"
-              value={research.researchTeam}
-            >
-              <FaUser className="inline mx-2" />
-            </ResearchCardSection>
-          </div>
-
-          <div className="my-2">
-            <span className="font-bold my-5 border-b-2 border-gray-700">
-              Contact Information
-            </span>
-            <div className="flex flex-col items-start gap-1">
-              <ResearchCardSection
-                title="Contact Name"
-                value={research.contactPerson}
-              >
-                <FaUser className="inline mx-2" />
-              </ResearchCardSection>
-
-              <ResearchCardSection
-                title="Phone Number"
-                value={research.contactPhone}
-              >
-                <FaPhoneAlt className="inline mx-2 items-center" />
-              </ResearchCardSection>
-
-              <ResearchCardSection
-                title="Email Address"
-                value={research.contactEmail}
-              >
-                <FaEnvelope className="inline mx-2 items-center" />
-              </ResearchCardSection>
-            </div>
-          </div>
-          <div>
-            <ResearchCardSection
-              title="Start date"
-              value={getDate(research.startDate)}
-            />
-            <ResearchCardSection
-              title="Expiration date"
-              value={getDate(research.postExpirationDate)}
-            />
-          </div>
+          <img
+            class="w-10 h-10 rounded-full"
+            src={`${research.logo}`}
+            alt="Study Logo"
+          />
         </div>
-      </div>
 
-      <div className="py-4">
-        <div className="flex flex-wrap gap-2 mb-1">
-          {researchTags.map((tag) => (
-            <span
-              key={tag}
-              className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
-        <p className="text-gray-700 text-base overflow-hidden">
+        <p class="mt-2 text-sm text-gray-700">
           {research.descriptionAndPurpose}
         </p>
-      </div>
-      <div>
-        <span className="font-bold my-5 border-b-2 border-gray-700">
-          Other Important Information
-        </span>
-        <ResearchCardSection title="Location" value={research.location}>
-          <FaMapMarkerAlt className="inline mx-2" />
-        </ResearchCardSection>
-        {/* 
-        <div className="my-3 flex items-center">
-          <FaDollarSign className="inline mx-2" />
-          <span className="text-gray-500">{research.compensation}</span>
-        </div> */}
-        <ResearchCardSection title="Compensation" value={research.compensation}>
-          <FaDollarSign className="inline mx-2" />
-        </ResearchCardSection>
 
-        <div className="my-1 flex items-center gap-1">
-          <FaExternalLinkAlt className="inline mx-2" />
-          <span className="text-gray-500 hover:border-gray-800">
+        <div class="mt-4">
+          <h6 class="font-semibold text-gray-900">Principal Investigator:</h6>
+          <p class="text-sm text-gray-600">{research.principalInvestigator}</p>
+        </div>
+
+        <div class="mt-4">
+          <h6 class="font-semibold text-gray-900">Recruitment Duration:</h6>
+          <h3 class="text-sm text-gray-600">
+            <span className="font-semibold">Start Date:</span>{" "}
+            {getDate(research.startDate)}
+          </h3>
+          <h3 class="text-sm text-gray-600">
+            <span className="font-semibold">End Date:</span>{" "}
+            {getDate(research.postExpirationDate)}
+          </h3>
+        </div>
+
+        <div class="mt-4">
+          <h6 class="font-semibold text-gray-900">Research End Date:</h6>
+          <p class="text-sm text-gray-600">{getDate(research.endDate)}</p>
+        </div>
+
+        <div class="mt-4">
+          <h6 class="font-semibold text-gray-900">Research Topics:</h6>
+          <p class="text-sm text-gray-600">{research.researchTopics}</p>
+        </div>
+
+        <Divider />
+        <h4 className="font-bold text-lg text-gray-800">
+          Participant Information
+        </h4>
+
+        <div class="mt-4">
+          <h6 class="font-semibold text-gray-900">Participant Experience:</h6>
+          <p class="text-sm text-gray-600">{research.participantExperience}</p>
+        </div>
+
+        <div class="mt-4">
+          <h6 class="font-semibold text-gray-900">Inclusion Criteria:</h6>
+          <p class="text-sm text-gray-600">{research.inclusionCriteria}</p>
+        </div>
+
+        <div class="mt-4">
+          <h6 class="font-semibold text-gray-900">Exclusion Criteria:</h6>
+          <p class="text-sm text-gray-600">{research.exclusionCriteria}</p>
+        </div>
+
+        <div class="mt-4">
+          <h6 class="font-semibold text-gray-900">Location:</h6>
+          <p class="text-sm text-gray-600">{research.location}</p>
+        </div>
+
+        <div class="mt-4">
+          <h6 class="font-semibold text-gray-900">Participant Compensation:</h6>
+          <p class="text-sm text-gray-600">{research.compensation}</p>
+        </div>
+
+        <Divider />
+        <h4 className="font-bold text-lg text-gray-800">NFA Information</h4>
+
+        <div class="mt-4">
+          <h6 class="font-semibold text-gray-900">NFA Compensation:</h6>
+          <p class="text-sm text-gray-600">{research.nfaCompensation}</p>
+        </div>
+
+        <div class="mt-4">
+          <h6 class="font-semibold text-gray-900">Status:</h6>
+          <p
+            class={`text-sm ${
+              research.status === "accepted"
+                ? "text-green-600"
+                : research.status === "pending"
+                ? "text-yellow-600"
+                : "text-red-700"
+            }`}
+          >
+            {research.status}
+          </p>
+        </div>
+
+        <Divider />
+        <h4 className="font-bold text-lg text-gray-800">Contact Information</h4>
+
+        <div className="mt-4">
+          <p className="text-sm text-gray-600">Name: {research.contactName}</p>
+          <p className="text-sm text-blue-500 hover:underline">
+            <a href={`mailto:${research.contactEmail}`}>
+              Email: {research.contactEmail}
+            </a>
+          </p>
+          <p className="text-sm text-blue-500 hover:underline">
+            <a href={`tel:${research.contactPhone}`}>
+              Phone: {research.contactPhone}
+            </a>
+          </p>
+          <p className="text-sm text-blue-500 hover:underline">
             <a
               href={research.contactWebsite}
-              className="border-b-2 border-gray-500 hover:border-gray-800"
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              {research.contactWebsite}{" "}
+              Website
             </a>
-          </span>
+          </p>
         </div>
-      </div>
-      <div className="py-5">
-        <span className="font-bold my-5 border-b-2 border-gray-700">
-          NFA Important Information
-        </span>
-        <div
-          className={
-            research.status === "approved"
-              ? approvedResearchStyles
-              : rejectedResearchStyles
-          }
-        >
-          <span className="">{research.status}</span>
+
+        <Divider />
+        <h4 className="font-bold text-lg text-gray-800">Extra</h4>
+        <div class="mt-4">
+          <p class="text-sm text-gray-600">
+            <h6 class="font-semibold text-gray-900">Additional Links:</h6>
+            {research.additionalLinks ? research.additionalLinks : "N/A"}
+          </p>
         </div>
-        <ResearchCardSection
-          title="NFA Compensation"
-          value={research.nfaCompensation}
-        >
-          <FaDollarSign className="inline mx-2" />
-        </ResearchCardSection>
+        <div class="mt-4">
+          <p class="text-sm text-gray-600">
+            <h6 class="font-semibold text-gray-900">Related Research:</h6>
+            {research.relatedResearch ? research.relatedResearch : "N/A"}
+          </p>
+        </div>
+        <div class="mt-4">
+          <h6 class="font-semibold text-gray-900">Video Presentation:</h6>
+          <div class="text-sm text-gray-600">
+            <video class="w-full" controls>
+              <source src={research.videoUrl} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        </div>
       </div>
     </div>
   );

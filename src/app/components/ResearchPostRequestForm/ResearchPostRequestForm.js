@@ -51,16 +51,6 @@ const ResearchPostRequestForm = () => {
 
   const totalSteps = 10;
 
-  // const handleInputChange = (e) => {
-  //   const { name, type } = e.target;
-  //   const value = type === "checkbox" ? e.target.checked : e.target.value;
-  //   if (type === "file") {
-  //     setFormData({ ...formData, [name]: e.target.files[0] });
-  //   } else {
-  //     setFormData({ ...formData, [name]: value });
-  //   }
-  // };
-
   const handleLogoUpload = (e) => {
     const file = e.target.files[0]; // Get the file
 

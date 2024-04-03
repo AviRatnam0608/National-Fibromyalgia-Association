@@ -5,7 +5,6 @@ import ResearchCard from "@/app/components/ResearchCard/ResearchCard";
 import { db } from "@/app/firebase";
 import { collection, getDocs } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { NoResearchImg, noResearchImg } from "../public/noResearchImg";
 import Tab from "@/app/components/Tab/Tab";
 
 export const checkIfResearchActive = (research) => {
@@ -26,29 +25,42 @@ const Dashboard = () => {
   const fetchResearchStudies = async () => {
     const researchData = [];
     const querySnapshot = await getDocs(collection(db, "researchStudies"));
-    querySnapshot.docs.map((doc) => {
-      researchData.push(doc.data());
+    const submissionsData = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    submissionsData.map((doc) => {
+      researchData.push(doc);
     });
     filterResearchData(researchData);
   };
 
   const filterResearchData = (researchData) => {
-    setActiveResearchData(
-      researchData.filter((research) => checkIfResearchActive(research))
+    const activeData = researchData.filter((research) =>
+      checkIfResearchActive(research)
     );
-    setCompletedResearchData(
-      researchData.filter((research) => !checkIfResearchActive(research))
+    const completedData = researchData.filter(
+      (research) => !checkIfResearchActive(research)
     );
+
+    setActiveResearchData(activeData);
+    setCompletedResearchData(completedData);
+
+    if (activeTab === "active") {
+      setFilteredResearchData(activeData);
+    } else {
+      setFilteredResearchData(completedData);
+    }
   };
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
     if (tab === "active") {
       setFilteredResearchData(activeResearchData);
-      console.log(filteredResearchData);
+      // console.log(filteredResearchData);
     } else {
       setFilteredResearchData(completedResearchData);
-      console.log(filteredResearchData);
+      // console.log(filteredResearchData);
     }
   };
 
@@ -102,9 +114,9 @@ const Dashboard = () => {
               <div className="flex">
                 <div className="w-full justify-center">
                   {activeTab === "active" &&
-                    filteredResearchData.map((research, key) => (
+                    filteredResearchData.map((research) => (
                       <ResearchCard
-                        key={key}
+                        key={research.id}
                         {...research}
                         buttonText="Read More"
                         onButtonClick={() => showResearchInformation(research)}
@@ -113,9 +125,9 @@ const Dashboard = () => {
                     ))}
 
                   {activeTab === "completed" &&
-                    filteredResearchData.map((research, key) => (
+                    filteredResearchData.map((research) => (
                       <ResearchCard
-                        key={key}
+                        key={research.id}
                         {...research}
                         buttonText="Read More"
                         onButtonClick={() => showResearchInformation(research)}
@@ -127,11 +139,10 @@ const Dashboard = () => {
                   {showResearchInfo ? (
                     <ExtendedResearchCard research={selectedResearch} />
                   ) : (
-                    <div
-                      class="max-w-4xl mx-auto p-56 h-56 bg-white rounded-lg border border-gray-200 shadow-md overflow-hidden flex items-center justify-center"
-                      // style="height: 200px; border-color: #cbd5e1;"
-                    >
-                      <p class="text-sm text-gray-500">No research selected</p>
+                    <div className="max-w-4xl mx-auto mt-4 p-56 h-56 bg-white rounded-lg border border-gray-200 shadow-md overflow-hidden flex items-center justify-center">
+                      <p className="text-sm text-gray-500">
+                        No research selected
+                      </p>
                     </div>
                   )}
                 </div>

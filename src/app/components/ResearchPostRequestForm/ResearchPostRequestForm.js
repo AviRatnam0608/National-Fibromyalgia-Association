@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import { db, storage } from "../../firebase";
 import { collection, addDoc } from "firebase/firestore";
-import { ref, uploadBytes, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-
+import {
+  ref,
+  uploadBytes,
+  uploadBytesResumable,
+  getDownloadURL,
+} from "firebase/storage";
 
 import {
   inputClass,
@@ -38,8 +42,6 @@ const ResearchPostRequestForm = () => {
     additionalLinks: "",
     relatedResearch: "",
     postExpirationDate: "",
-    nfaApproved: false,
-    researcherApproved: false,
   });
 
   const [proposedStartAndEndDates, setProposedStartAndEndDates] = useState({
@@ -49,31 +51,26 @@ const ResearchPostRequestForm = () => {
 
   const totalSteps = 10;
 
-  const handleInputChange = (e) => {
-    const { name, type } = e.target;
-    const value = type === "checkbox" ? e.target.checked : e.target.value;
-    if (type === "file") {
-      setFormData({ ...formData, [name]: e.target.files[0] });
-    } else {
-      setFormData({ ...formData, [name]: value });
-    }
-  };
-
   const handleLogoUpload = (e) => {
     const file = e.target.files[0]; // Get the file
-  
+
     // Check if the file is an image and its size is under 100MB
-    if (file && file.type.startsWith('image/') && file.size <= 100 * 1024 * 1024) {
+    if (
+      file &&
+      file.type.startsWith("image/") &&
+      file.size <= 100 * 1024 * 1024
+    ) {
       const fileRef = ref(storage, `logos/${file.name}`); // Create a reference
-  
+
       const uploadTask = uploadBytesResumable(fileRef, file); // Start the upload
-  
+
       uploadTask.on(
-        'state_changed',
+        "state_changed",
         (snapshot) => {
           // Optional: handle progress
-          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log('Upload is ' + progress + '% done');
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log("Upload is " + progress + "% done");
           // Here, you could update the UI with the upload progress
         },
         (error) => {
@@ -84,7 +81,7 @@ const ResearchPostRequestForm = () => {
         () => {
           // Handle successful uploads on complete
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            console.log('File available at', downloadURL);
+            console.log("File available at", downloadURL);
             // Here, you could update your database with the downloadURL and update the UI to show the uploaded logo
           });
         }
@@ -98,19 +95,24 @@ const ResearchPostRequestForm = () => {
 
   const handleUpload = (e) => {
     const file = e.target.files[0]; // Get the file
-  
+
     // Check if the file is a video and its size is under 100MB
-    if (file && file.type.startsWith('video/') && file.size <= 100 * 1024 * 1024) {
+    if (
+      file &&
+      file.type.startsWith("video/") &&
+      file.size <= 100 * 1024 * 1024
+    ) {
       const fileRef = ref(storage, `videos/${file.name}`); // Create a reference
-  
+
       const uploadTask = uploadBytesResumable(fileRef, file); // Start the upload
-  
+
       uploadTask.on(
-        'state_changed',
+        "state_changed",
         (snapshot) => {
           // Optional: handle progress
-          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log('Upload is ' + progress + '% done');
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log("Upload is " + progress + "% done");
           // Here, you could update the UI with the upload progress
         },
         (error) => {
@@ -121,7 +123,7 @@ const ResearchPostRequestForm = () => {
         () => {
           // Handle successful uploads on complete
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            console.log('File available at', downloadURL);
+            console.log("File available at", downloadURL);
             // Here, you could update your database with the downloadURL and update the UI to show the uploaded file
           });
         }
@@ -132,8 +134,6 @@ const ResearchPostRequestForm = () => {
       // Here, you could update the UI to inform the user about the issue
     }
   };
-  
-  
 
   const nextStep = () => {
     if (currentStep < totalSteps) {
@@ -734,7 +734,7 @@ const ResearchPostRequestForm = () => {
         ...formData,
         logo: logoPath,
         video: videoPath,
-        status: "pending", // Set default status to 'pending'
+        status: "adminPending", // Set default status to 'pending'
         nfaApproved: false,
         researcherApproved: true,
       });

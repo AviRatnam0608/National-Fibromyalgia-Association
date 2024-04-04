@@ -1,43 +1,6 @@
 import React from "react";
-import {
-  FaStar,
-  FaUser,
-  FaPhoneAlt,
-  FaEnvelope,
-  FaMapMarkerAlt,
-  FaDollarSign,
-  FaExternalLinkAlt,
-} from "react-icons/fa";
-import {
-  approvedResearchStyles,
-  rejectedResearchStyles,
-} from "./ExtendedResearchCard.styles";
 
-const researchTags = [
-  "Machine Learning",
-  "Deep Learning",
-  "Computer Vision",
-  "Natural Language Processing",
-];
-
-// gert date in format of 12th Jan 2022
-const getDate = (date) => {
-  const d = new Date(date);
-  const options = { year: "numeric", month: "short", day: "numeric" };
-  return d.toLocaleDateString("en-US", options);
-};
-
-const ResearchCardSection = ({ title, value, children }) => {
-  return (
-    <div className="my-1 flex items-center gap-1">
-      {children}
-      <span className="font-bold">{title}: </span>
-      <span className="text-gray-800">{value}</span>
-    </div>
-  );
-};
-
-const Divider = () => {
+export const Divider = () => {
   return <div class="border-t border-gray-200 my-5"></div>;
 };
 
@@ -46,6 +9,12 @@ const ExtendedResearchCard = ({ research }) => {
     const d = new Date(date);
     const options = { year: "numeric", month: "short", day: "numeric" };
     return d.toLocaleDateString("en-US", options);
+  };
+
+  const pendingStatus = {
+    researcherPending: "Pending Approval",
+    accepted: "Accepted",
+    rejected: "Rejected ",
   };
 
   return (
@@ -142,12 +111,12 @@ const ExtendedResearchCard = ({ research }) => {
             class={`text-sm ${
               research.status === "accepted"
                 ? "text-green-600"
-                : research.status === "pending"
+                : research.status === "researcherPending"
                 ? "text-yellow-600"
                 : "text-red-700"
             }`}
           >
-            {research.status}
+            {pendingStatus[research.status]}
           </p>
         </div>
 

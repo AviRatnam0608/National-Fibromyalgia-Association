@@ -1,6 +1,6 @@
 import { Divider } from "../ExtendedResearchCard/ExtendedResearchCard";
 
-const ResearchFeedbackCard = (props) => {
+const AdminFeedbackCard = (props) => {
   const {
     title,
     logo,
@@ -65,6 +65,11 @@ const ResearchFeedbackCard = (props) => {
           <p class="text-sm text-gray-600">{researchTopics}</p>
         </div>
 
+        <Divider />
+        <h4 className="font-bold text-lg text-gray-800">
+          Participant Information
+        </h4>
+
         <div class="mt-4">
           <h6 class="font-semibold text-gray-900">Participant Experience:</h6>
           <p class="text-sm text-gray-600">{participantExperience}</p>
@@ -90,17 +95,27 @@ const ResearchFeedbackCard = (props) => {
           <p class="text-sm text-gray-600">{compensation}</p>
         </div>
 
+        <Divider />
+        <h4 className="font-bold text-lg text-gray-800">NFA Information</h4>
+
         <div class="mt-4">
           <h6 class="font-semibold text-gray-900">NFA Compensation:</h6>
           <p class="text-sm text-gray-600">{nfaCompensation}</p>
         </div>
 
-        <div class="mt-4">
-          <p class="text-sm text-gray-600">Contact: {contactName}</p>
-          <p class="text-sm text-blue-500 hover:underline">
-            <a href="mailto:{ contactEmail }">Email: {contactEmail}</a> |
-            <a href="tel:{ contactPhone }">Call: {contactPhone}</a> |
-            <a href={`${contactWebsite}`} target="_blank">
+        <Divider />
+        <h4 className="font-bold text-lg text-gray-800">Contact Information</h4>
+
+        <div className="mt-4">
+          <p className="text-sm text-gray-600">Name: {contactName}</p>
+          <p className="text-sm text-blue-500 hover:underline">
+            <a href={`mailto:${contactEmail}`}>Email: {contactEmail}</a>
+          </p>
+          <p className="text-sm text-blue-500 hover:underline">
+            <a href={`tel:${contactPhone}`}>Phone: {contactPhone}</a>
+          </p>
+          <p className="text-sm text-blue-500 hover:underline">
+            <a href={contactWebsite} target="_blank" rel="noopener noreferrer">
               Website
             </a>
           </p>
@@ -111,4 +126,4 @@ const ResearchFeedbackCard = (props) => {
   );
 };
 
-export default ResearchFeedbackCard;
+export default AdminFeedbackCard;

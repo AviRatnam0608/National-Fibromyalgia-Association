@@ -1,4 +1,7 @@
-import { Divider } from "../ExtendedResearchCard/ExtendedResearchCard";
+import {
+  Divider,
+  tagComponent,
+} from "../ExtendedResearchCard/ExtendedResearchCard";
 
 const ResearchFeedbackCard = (props) => {
   const {
@@ -62,8 +65,26 @@ const ResearchFeedbackCard = (props) => {
 
         <div class="mt-4">
           <h6 class="font-semibold text-gray-900">Research Topics:</h6>
-          <p class="text-sm text-gray-600">{researchTopics}</p>
+          <div className="flex-col flex gap-2 mt-1">
+            <p>
+              <span className="text-sm text-gray-600">Medical Conditions:</span>{" "}
+              {tagComponent(researchTopics.conditions)}
+            </p>
+            <p>
+              <span className="text-sm text-gray-600">Research Topics:</span>{" "}
+              {tagComponent(researchTopics.topics)}
+            </p>
+            <p>
+              <span className="text-sm text-gray-600">Research Types:</span>{" "}
+              {tagComponent(researchTopics.types)}
+            </p>
+          </div>
         </div>
+
+        <Divider />
+        <h4 className="font-bold text-lg text-gray-800">
+          Participant Information
+        </h4>
 
         <div class="mt-4">
           <h6 class="font-semibold text-gray-900">Participant Experience:</h6>
@@ -90,10 +111,16 @@ const ResearchFeedbackCard = (props) => {
           <p class="text-sm text-gray-600">{compensation}</p>
         </div>
 
+        <Divider />
+        <h4 className="font-bold text-lg text-gray-800">NFA Information</h4>
+
         <div class="mt-4">
           <h6 class="font-semibold text-gray-900">NFA Compensation:</h6>
           <p class="text-sm text-gray-600">{nfaCompensation}</p>
         </div>
+
+        <Divider />
+        <h4 className="font-bold text-lg text-gray-800">Contact Information</h4>
 
         <div class="mt-4">
           <p class="text-sm text-gray-600">Contact: {contactName}</p>

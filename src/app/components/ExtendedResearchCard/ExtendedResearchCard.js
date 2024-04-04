@@ -4,19 +4,19 @@ export const Divider = () => {
   return <div class="border-t border-gray-200 my-5"></div>;
 };
 
+export const tagComponent = (tags) => {
+  return tags.map((tag) => (
+    <span class="inline-block text-xs bg-gray-200 rounded-full px-3 py-1 font-semibold text-gray-700 mr-2">
+      {tag}
+    </span>
+  ));
+};
+
 const ExtendedResearchCard = ({ research }) => {
   const getDate = (date) => {
     const d = new Date(date);
     const options = { year: "numeric", month: "short", day: "numeric" };
     return d.toLocaleDateString("en-US", options);
-  };
-
-  const tagComponent = (tags) => {
-    return tags.map((tag) => (
-      <span class="inline-block text-xs bg-gray-200 rounded-full px-3 py-1 font-semibold text-gray-700 mr-2">
-        {tag}
-      </span>
-    ));
   };
 
   const pendingStatus = {

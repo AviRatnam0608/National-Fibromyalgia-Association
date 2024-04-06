@@ -20,6 +20,7 @@ const ExtendedResearchCard = ({ research }) => {
   };
 
   const pendingStatus = {
+    adminPending: "Pending Approval",
     researcherPending: "Pending Approval",
     accepted: "Accepted",
     rejected: "Rejected ",
@@ -132,7 +133,8 @@ const ExtendedResearchCard = ({ research }) => {
             class={`text-sm ${
               research.status === "accepted"
                 ? "text-green-600"
-                : research.status === "researcherPending"
+                : research.status === "researcherPending" ||
+                  research.status === "adminPending"
                 ? "text-yellow-600"
                 : "text-red-700"
             }`}

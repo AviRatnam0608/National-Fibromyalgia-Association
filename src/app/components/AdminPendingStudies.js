@@ -144,9 +144,7 @@ const AdminPending = () => {
                 </p>
                 <Divider />
                 <p>
-                  <span className="font-semibold text-red-700">
-                    Reject with Feedback:
-                  </span>{" "}
+                  <span className="font-semibold text-red-700">Reject:</span>{" "}
                   Means you are rejecting the proposal/ feedback provided and
                   will not publicly post the research proposal.
                   {/* <p>

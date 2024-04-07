@@ -27,8 +27,8 @@ const ResearchPostRequestForm = () => {
     location: "",
     compensation: "",
     nfaCompensation: "",
-    logo: null,
-    video: null,
+    logo: "",
+    video: "",
     inclusionCriteria: "",
     exclusionCriteria: "",
     contactName: "",
@@ -120,7 +120,7 @@ const ResearchPostRequestForm = () => {
           // Handle successful uploads on complete
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             console.log('File available at', downloadURL);
-            // Here, you could update your database with the downloadURL and update the UI to show the uploaded file
+            // Here, you could update your database with the downloadURL and update the UI to show the uploaded logo
           });
         }
       );

@@ -1,44 +1,15 @@
 import React from "react";
-import {
-  FaStar,
-  FaUser,
-  FaPhoneAlt,
-  FaEnvelope,
-  FaMapMarkerAlt,
-  FaDollarSign,
-  FaExternalLinkAlt,
-} from "react-icons/fa";
-import {
-  approvedResearchStyles,
-  rejectedResearchStyles,
-} from "./ExtendedResearchCard.styles";
 
-const researchTags = [
-  "Machine Learning",
-  "Deep Learning",
-  "Computer Vision",
-  "Natural Language Processing",
-];
-
-// gert date in format of 12th Jan 2022
-const getDate = (date) => {
-  const d = new Date(date);
-  const options = { year: "numeric", month: "short", day: "numeric" };
-  return d.toLocaleDateString("en-US", options);
-};
-
-const ResearchCardSection = ({ title, value, children }) => {
-  return (
-    <div className="my-1 flex items-center gap-1">
-      {children}
-      <span className="font-bold">{title}: </span>
-      <span className="text-gray-800">{value}</span>
-    </div>
-  );
-};
-
-const Divider = () => {
+export const Divider = () => {
   return <div class="border-t border-gray-200 my-5"></div>;
+};
+
+export const tagComponent = (tags) => {
+  return tags.map((tag) => (
+    <span class="inline-block text-xs bg-gray-200 rounded-full px-3 py-1 font-semibold text-gray-700 mr-2">
+      {tag}
+    </span>
+  ));
 };
 
 const ExtendedResearchCard = ({ research }) => {
@@ -46,6 +17,13 @@ const ExtendedResearchCard = ({ research }) => {
     const d = new Date(date);
     const options = { year: "numeric", month: "short", day: "numeric" };
     return d.toLocaleDateString("en-US", options);
+  };
+
+  const pendingStatus = {
+    adminPending: "Pending Approval",
+    researcherPending: "Pending Approval",
+    accepted: "Accepted",
+    rejected: "Rejected ",
   };
 
   return (
@@ -95,7 +73,20 @@ const ExtendedResearchCard = ({ research }) => {
 
         <div class="mt-4">
           <h6 class="font-semibold text-gray-900">Research Topics:</h6>
-          <p class="text-sm text-gray-600">{research.researchTopics}</p>
+          <div className="flex-col flex gap-2 mt-1">
+            <p>
+              <span className="text-sm text-gray-600">Medical Conditions:</span>{" "}
+              {tagComponent(research.researchTopics.conditions)}
+            </p>
+            <p>
+              <span className="text-sm text-gray-600">Research Topics:</span>{" "}
+              {tagComponent(research.researchTopics.topics)}
+            </p>
+            <p>
+              <span className="text-sm text-gray-600">Research Types:</span>{" "}
+              {tagComponent(research.researchTopics.types)}
+            </p>
+          </div>
         </div>
 
         <Divider />
@@ -142,12 +133,13 @@ const ExtendedResearchCard = ({ research }) => {
             class={`text-sm ${
               research.status === "accepted"
                 ? "text-green-600"
-                : research.status === "pending"
+                : research.status === "researcherPending" ||
+                  research.status === "adminPending"
                 ? "text-yellow-600"
                 : "text-red-700"
             }`}
           >
-            {research.status}
+            {pendingStatus[research.status]}
           </p>
         </div>
 

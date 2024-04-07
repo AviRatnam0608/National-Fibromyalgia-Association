@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { db, storage } from "../../firebase";
-import { collection, addDoc } from "firebase/firestore";
-import { ref, uploadBytes, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-
+import { collection, addDoc, getDocs } from "firebase/firestore";
+import {
+  ref,
+  uploadBytes,
+  uploadBytesResumable,
+  getDownloadURL,
+} from "firebase/storage";
 
 import {
   inputClass,
@@ -14,6 +18,8 @@ import {
   buttonClass,
   navigationContainerClass,
 } from "./ResearchPostRequestForm.styles";
+import MultipleSelectChip from "../MultipleChipSelect/MultipleChipSelect";
+import { Divider } from "../ExtendedResearchCard/ExtendedResearchCard";
 
 const ResearchPostRequestForm = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -21,7 +27,6 @@ const ResearchPostRequestForm = () => {
     irbNumber: "",
     principalInvestigator: "",
     title: "",
-    researchTopics: "",
     descriptionAndPurpose: "",
     participantExperience: "",
     location: "",
@@ -45,33 +50,67 @@ const ResearchPostRequestForm = () => {
     endDate: "",
   });
 
+  const [tagOptions, setTagOptions] = useState({});
+  const [selectedTags, setSelectedTags] = useState({
+    conditions: [],
+    topics: [],
+    types: [],
+  });
+
+  console.log("selectedTags", selectedTags);
+
   const totalSteps = 10;
 
-  const handleInputChange = (e) => {
-    const { name, type } = e.target;
-    const value = type === "checkbox" ? e.target.checked : e.target.value;
-    if (type === "file") {
-      setFormData({ ...formData, [name]: e.target.files[0] });
-    } else {
-      setFormData({ ...formData, [name]: value });
-    }
+  const fetchTagOptions = async () => {
+    const querySnapshot = await getDocs(collection(db, "Tags"));
+    querySnapshot.forEach((doc) => {
+      switch (doc.id) {
+        case "conditions":
+          setTagOptions((prev) => ({
+            ...prev,
+            conditions: doc.data(),
+          }));
+          break;
+        case "topics":
+          setTagOptions((prev) => ({
+            ...prev,
+            topics: doc.data(),
+          }));
+          break;
+        case "types":
+          setTagOptions((prev) => ({
+            ...prev,
+            types: doc.data(),
+          }));
+          break;
+      }
+    });
   };
+
+  useEffect(() => {
+    fetchTagOptions();
+  }, []);
 
   const handleLogoUpload = (e) => {
     const file = e.target.files[0]; // Get the file
-  
+
     // Check if the file is an image and its size is under 100MB
-    if (file && file.type.startsWith('image/') && file.size <= 100 * 1024 * 1024) {
+    if (
+      file &&
+      file.type.startsWith("image/") &&
+      file.size <= 100 * 1024 * 1024
+    ) {
       const fileRef = ref(storage, `logos/${file.name}`); // Create a reference
-  
+
       const uploadTask = uploadBytesResumable(fileRef, file); // Start the upload
-  
+
       uploadTask.on(
-        'state_changed',
+        "state_changed",
         (snapshot) => {
           // Optional: handle progress
-          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log('Upload is ' + progress + '% done');
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log("Upload is " + progress + "% done");
           // Here, you could update the UI with the upload progress
         },
         (error) => {
@@ -82,7 +121,7 @@ const ResearchPostRequestForm = () => {
         () => {
           // Handle successful uploads on complete
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            console.log('File available at', downloadURL);
+            console.log("File available at", downloadURL);
             // Here, you could update your database with the downloadURL and update the UI to show the uploaded logo
           });
         }
@@ -96,19 +135,24 @@ const ResearchPostRequestForm = () => {
 
   const handleUpload = (e) => {
     const file = e.target.files[0]; // Get the file
-  
+
     // Check if the file is a video and its size is under 100MB
-    if (file && file.type.startsWith('video/') && file.size <= 100 * 1024 * 1024) {
+    if (
+      file &&
+      file.type.startsWith("video/") &&
+      file.size <= 100 * 1024 * 1024
+    ) {
       const fileRef = ref(storage, `videos/${file.name}`); // Create a reference
-  
+
       const uploadTask = uploadBytesResumable(fileRef, file); // Start the upload
-  
+
       uploadTask.on(
-        'state_changed',
+        "state_changed",
         (snapshot) => {
           // Optional: handle progress
-          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log('Upload is ' + progress + '% done');
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log("Upload is " + progress + "% done");
           // Here, you could update the UI with the upload progress
         },
         (error) => {
@@ -119,8 +163,8 @@ const ResearchPostRequestForm = () => {
         () => {
           // Handle successful uploads on complete
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            console.log('File available at', downloadURL);
-            // Here, you could update your database with the downloadURL and update the UI to show the uploaded logo
+            console.log("File available at", downloadURL);
+            // Here, you could update your database with the downloadURL and update the UI to show the uploaded file
           });
         }
       );
@@ -130,8 +174,6 @@ const ResearchPostRequestForm = () => {
       // Here, you could update the UI to inform the user about the issue
     }
   };
-  
-  
 
   const nextStep = () => {
     if (currentStep < totalSteps) {
@@ -170,25 +212,6 @@ const ResearchPostRequestForm = () => {
       />
     );
   };
-
-  const FileField = ({ name, onChange }) => (
-    <input
-      type="file"
-      name={name}
-      onChange={onChange}
-      className={fileInputClass}
-    />
-  );
-
-  const DateField = ({ name, value, onChange }) => (
-    <input
-      type="date"
-      name={name}
-      value={value}
-      onChange={onChange}
-      className={dateInputClass}
-    />
-  );
 
   const IrbNumberField = () => {
     const [localValue, setLocalValue] = useState(formData.irbNumber);
@@ -268,12 +291,49 @@ const ResearchPostRequestForm = () => {
   };
 
   const ResearchTopicsField = () => (
-    <TextAreaField
-      name="researchTopics"
-      placeholder="Research Topics or Conditions"
-      globalValue={formData.researchTopics}
-      className={textareaClass}
-    />
+    <>
+      <Divider />
+      <h4 className="font-bold text-lg text-gray-800">Select Tags</h4>
+      <span className="text-gray-500 text-sm">
+        Select tags under each title that are relevant to your research
+        proposal.
+      </span>
+      <div className="flex flex-col gap-3 my-2">
+        <MultipleSelectChip
+          data={tagOptions.conditions}
+          title={"Medical Conditions"}
+          selectedTags={selectedTags.conditions}
+          selectedTagsHandler={(tags) =>
+            setSelectedTags((prev) => ({
+              ...prev,
+              conditions: tags,
+            }))
+          }
+        />
+        <MultipleSelectChip
+          data={tagOptions.topics}
+          title={"Research Topics"}
+          selectedTags={selectedTags.topics}
+          selectedTagsHandler={(tags) =>
+            setSelectedTags((prev) => ({
+              ...prev,
+              topics: tags,
+            }))
+          }
+        />
+        <MultipleSelectChip
+          data={tagOptions.types}
+          title={"Research Type"}
+          selectedTags={selectedTags.types}
+          selectedTagsHandler={(tags) =>
+            setSelectedTags((prev) => ({
+              ...prev,
+              types: tags,
+            }))
+          }
+        />
+      </div>
+    </>
   );
 
   const DescriptionAndPurposeField = () => {
@@ -732,7 +792,8 @@ const ResearchPostRequestForm = () => {
         ...formData,
         logo: logoPath,
         video: videoPath,
-        status: "pending", // Set default status to 'pending'
+        status: "adminPending", // Set default status to 'adminPending'
+        researchTopics: selectedTags,
       });
 
       console.log("Form submitted successfully");
@@ -775,11 +836,12 @@ const ResearchPostRequestForm = () => {
               Step 2: Area of Study
             </h2>
             <p className="text-sm mb-4 text-black font-bold">
-              List any topics or conditions being studied. Aftewards, write a
-              paragraph explaining your research goals in common terms.
+              Please provide a paragraph explaining your research goals in
+              common terms. Additionally, select any topics on medical
+              conditions, research topics and the research type.
             </p>
-            <ResearchTopicsField />
             <DescriptionAndPurposeField />
+            <ResearchTopicsField />
           </div>
         )}
         {currentStep === 3 && (

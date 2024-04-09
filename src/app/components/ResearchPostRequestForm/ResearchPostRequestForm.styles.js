@@ -5,7 +5,7 @@ export const fileInputClass =
 export const dateInputClass =
   "form-input w-full border rounded w-full py-2 px-3 text-black";
 export const formContainerClass =
-  "flex justify-center items-center min-h-screen";
+  "flex flex-col justify-center items-center min-h-screen overflow-hidden";
 export const formSectionClass =
   "bg-white p-6 rounded shadow-md w-full max-w-md mx-auto mb-4";
 export const buttonClass =

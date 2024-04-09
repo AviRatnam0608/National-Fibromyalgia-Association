@@ -11,7 +11,6 @@ import {
 import {
   inputClass,
   textareaClass,
-  fileInputClass,
   dateInputClass,
   formContainerClass,
   formSectionClass,
@@ -20,6 +19,8 @@ import {
 } from "./ResearchPostRequestForm.styles";
 import MultipleSelectChip from "../MultipleChipSelect/MultipleChipSelect";
 import { Divider } from "../ExtendedResearchCard/ExtendedResearchCard";
+import BigHeader from "../BigHeader/BigHeader";
+import CustomStepper from "../Stepper/Stepper";
 
 const ResearchPostRequestForm = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -814,8 +815,63 @@ const ResearchPostRequestForm = () => {
     return diffDays;
   };
 
+  const steps = [
+    {
+      id: 1,
+      title: "Basic Information",
+      description: "Research Title, Principal Investigator, and IRB Number",
+    },
+    {
+      id: 2,
+      title: "Area of Study",
+      description: "Research Description, Topics, and Research Type",
+    },
+    {
+      id: 3,
+      title: "Participant Experience",
+      description: "Timeline, Meetings, Procedures, and Participant Experience",
+    },
+    {
+      id: 4,
+      title: "Location",
+      description: "Location of the Study",
+    },
+    {
+      id: 5,
+      title: "Compensation",
+      description: "Participant and NFA Compensation Details",
+    },
+    {
+      id: 6,
+      title: "Criteria",
+      description: "Participant Inclusion and Exclusion Criteria",
+    },
+    {
+      id: 7,
+      title: "Contact Info",
+      description: "Contact Name, Email, and Phone",
+    },
+    {
+      id: 8,
+      title: "External Links",
+      description: "Contact Website, Additional Links, and Related Research",
+    },
+    {
+      id: 9,
+      title: "Media",
+      description: "Logo and Video upload",
+    },
+    {
+      id: 10,
+      title: "Timeline",
+      description: "Participant Recruitment and Research End Dates",
+    },
+  ];
+
   return (
     <div className={formContainerClass}>
+      <BigHeader>Research Post Request Form</BigHeader>
+      <CustomStepper steps={steps} currentStep={currentStep} />
       <div className={formSectionClass}>
         {currentStep === 1 && (
           <div>

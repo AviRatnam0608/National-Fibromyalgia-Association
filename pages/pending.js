@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router'; // Import useRouter for redirection
+import { useAuth } from '../src/app/services/AuthContext'; // Import useAuth hook
 import { db } from '../src/app/firebase';
 import { collection, getDocs, updateDoc, doc } from 'firebase/firestore';
 import Modal from '../src/app/components/ResearcherFeedbackModal';
 
 const Pending = () => {
+  const { currentUser } = useAuth(); // Use the useAuth hook to access the current user
+  const router = useRouter(); // Use the useRouter hook for redirection
   const [submissions, setSubmissions] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentSubmission, setCurrentSubmission] = useState(null);
@@ -11,6 +15,12 @@ const Pending = () => {
   const [error, setError] = useState('');
 
   useEffect(() => {
+
+    if (!currentUser) {
+      router.push('/login');
+      return;
+    }
+
     const fetchSubmissions = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, "researchStudies"));
@@ -38,7 +48,7 @@ const Pending = () => {
     };
 
     fetchSubmissions();
-  }, []);
+  }, [currentUser, router]);
 
   const handleApprove = async (id) => {
     try {

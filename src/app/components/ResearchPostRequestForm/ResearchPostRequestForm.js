@@ -784,6 +784,12 @@ const ResearchPostRequestForm = () => {
     setSubmissionError(""); // Reset any previous error messages
     setSubmissionSuccess(false); // Reset the success status
 
+    if (new Date(proposedStartAndEndDates.startDate) >= new Date(proposedStartAndEndDates.endDate)) {
+      setSubmissionError("The start date must be before the end date.");
+      setIsSubmitting(false); // Stop submission as the dates are invalid
+      return; // Exit the function to prevent further execution
+    }
+
     try {
       const logoPath = await uploadFile(formData.logo, "logos");
       const videoPath = await uploadFile(formData.video, "videos");

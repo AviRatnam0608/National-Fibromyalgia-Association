@@ -1,15 +1,15 @@
-import React from 'react';
-import { useAuth } from '../src/app/services/AuthContext';
-import { useRouter } from 'next/router';
+import React from "react";
+import { useAuth } from "../src/app/services/AuthContext";
+import { useRouter } from "next/router";
 
-function Pending() {
+const PastStudiesArchive = () => {
   const { currentUser } = useAuth();
   const router = useRouter();
 
   // Redirect to login page if not logged in
   React.useEffect(() => {
     if (!currentUser) {
-      router.push('/login');
+      router.push("/login");
     }
   }, [currentUser, router]);
 
@@ -22,6 +22,6 @@ function Pending() {
       <h1>Past Studies</h1>
     </div>
   );
-}
+};
 
-export default Pending;
+export default PastStudiesArchive;

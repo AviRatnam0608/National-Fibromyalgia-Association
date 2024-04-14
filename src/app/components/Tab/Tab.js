@@ -2,6 +2,8 @@ const Tab = ({ label, onClickFunction, activeTab }) => {
   // Determine if the current tab is active to apply specific styles
   const isActive = activeTab === label.toLowerCase();
 
+  console.log(label, activeTab, isActive);
+
   return (
     <div>
       <button

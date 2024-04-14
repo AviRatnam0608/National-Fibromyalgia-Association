@@ -9,7 +9,7 @@ function AdminNavBar() {
           <a href="/admin-dashboard" className="px-4 hover:underline">
             Dashboard
           </a>
-          <a href="/past-studies" className="px-4 hover:underline">
+          <a href="/admin-past-studies" className="px-4 hover:underline">
             Archive
           </a>
           <a href="/admin-pending" className="px-4 hover:underline">

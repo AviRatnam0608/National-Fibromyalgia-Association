@@ -20,10 +20,17 @@ const ExtendedResearchCard = ({ research }) => {
   };
 
   const pendingStatus = {
-    adminPending: "Pending Approval",
-    researcherPending: "Pending Approval",
+    adminPending: "Pending Admin Approval",
+    researcherPending: "Pending Researcher Approval",
     accepted: "Accepted",
-    rejected: "Rejected ",
+    denied: "Denied",
+  };
+
+  const statusColor = {
+    adminPending: "text-yellow-600",
+    researcherPending: "text-yellow-600",
+    accepted: "text-green-600",
+    denied: "text-red-700",
   };
 
   return (
@@ -131,13 +138,8 @@ const ExtendedResearchCard = ({ research }) => {
           <h6 class="font-semibold text-gray-900">Status:</h6>
           <p
             class={`text-sm ${
-              research.status === "accepted"
-                ? "text-green-600"
-                : research.status === "researcherPending" ||
-                  research.status === "adminPending"
-                ? "text-yellow-600"
-                : "text-red-700"
-            }`}
+              statusColor[research.status]
+            } font-semibold text-gray-600`}
           >
             {pendingStatus[research.status]}
           </p>

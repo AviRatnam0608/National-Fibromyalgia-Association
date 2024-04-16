@@ -12,14 +12,8 @@ function ResearcherNavBar() {
           <a href="/" className="px-4 hover:underline">
             Home
           </a>
-          <a href="/active-studies" className="px-4 hover:underline">
-            Active Studies
-          </a>
           <a href="/researcher-pending" className="px-4 hover:underline">
             Pending
-          </a>
-          <a href="/past-studies" className="px-4 hover:underline">
-            Past Studies
           </a>
           <a href="/rpr-form" className="px-4 hover:underline">
             New Post

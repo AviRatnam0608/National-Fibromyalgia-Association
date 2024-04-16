@@ -25,6 +25,15 @@ function getStyles(value, researchTopicOption, theme) {
       researchTopicOption.indexOf(value) === -1
         ? theme.typography.fontWeightRegular
         : theme.typography.fontWeightMedium,
+    backgroundColor:
+      researchTopicOption.indexOf(value) === -1
+        ? theme.palette.background.paper
+        : "#2B6785",
+    color:
+      researchTopicOption.indexOf(value) === -1
+        ? theme.palette.text.primary
+        : theme.palette.primary.contrastText,
+    border: researchTopicOption.indexOf(value) === -1 ? "" : "1px solid white",
   };
 }
 

@@ -789,6 +789,19 @@ const ResearchPostRequestForm = () => {
       const logoPath = await uploadFile(formData.logo, "logos");
       const videoPath = await uploadFile(formData.video, "videos");
 
+      if (new Date(proposedStartAndEndDates.startDate) > new Date(proposedStartAndEndDates.endDate)) {
+        setSubmissionError("The recruitment close date must be after the start date.");
+        // setIsSubmitting(false); // Stop submission as the dates are invalid
+        return; // Exit the function to prevent further execution
+      }
+  
+      if (new Date(proposedStartAndEndDates.endDate) > new Date(formData.endDate)) {
+        setSubmissionError("The research end date must be after the recuitment end date.");
+        // setIsSubmitting(false); // Stop submission as the dates are invalid
+        return; // Exit the function to prevent further execution
+      }
+
+    
       await addDoc(collection(db, "researchStudies"), {
         ...formData,
         logo: logoPath,

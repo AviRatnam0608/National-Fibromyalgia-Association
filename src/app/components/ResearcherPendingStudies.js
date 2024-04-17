@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getDocs, collection, doc, updateDoc } from "firebase/firestore";
+import { getDoc, getDocs, collection, doc, updateDoc, writeBatch } from "firebase/firestore";
 import { db } from "../firebase";
 import BigHeader from "./BigHeader/BigHeader";
 import ResearchFeedbackCard from "./ResarchCardFeedback/ResearchCardFeedback";
@@ -28,11 +28,39 @@ const ResearcherPending = () => {
   const handleAcceptProposal = async (id) => {
     console.log("Accepting proposal with id:", id);
     try {
-      const docRef = doc(db, "researchStudies", id); // Get a reference to the document
-      await updateDoc(docRef, {
-        status: "accepted",
-      });
-      handleViewFeedback();
+      const batch = writeBatch(db);
+
+      // Get a reference to the document in 'researchStudies'
+      const docRefResearch = doc(db, "researchStudies", id);
+
+      // Retrieve the document from 'researchStudies'
+      const docSnap = await getDoc(docRefResearch);
+
+      if (docSnap.exists()) {
+        // Prepare the data to be updated and copied
+        const updatedData = {
+          ...docSnap.data(),
+          status: "accepted"  // Updating the status
+        };
+
+        // Update the document in 'researchStudies'
+        batch.update(docRefResearch, updatedData);
+
+        // Get a reference to the document in 'Studies'
+        const docRefStudies = doc(db, "Studies", id);
+
+        // Copy the updated document to 'Studies'
+        batch.set(docRefStudies, updatedData);
+
+        // Commit all batched writes to Firestore
+        await batch.commit();
+        console.log('Proposal accepted and data copied successfully');
+
+        // Optionally, call a function to refresh the view to reflect changes
+        handleViewFeedback();
+    } else {
+        console.error("No such document!");
+      }
     } catch (error) {
       console.error("Error accepting proposal:", error);
     }

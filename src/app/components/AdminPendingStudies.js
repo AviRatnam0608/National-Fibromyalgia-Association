@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { db } from "../firebase";
-import { collection, getDocs, updateDoc, doc } from "firebase/firestore";
+import { getDoc, getDocs, collection, doc, updateDoc, writeBatch } from "firebase/firestore";
 import AdminFeedbackCard from "./AdminCardFeedback.js/AdminCardFeedback";
 import BigHeader from "./BigHeader/BigHeader";
 import { Divider } from "./ExtendedResearchCard/ExtendedResearchCard";
@@ -35,9 +35,37 @@ const AdminPending = () => {
 
   const handleApprove = async (id) => {
     try {
-      const submissionRef = doc(db, "researchStudies", id);
-      await updateDoc(submissionRef, { status: "approved" });
-      setSubmissions(submissions.filter((submission) => submission.id !== id));
+      const batch = writeBatch(db);
+
+      // Get a reference to the document in 'researchStudies'
+      const docRefResearch = doc(db, "researchStudies", id);
+
+      // Retrieve the document from 'researchStudies'
+      const docSnap = await getDoc(docRefResearch);
+
+      if (docSnap.exists()) {
+        // Prepare the data to be updated and copied
+        const updatedData = {
+          ...docSnap.data(),
+          status: "accepted"  // Updating the status
+        };
+
+        // Update the document in 'researchStudies'
+        batch.update(docRefResearch, updatedData);
+
+        // Get a reference to the document in 'Studies'
+        const docRefStudies = doc(db, "Studies", id);
+
+        // Copy the updated document to 'Studies'
+        batch.set(docRefStudies, updatedData);
+
+        // Commit all batched writes to Firestore
+        await batch.commit();
+        console.log('Proposal accepted and data copied successfully');
+
+        // Optionally, call a function to refresh the view to reflect changes
+        handleViewFeedback();
+      }
     } catch (err) {
       console.error("Failed to update submission status. Please try again.");
     }

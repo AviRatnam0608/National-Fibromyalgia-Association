@@ -1,14 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { db } from "../firebase";
-import { getDoc, getDocs, collection, doc, updateDoc, writeBatch } from "firebase/firestore";
+import {
+  getDoc,
+  getDocs,
+  collection,
+  doc,
+  updateDoc,
+  writeBatch,
+} from "firebase/firestore";
 import AdminFeedbackCard from "./AdminCardFeedback.js/AdminCardFeedback";
 import BigHeader from "./BigHeader/BigHeader";
 import { Divider } from "./ExtendedResearchCard/ExtendedResearchCard";
+import { FaExclamationTriangle } from "react-icons/fa";
 
 const AdminPending = () => {
   const [submissions, setSubmissions] = useState([]);
   const [feedback, setFeedback] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedOption, setSelectedOption] = useState("");
+  const [selectedStudy, setSelectedStudy] = useState(null);
 
   useEffect(() => {
     const fetchSubmissions = async () => {
@@ -47,7 +57,7 @@ const AdminPending = () => {
         // Prepare the data to be updated and copied
         const updatedData = {
           ...docSnap.data(),
-          status: "accepted"  // Updating the status
+          status: "approved", // Updating the status
         };
 
         // Update the document in 'researchStudies'
@@ -61,10 +71,11 @@ const AdminPending = () => {
 
         // Commit all batched writes to Firestore
         await batch.commit();
-        console.log('Proposal accepted and data copied successfully');
+        console.log("Proposal accepted and data copied successfully");
 
-        // Optionally, call a function to refresh the view to reflect changes
-        handleViewFeedback();
+        setSubmissions(
+          submissions.filter((submission) => submission.id !== id)
+        );
       }
     } catch (err) {
       console.error("Failed to update submission status. Please try again.");
@@ -75,7 +86,7 @@ const AdminPending = () => {
     try {
       const submissionRef = doc(db, "researchStudies", id);
       await updateDoc(submissionRef, {
-        status: "rejected",
+        status: "denied",
       });
       setSubmissions(submissions.filter((submission) => submission.id !== id));
     } catch (err) {
@@ -100,6 +111,37 @@ const AdminPending = () => {
 
   const handleFeedbackChange = (id, value) => {
     setFeedback({ ...feedback, [id]: value });
+  };
+
+  const emailTemplateOptions = (submissionItem, status, emailPart) => {
+    const senderName = "The NFA";
+    const receiverName = `${submissionItem.contactName}`; // The receiver's name
+    const subject = `Research Proposal Submission ${status}!`; // Subject line of the email
+    const body = `Dear ${receiverName},\n\n${senderName} has ${
+      status === "accepted" ? "accepted" : "rejected"
+    } your research proposal submission.\n${
+      status === "accepted"
+        ? `Congratulations! Your research proposal, titled "${submissionItem.title}" has been accepted. We look forward to working with you.`
+        : `We regret to inform you that your research proposal titled ${submissionItem.title} has been rejected. We appreciate your interest in submitting your research proposal.`
+    }\n\n${
+      status === "accepted"
+        ? "If you have any questions, please feel free to reach out to us.\n"
+        : "If you have any questions or would like feedback on your research proposal, please feel free to reach out to us."
+    }\nRegards,\n${senderName}`;
+
+    return emailPart === "subject" ? subject : body;
+  };
+
+  const emailTemplate = (submissionItem, status) => {
+    const senderEmail = "avinashr@umich.edu";
+    const receiverEmail = `${submissionItem.contactEmail}`; // The receiver's email address
+    const subject = emailTemplateOptions(submissionItem, status, "subject"); // Subject line of the email
+    const body = emailTemplateOptions(submissionItem, status, "body"); // Body of the email
+
+    const mailtoLink = `mailto:${receiverEmail}?cc=${senderEmail}&subject=${encodeURIComponent(
+      subject
+    )}&body=${encodeURIComponent(body)}`;
+    return mailtoLink;
   };
 
   return (
@@ -143,14 +185,20 @@ const AdminPending = () => {
                 <button
                   class="bg-green-500 hover:bg-green-700 text-white active:bg-green-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150"
                   type="button"
-                  onClick={() => handleApprove(submissionItem.id)}
+                  onClick={() => {
+                    setSelectedOption("accepted");
+                    setSelectedStudy(submissionItem.id);
+                  }}
                 >
                   Accept
                 </button>
                 <button
                   class="disabled:bg-gray-500 bg-red-500 hover:bg-red-700 text-white active:bg-red-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150"
                   type="button"
-                  onClick={() => handleDeny(submissionItem.id)}
+                  onClick={() => {
+                    setSelectedOption("denied");
+                    setSelectedStudy(submissionItem.id);
+                  }}
                 >
                   Reject
                 </button>
@@ -163,7 +211,73 @@ const AdminPending = () => {
                   Propose Feedback
                 </button>
               </div>
-
+              <Divider />
+              {selectedOption && selectedStudy === submissionItem.id && (
+                <div className="text-gray-500 text-sm border-1 border rounded-md mt-4 p-3">
+                  <div className="flex items-center gap-2">
+                    <FaExclamationTriangle className="text-yellow-500 h-5 w-5" />
+                    <p className="text-lg font-semibold text-gray-800">
+                      Important!
+                    </p>
+                  </div>
+                  <p class="text-sm text-gray-700">
+                    The study will be{" "}
+                    <span
+                      className={`font-semibold ${
+                        selectedOption === "accepted"
+                          ? `text-green-700`
+                          : `text-red-700`
+                      }`}
+                    >
+                      {selectedOption}
+                    </span>
+                    ! <br /> Do you want to send an email notification to the
+                    researcher?
+                  </p>
+                  <div class="flex gap-2 mt-4 align-middle">
+                    {selectedOption === "accepted" && (
+                      <button
+                        class="bg-green-500 hover:bg-green-700 text-white active:bg-green-600 font-bold uppercase text-xs px-3 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150"
+                        type="button"
+                        onClick={() => {
+                          window.location.href = emailTemplate(
+                            submissionItem,
+                            "accepted"
+                          );
+                          handleApprove(submissionItem.id);
+                        }}
+                      >
+                        Send acceptance email
+                      </button>
+                    )}
+                    {selectedOption === "denied" && (
+                      <button
+                        class="disabled:bg-gray-500 bg-red-500 hover:bg-red-700 text-white active:bg-red-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150"
+                        type="button"
+                        onClick={() => {
+                          window.location.href = emailTemplate(
+                            submissionItem,
+                            "denied"
+                          );
+                          handleDeny(submissionItem.id);
+                        }}
+                      >
+                        Send rejection email
+                      </button>
+                    )}
+                    <button
+                      class="inline-block text-gray-700 bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded shadow-md cursor-pointer transition-colors duration-300"
+                      onClick={() => {
+                        selectedOption === "accepted"
+                          ? handleApprove(submissionItem.id)
+                          : handleDeny(submissionItem.id);
+                      }}
+                    >
+                      I'll do this later
+                    </button>
+                  </div>
+                </div>
+              )}
               <div className="text-gray-500 text-sm border-1 border rounded-md mt-4 p-3">
                 <p>
                   <span className="font-semibold text-green-700">Accept:</span>{" "}
@@ -175,12 +289,6 @@ const AdminPending = () => {
                   <span className="font-semibold text-red-700">Reject:</span>{" "}
                   Means you are rejecting the proposal/ feedback provided and
                   will not publicly post the research proposal.
-                  {/* <p>
-                    <span className="font-bold">Feedback must be provided</span>{" "}
-                    on why their research proposal has been rejected. They may
-                    either act on this feedback, or reject the feedback and
-                    resubmit their proposal.{" "}
-                  </p> */}
                 </p>
                 <Divider />
                 <p>

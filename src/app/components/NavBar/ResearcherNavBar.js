@@ -1,13 +1,11 @@
 "use client";
 
-import { NavBarContainer } from "./NavBar.styles";
+import { NavBarContainer, activeStyling, hoverStyling } from "./NavBar.styles";
 import { useEffect, useState } from "react";
 
 function ResearcherNavBar() {
-  // State to hold the current path
   const [currentPath, setCurrentPath] = useState(window.location.pathname);
 
-  // Function to update the current path
   useEffect(() => {
     const updatePath = () => {
       if (window !== undefined) {
@@ -20,7 +18,6 @@ function ResearcherNavBar() {
     };
   }, []);
 
-  // Function to determine if a tab is active
   const isActive = (path) => {
     return currentPath === path ? true : false;
   };
@@ -32,24 +29,24 @@ function ResearcherNavBar() {
         <div>
           <a
             href="/login"
-            className={`px-4 hover:underline ${
-              isActive("/login") ? "active: underline" : ""
+            className={`px-2 ${hoverStyling} ${
+              isActive("/login") ? activeStyling : ""
             }`}
           >
             Login
           </a>
           <a
             href="/"
-            className={`px-4 hover:underline ${
-              isActive("/") ? "active: underline" : ""
+            className={`px-2 ${hoverStyling} ${
+              isActive("/") ? activeStyling : ""
             }`}
           >
             Home
           </a>
           <a
             href="/researcher-pending"
-            className={`px-4 hover:underline ${
-              isActive("/researcher-pending") ? "active: underline" : ""
+            className={`px-2 ${hoverStyling} ${
+              isActive("/researcher-pending") ? activeStyling : ""
             }`}
           >
             Pending
@@ -61,7 +58,7 @@ function ResearcherNavBar() {
               hover:text-white
               hover:shadow-lg
               bg-white border border-2 text-primary rounded-lg py-1 ${
-                isActive("/rpr-form") ? "active: underline" : ""
+                isActive("/rpr-form") ? activeStyling : ""
               }
               `}
           >

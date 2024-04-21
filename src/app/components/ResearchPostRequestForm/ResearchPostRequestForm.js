@@ -3,7 +3,6 @@ import { db, storage } from "../../firebase";
 import { collection, addDoc, getDocs } from "firebase/firestore";
 import {
   ref,
-  uploadBytes,
   uploadBytesResumable,
   getDownloadURL,
 } from "firebase/storage";
@@ -129,6 +128,10 @@ const ResearchPostRequestForm = () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             console.log("File available at", downloadURL);
             // Here, you could update your database with the downloadURL and update the UI to show the uploaded logo
+            setFormData((prevFormData) => ({
+              ...prevFormData,
+              logo: downloadURL,
+            }));
           });
         }
       );
@@ -171,6 +174,10 @@ const ResearchPostRequestForm = () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             console.log("File available at", downloadURL);
             // Here, you could update your database with the downloadURL and update the UI to show the uploaded file
+            setFormData((prevFormData) => ({
+              ...prevFormData,
+              video: downloadURL,
+            }));
           });
         }
       );
@@ -1047,14 +1054,6 @@ const ResearchPostRequestForm = () => {
   const [submissionError, setSubmissionError] = useState("");
   const [submissionSuccess, setSubmissionSuccess] = useState(false);
 
-  const uploadFile = async (file, path) => {
-    if (!file) return null;
-
-    const fileRef = ref(storage, `${path}/${file.name}`);
-    await uploadBytes(fileRef, file);
-    return fileRef.fullPath;
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true); // submission is in progress
@@ -1062,13 +1061,8 @@ const ResearchPostRequestForm = () => {
     setSubmissionSuccess(false); // Reset the success status
 
     try {
-      const logoPath = await uploadFile(formData.logo, "logos");
-      const videoPath = await uploadFile(formData.video, "videos");
-
       await addDoc(collection(db, "researchStudies"), {
         ...formData,
-        logo: logoPath,
-        video: videoPath,
         status: "adminPending", // Set default status to 'adminPending'
         researchTopics: selectedTags,
       });

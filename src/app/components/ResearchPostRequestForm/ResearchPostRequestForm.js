@@ -44,6 +44,8 @@ const ResearchPostRequestForm = () => {
     additionalLinks: "",
     relatedResearch: "",
     postExpirationDate: "",
+    startDate: "",
+    endDate: "",
   });
 
   const [proposedStartAndEndDates, setProposedStartAndEndDates] = useState({
@@ -177,6 +179,12 @@ const ResearchPostRequestForm = () => {
   };
 
   const nextStep = () => {
+    if (steps[currentStep - 1].validation) {
+      const validationPass = steps[currentStep - 1].validation()
+      if (!validationPass) {
+        return
+      }
+    }
     if (currentStep < totalSteps) {
       setCurrentStep(currentStep + 1);
     }
@@ -187,6 +195,10 @@ const ResearchPostRequestForm = () => {
       setCurrentStep(currentStep - 1);
     }
   };
+
+  function countWords(str) {
+    return str.trim().split(/\s+/).length;
+  }
 
   const TextAreaField = ({ name, placeholder, globalValue }) => {
     const [localValue, setLocalValue] = useState(globalValue);
@@ -291,13 +303,29 @@ const ResearchPostRequestForm = () => {
     );
   };
 
+  const BasicInfoFieldValidation = () => {
+    if (formData.title === ''){
+      setSubmissionError('Title cannot be empty.')
+    } else if (formData.principalInvestigator === ''){
+      setSubmissionError('Principal Investigator Name cannot be empty.')
+    } else if (countWords(formData.title) > 100){
+      setSubmissionError('Title should have less than 100 words.')
+    } else if (countWords(formData.principalInvestigator) > 100){
+      setSubmissionError('Principal Investigator Name should have less than 100 words.')
+    } else {
+      setSubmissionError('')
+      return true
+    }
+    return false
+  };
+
   const ResearchTopicsField = () => (
     <>
       <Divider />
       <h4 className="font-bold text-lg text-gray-800">Select Tags</h4>
       <span className="text-gray-500 text-sm">
         Select tags under each title that are relevant to your research
-        proposal.
+        proposal. (Optional)
       </span>
       <div className="flex flex-col gap-3 my-2">
         <MultipleSelectChip
@@ -365,6 +393,18 @@ const ResearchPostRequestForm = () => {
     );
   };
 
+  const DescriptionAndPurposeFieldValidation = () => {
+    if (formData.descriptionAndPurpose === ''){
+      setSubmissionError('Description & Purpose of the Study cannot be empty.')
+    } else if (countWords(formData.descriptionAndPurpose) > 1000){
+      setSubmissionError('Description & Purpose of the Study should have less than 1000 words.')
+    } else {
+      setSubmissionError('')
+      return true
+    }
+    return false
+  };
+
   const ParticipantExperienceField = () => {
     const [localValue, setLocalValue] = useState(
       formData.participantExperience
@@ -393,6 +433,18 @@ const ResearchPostRequestForm = () => {
     );
   };
 
+  const ParticipantExperienceFieldValidation = () => {
+    if (formData.participantExperience === ''){
+      setSubmissionError('Participant Experience cannot be empty.')
+    } else if (countWords(formData.participantExperience) > 1000){
+      setSubmissionError('Participant Experience should have less than 1000 words.')
+    } else {
+      setSubmissionError('')
+      return true
+    }
+    return false
+  };
+
   const LocationField = () => {
     const [localValue, setLocalValue] = useState(formData.location);
 
@@ -417,6 +469,18 @@ const ResearchPostRequestForm = () => {
         className={textareaClass}
       />
     );
+  };
+
+  const LocationFieldValidation = () => {
+    if (formData.location === ''){
+      setSubmissionError('Study Location cannot be empty.')
+    } else if (countWords(formData.location) > 100){
+      setSubmissionError('Study Location should have less than 100 words.')
+    } else {
+      setSubmissionError('')
+      return true
+    }
+    return false
   };
 
   const CompensationField = () => {
@@ -471,6 +535,22 @@ const ResearchPostRequestForm = () => {
         className={inputClass}
       />
     );
+  };
+
+  const CompensationFieldValidation = () => {
+    if (formData.compensation === ''){
+      setSubmissionError("Compensation cannot be empty. If there is no compensation please fill in with 'No'.")
+    } else if (formData.nfaCompensation === ''){
+      setSubmissionError("NFA Compensation cannot be empty. If there is no compensation please fill in with 'No'.")
+    } else if (countWords(formData.compensation) > 100){
+      setSubmissionError('Compensation should have less than 100 words.')
+    } else if (countWords(formData.nfaCompensation) > 100){
+      setSubmissionError('NFA Compensation should have less than 100 words.')
+    } else {
+      setSubmissionError('')
+      return true
+    }
+    return false
   };
 
   const LogoField = () => (
@@ -533,6 +613,20 @@ const ResearchPostRequestForm = () => {
     );
   };
 
+  const CriteriaFieldValidation = () => {
+    if (formData.inclusionCriteria === '' && formData.exclusionCriteria === ''){
+      setSubmissionError("Participant Inclusion and Exclusion Criteria cannot be both empty.")
+    } else if (countWords(formData.inclusionCriteria) > 1000){
+      setSubmissionError('Participant Inclusion Criteria should have less than 1000 words.')
+    } else if (countWords(formData.exclusionCriteria) > 1000){
+      setSubmissionError('Participant Exclusion Criteria should have less than 1000 words.')
+    } else {
+      setSubmissionError('')
+      return true
+    }
+    return false
+  };
+
   const ContactNameField = () => {
     const [localValue, setLocalValue] = useState(formData.contactName);
 
@@ -584,6 +678,22 @@ const ResearchPostRequestForm = () => {
         className={inputClass}
       />
     );
+  };
+
+  const ContactFieldValidation = () => {
+    if (formData.contactName === ''){
+      setSubmissionError("Contact Name cannot be empty.")
+    } else if (formData.contactEmail === ''){
+      setSubmissionError("Contact Email cannot be empty.")
+    } else if (countWords(formData.contactName) > 100){
+      setSubmissionError('Contact Name should have less than 100 words.')
+    } else if (countWords(formData.contactEmail) > 1000){
+      setSubmissionError('Contact Email should have less than 1000 words.')
+    } else {
+      setSubmissionError('')
+      return true
+    }
+    return false
   };
 
   const ContactPhoneField = () => {
@@ -703,6 +813,8 @@ const ResearchPostRequestForm = () => {
         onChange={handleChange}
         onBlur={handleBlur}
         className={dateInputClass}
+        min={formData.startDate}
+        required
       />
     );
   };
@@ -762,9 +874,37 @@ const ResearchPostRequestForm = () => {
         onChange={handleChange}
         onBlur={handleBlur}
         className={dateInputClass}
-        required
+        min={formData.postExpirationDate}
       />
     );
+  };
+
+  const DateFieldValidation = () => {
+    console.log(formData)
+    if (formData.startDate === ''){
+      setSubmissionError("Recruitment Start Date cannot be empty.")
+    } else if (formData.postExpirationDate === ''){
+      setSubmissionError("Recruitment End Date cannot be empty.")
+    } else if (new Date(formData.startDate) > new Date(formData.postExpirationDate)) {
+      setSubmissionError("Recruitment End Date must be after Recruitment Start Date.");
+    } else if (formData.endDate !== '' && new Date(formData.postExpirationDate) > new Date(formData.endDate)) {
+      setSubmissionError("Estimated Study End Date must be after Recruitment End Date.");
+    } else {
+      setSubmissionError('')
+      return true
+    }
+    if (new Date(proposedStartAndEndDates.startDate) > new Date(proposedStartAndEndDates.endDate)) {
+      
+      // setIsSubmitting(false); // Stop submission as the dates are invalid
+      return; // Exit the function to prevent further execution
+    }
+
+    if (new Date(proposedStartAndEndDates.endDate) > new Date(formData.endDate)) {
+      setSubmissionError("The research end date must be after the recruitment end date.");
+      // setIsSubmitting(false); // Stop submission as the dates are invalid
+      return; // Exit the function to prevent further execution
+    }
+    return false
   };
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -789,19 +929,6 @@ const ResearchPostRequestForm = () => {
       const logoPath = await uploadFile(formData.logo, "logos");
       const videoPath = await uploadFile(formData.video, "videos");
 
-      if (new Date(proposedStartAndEndDates.startDate) > new Date(proposedStartAndEndDates.endDate)) {
-        setSubmissionError("The recruitment close date must be after the start date.");
-        // setIsSubmitting(false); // Stop submission as the dates are invalid
-        return; // Exit the function to prevent further execution
-      }
-  
-      if (new Date(proposedStartAndEndDates.endDate) > new Date(formData.endDate)) {
-        setSubmissionError("The research end date must be after the recuitment end date.");
-        // setIsSubmitting(false); // Stop submission as the dates are invalid
-        return; // Exit the function to prevent further execution
-      }
-
-    
       await addDoc(collection(db, "researchStudies"), {
         ...formData,
         logo: logoPath,
@@ -833,36 +960,43 @@ const ResearchPostRequestForm = () => {
       id: 1,
       title: "Basic Information",
       description: "Research Title, Principal Investigator, and IRB Number",
+      validation: BasicInfoFieldValidation
     },
     {
       id: 2,
       title: "Area of Study",
       description: "Research Description, Topics, and Research Type",
+      validation: DescriptionAndPurposeFieldValidation
     },
     {
       id: 3,
       title: "Participant Experience",
       description: "Timeline, Meetings, Procedures, and Participant Experience",
+      validation: ParticipantExperienceFieldValidation
     },
     {
       id: 4,
       title: "Location",
       description: "Location of the Study",
+      validation: LocationFieldValidation
     },
     {
       id: 5,
       title: "Compensation",
       description: "Participant and NFA Compensation Details",
+      validation: CompensationFieldValidation
     },
     {
       id: 6,
       title: "Criteria",
       description: "Participant Inclusion and Exclusion Criteria",
+      validation: CriteriaFieldValidation
     },
     {
       id: 7,
       title: "Contact Info",
       description: "Contact Name, Email, and Phone",
+      validation: ContactFieldValidation
     },
     {
       id: 8,
@@ -878,6 +1012,7 @@ const ResearchPostRequestForm = () => {
       id: 10,
       title: "Timeline",
       description: "Participant Recruitment and Research End Dates",
+      validation: DateFieldValidation
     },
   ];
 
@@ -1038,16 +1173,15 @@ const ResearchPostRequestForm = () => {
               Please list an estimate of when you will have final research
               results.
             </p>
-            {isSubmitting && <p>Submitting form...</p>}
-            {submissionError && (
-              <p className="text-red-500">{submissionError}</p>
-            )}
-            {submissionSuccess && (
-              <p className="text-green-500">Form submitted successfully!</p>
-            )}
           </div>
         )}
-
+        {isSubmitting && <p>Submitting form...</p>}
+        {submissionError && (
+          <p className="text-red-500">{submissionError}</p>
+        )}
+        {submissionSuccess && (
+          <p className="text-green-500">Form submitted successfully!</p>
+        )}
         <div className={navigationContainerClass}>
           {currentStep > 1 && (
             <button onClick={prevStep} className={buttonClass}>
@@ -1063,7 +1197,11 @@ const ResearchPostRequestForm = () => {
             </button>
           )}
           {currentStep === totalSteps && (
-            <button onClick={handleSubmit} className={buttonClass}>
+            <button onClick={(e) => {
+              if (DateFieldValidation()) {
+                handleSubmit(e)
+              }
+            }} className={buttonClass}>
               Submit
             </button>
           )}

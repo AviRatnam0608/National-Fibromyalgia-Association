@@ -52,6 +52,14 @@ function ResearcherNavBar() {
             Archive
           </a>
           <a
+            href="/admin-participant-info"
+            className={`px-2 ${hoverStyling} ${
+              isActive("/admin-participant-info") ? activeStyling : ""
+            }`}
+          >
+            Particpant Info
+          </a>
+          <a
             href="/admin-pending"
             className={`px-2 
             hover:bg-primary 

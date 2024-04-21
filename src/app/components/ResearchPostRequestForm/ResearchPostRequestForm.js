@@ -16,6 +16,9 @@ import {
   formSectionClass,
   buttonClass,
   navigationContainerClass,
+  inputErrClass,
+  textareaErrClass,
+  dateInputErrClass,
 } from "./ResearchPostRequestForm.styles";
 import MultipleSelectChip from "../MultipleChipSelect/MultipleChipSelect";
 import { Divider } from "../ExtendedResearchCard/ExtendedResearchCard";
@@ -253,6 +256,8 @@ const ResearchPostRequestForm = () => {
     );
   };
 
+  const [titleFieldClass, setTitleFieldClass] = useState(inputClass);
+
   const TitleField = () => {
     const [localValue, setLocalValue] = useState(formData.title);
     const handleChange = (e) => {
@@ -272,10 +277,12 @@ const ResearchPostRequestForm = () => {
         onChange={handleChange}
         onBlur={handleBlur}
         placeholder="Title"
-        className={inputClass}
+        className={titleFieldClass}
       />
     );
   };
+
+  const [principalInvestigatorFieldClass, setPrincipalInvestigatorFieldClass] = useState(inputClass);
 
   const PrincipalInvestigatorField = () => {
     const [localValue, setLocalValue] = useState(
@@ -298,25 +305,42 @@ const ResearchPostRequestForm = () => {
         onChange={handleChange}
         onBlur={handleBlur}
         placeholder="Principal Investigator Name"
-        className={inputClass}
+        className={principalInvestigatorFieldClass}
       />
     );
   };
 
   const BasicInfoFieldValidation = () => {
+    let pass = true
+    let errMsg = ''
+    setTitleFieldClass(inputClass)
+    setPrincipalInvestigatorFieldClass(inputClass)
     if (formData.title === ''){
-      setSubmissionError('Title cannot be empty.')
-    } else if (formData.principalInvestigator === ''){
-      setSubmissionError('Principal Investigator Name cannot be empty.')
-    } else if (countWords(formData.title) > 100){
-      setSubmissionError('Title should have less than 100 words.')
-    } else if (countWords(formData.principalInvestigator) > 100){
-      setSubmissionError('Principal Investigator Name should have less than 100 words.')
-    } else {
-      setSubmissionError('')
-      return true
+      errMsg += 'Title cannot be empty. '
+      setTitleFieldClass(inputErrClass)
+      pass = false
     }
-    return false
+    if (countWords(formData.title) > 100){
+      errMsg += 'Title should have less than 100 words. '
+      setTitleFieldClass(inputErrClass)
+      pass = false
+    }
+    if (formData.principalInvestigator === ''){
+      errMsg += 'Principal Investigator Name cannot be empty. '
+      setPrincipalInvestigatorFieldClass(inputErrClass)
+      pass = false
+    }
+    if (countWords(formData.principalInvestigator) > 100){
+      errMsg += 'Principal Investigator Name should have less than 100 words. '
+      setPrincipalInvestigatorFieldClass(inputErrClass)
+      pass = false
+    }
+    if (pass) {
+      setSubmissionError('')
+    } else {
+      setSubmissionError(errMsg.trimEnd())
+    }
+    return pass
   };
 
   const ResearchTopicsField = () => (
@@ -365,6 +389,8 @@ const ResearchPostRequestForm = () => {
     </>
   );
 
+  const [descriptionAndPurposeFieldClass, setDescriptionAndPurposeFieldClass] = useState(textareaClass);
+
   const DescriptionAndPurposeField = () => {
     const [localValue, setLocalValue] = useState(
       formData.descriptionAndPurpose
@@ -388,22 +414,34 @@ const ResearchPostRequestForm = () => {
         value={localValue}
         onChange={handleChange}
         onBlur={handleBlur}
-        className={textareaClass}
+        className={descriptionAndPurposeFieldClass}
       />
     );
   };
 
   const DescriptionAndPurposeFieldValidation = () => {
+    let pass = true
+    let errMsg = ''
+    setDescriptionAndPurposeFieldClass(textareaClass)
     if (formData.descriptionAndPurpose === ''){
-      setSubmissionError('Description & Purpose of the Study cannot be empty.')
-    } else if (countWords(formData.descriptionAndPurpose) > 1000){
-      setSubmissionError('Description & Purpose of the Study should have less than 1000 words.')
-    } else {
-      setSubmissionError('')
-      return true
+      errMsg += 'Description & Purpose of the Study cannot be empty. '
+      setDescriptionAndPurposeFieldClass(textareaErrClass)
+      pass = false
     }
-    return false
+    if (countWords(formData.descriptionAndPurpose) > 1000){
+      errMsg += 'Description & Purpose of the Study should have less than 1000 words. '
+      setDescriptionAndPurposeFieldClass(textareaErrClass)
+      pass = false
+    }
+    if (pass) {
+      setSubmissionError('')
+    } else {
+      setSubmissionError(errMsg.trimEnd())
+    }
+    return pass
   };
+
+  const [participantExperienceFieldClass, setParticipantExperienceFieldClass] = useState(textareaClass);
 
   const ParticipantExperienceField = () => {
     const [localValue, setLocalValue] = useState(
@@ -428,22 +466,34 @@ const ResearchPostRequestForm = () => {
         value={localValue}
         onChange={handleChange}
         onBlur={handleBlur}
-        className={textareaClass}
+        className={participantExperienceFieldClass}
       />
     );
   };
 
   const ParticipantExperienceFieldValidation = () => {
+    let pass = true
+    let errMsg = ''
+    setParticipantExperienceFieldClass(textareaClass)
     if (formData.participantExperience === ''){
-      setSubmissionError('Participant Experience cannot be empty.')
-    } else if (countWords(formData.participantExperience) > 1000){
-      setSubmissionError('Participant Experience should have less than 1000 words.')
-    } else {
-      setSubmissionError('')
-      return true
+      errMsg += 'Participant Experience cannot be empty. '
+      setParticipantExperienceFieldClass(textareaErrClass)
+      pass = false
     }
-    return false
+    if (countWords(formData.participantExperience) > 1000){
+      errMsg += 'Participant Experience should have less than 1000 words. '
+      setParticipantExperienceFieldClass(textareaErrClass)
+      pass = false
+    }
+    if (pass) {
+      setSubmissionError('')
+    } else {
+      setSubmissionError(errMsg.trimEnd())
+    }
+    return pass
   };
+
+  const [locationFieldClass, setLocationFieldClass] = useState(textareaClass);
 
   const LocationField = () => {
     const [localValue, setLocalValue] = useState(formData.location);
@@ -466,22 +516,34 @@ const ResearchPostRequestForm = () => {
         value={localValue}
         onChange={handleChange}
         onBlur={handleBlur}
-        className={textareaClass}
+        className={locationFieldClass}
       />
     );
   };
 
   const LocationFieldValidation = () => {
+    let pass = true
+    let errMsg = ''
+    setLocationFieldClass(textareaClass)
     if (formData.location === ''){
-      setSubmissionError('Study Location cannot be empty.')
-    } else if (countWords(formData.location) > 100){
-      setSubmissionError('Study Location should have less than 100 words.')
-    } else {
-      setSubmissionError('')
-      return true
+      errMsg += 'Study Location cannot be empty. '
+      setLocationFieldClass(textareaErrClass)
+      pass = false
     }
-    return false
+    if (countWords(formData.location) > 100){
+      errMsg += 'Study Location should have less than 100 words. '
+      setLocationFieldClass(textareaErrClass)
+      pass = false
+    }
+    if (pass) {
+      setSubmissionError('')
+    } else {
+      setSubmissionError(errMsg.trimEnd())
+    }
+    return pass
   };
+
+  const [compensationFieldClass, setCompensationFieldClass] = useState(inputClass);
 
   const CompensationField = () => {
     const [localValue, setLocalValue] = useState(formData.compensation);
@@ -505,10 +567,12 @@ const ResearchPostRequestForm = () => {
         onChange={handleChange}
         onBlur={handleBlur}
         placeholder="Will participants be compensated?"
-        className={inputClass}
+        className={compensationFieldClass}
       />
     );
   };
+
+  const [nfaCompensationFieldClass, setNfaCompensationFieldClass] = useState(inputClass);
 
   const NfaCompensationField = () => {
     const [localValue, setLocalValue] = useState(formData.nfaCompensation);
@@ -532,25 +596,42 @@ const ResearchPostRequestForm = () => {
         onChange={handleChange}
         onBlur={handleBlur}
         placeholder="Will NFA be compensated?"
-        className={inputClass}
+        className={nfaCompensationFieldClass}
       />
     );
   };
 
   const CompensationFieldValidation = () => {
+    let pass = true
+    let errMsg = ''
+    setCompensationFieldClass(inputClass)
+    setNfaCompensationFieldClass(inputClass)
     if (formData.compensation === ''){
-      setSubmissionError("Compensation cannot be empty. If there is no compensation please fill in with 'No'.")
-    } else if (formData.nfaCompensation === ''){
-      setSubmissionError("NFA Compensation cannot be empty. If there is no compensation please fill in with 'No'.")
-    } else if (countWords(formData.compensation) > 100){
-      setSubmissionError('Compensation should have less than 100 words.')
-    } else if (countWords(formData.nfaCompensation) > 100){
-      setSubmissionError('NFA Compensation should have less than 100 words.')
-    } else {
-      setSubmissionError('')
-      return true
+      errMsg += "Compensation cannot be empty. If there is no compensation please fill in with 'No'. "
+      setCompensationFieldClass(inputErrClass)
+      pass = false
     }
-    return false
+    if (countWords(formData.compensation) > 100){
+      errMsg += 'Compensation should have less than 100 words. '
+      setCompensationFieldClass(inputErrClass)
+      pass = false
+    }
+    if (formData.nfaCompensation === ''){
+      errMsg += "NFA Compensation cannot be empty. If there is no compensation please fill in with 'No'. "
+      setNfaCompensationFieldClass(inputErrClass)
+      pass = false
+    }
+    if (countWords(formData.nfaCompensation) > 100){
+      errMsg += 'NFA Compensation should have less than 100 words. '
+      setNfaCompensationFieldClass(inputErrClass)
+      pass = false
+    }
+    if (pass) {
+      setSubmissionError('')
+    } else {
+      setSubmissionError(errMsg.trimEnd())
+    }
+    return pass
   };
 
   const LogoField = () => (
@@ -560,6 +641,8 @@ const ResearchPostRequestForm = () => {
   const VideoField = () => (
     <input type="file" accept="video/*" onChange={handleUpload} />
   );
+
+  const [inclusionCriteriaFieldClass, setInclusionCriteriaFieldClass] = useState(textareaClass);
 
   const InclusionCriteriaField = () => {
     const [localValue, setLocalValue] = useState(formData.inclusionCriteria);
@@ -582,10 +665,12 @@ const ResearchPostRequestForm = () => {
         value={localValue}
         onChange={handleChange}
         onBlur={handleBlur}
-        className={textareaClass}
+        className={inclusionCriteriaFieldClass}
       />
     );
   };
+
+  const [exclusionCriteriaFieldClass, setExclusionCriteriaFieldClass] = useState(textareaClass);
 
   const ExclusionCriteriaField = () => {
     const [localValue, setLocalValue] = useState(formData.exclusionCriteria);
@@ -608,24 +693,41 @@ const ResearchPostRequestForm = () => {
         value={localValue}
         onChange={handleChange}
         onBlur={handleBlur}
-        className={textareaClass}
+        className={exclusionCriteriaFieldClass}
       />
     );
   };
 
   const CriteriaFieldValidation = () => {
+    let pass = true
+    let errMsg = ''
+    setInclusionCriteriaFieldClass(textareaClass)
+    setExclusionCriteriaFieldClass(textareaClass)
     if (formData.inclusionCriteria === '' && formData.exclusionCriteria === ''){
-      setSubmissionError("Participant Inclusion and Exclusion Criteria cannot be both empty.")
-    } else if (countWords(formData.inclusionCriteria) > 1000){
-      setSubmissionError('Participant Inclusion Criteria should have less than 1000 words.')
-    } else if (countWords(formData.exclusionCriteria) > 1000){
-      setSubmissionError('Participant Exclusion Criteria should have less than 1000 words.')
-    } else {
-      setSubmissionError('')
-      return true
+      errMsg += "Participant Inclusion and Exclusion Criteria cannot be both empty. "
+      setInclusionCriteriaFieldClass(textareaErrClass)
+      setExclusionCriteriaFieldClass(textareaErrClass)
+      pass = false
     }
-    return false
+    if (countWords(formData.inclusionCriteria) > 1000){
+      errMsg += 'Participant Inclusion Criteria should have less than 1000 words. '
+      setInclusionCriteriaFieldClass(textareaErrClass)
+      pass = false
+    }
+    if (countWords(formData.exclusionCriteria) > 1000){
+      errMsg += 'Participant Exclusion Criteria should have less than 1000 words. '
+      setExclusionCriteriaFieldClass(textareaErrClass)
+      pass = false
+    }
+    if (pass) {
+      setSubmissionError('')
+    } else {
+      setSubmissionError(errMsg.trimEnd())
+    }
+    return pass
   };
+
+  const [contactNameFieldClass, setContactNameFieldClass] = useState(textareaClass);
 
   const ContactNameField = () => {
     const [localValue, setLocalValue] = useState(formData.contactName);
@@ -648,10 +750,12 @@ const ResearchPostRequestForm = () => {
         value={localValue}
         onChange={handleChange}
         onBlur={handleBlur}
-        className={textareaClass}
+        className={contactNameFieldClass}
       />
     );
   };
+
+  const [contactEmailFieldClass, setContactEmailFieldClass] = useState(inputClass);
 
   const ContactEmailField = () => {
     const [localValue, setLocalValue] = useState(formData.contactEmail);
@@ -675,25 +779,42 @@ const ResearchPostRequestForm = () => {
         onChange={handleChange}
         onBlur={handleBlur}
         placeholder="Contact Email"
-        className={inputClass}
+        className={contactEmailFieldClass}
       />
     );
   };
 
   const ContactFieldValidation = () => {
+    let pass = true
+    let errMsg = ''
+    setContactNameFieldClass(textareaClass)
+    setContactEmailFieldClass(inputClass)
     if (formData.contactName === ''){
-      setSubmissionError("Contact Name cannot be empty.")
-    } else if (formData.contactEmail === ''){
-      setSubmissionError("Contact Email cannot be empty.")
-    } else if (countWords(formData.contactName) > 100){
-      setSubmissionError('Contact Name should have less than 100 words.')
-    } else if (countWords(formData.contactEmail) > 1000){
-      setSubmissionError('Contact Email should have less than 1000 words.')
-    } else {
-      setSubmissionError('')
-      return true
+      errMsg += "Contact Name cannot be empty. "
+      setContactNameFieldClass(textareaErrClass)
+      pass = false
     }
-    return false
+    if (countWords(formData.contactName) > 100){
+      errMsg += 'Contact Name should have less than 100 words. '
+      setContactNameFieldClass(textareaErrClass)
+      pass = false
+    }
+    if (formData.contactEmail === ''){
+      errMsg += "Contact Email cannot be empty. "
+      setContactEmailFieldClass(inputErrClass)
+      pass = false
+    }
+    if (countWords(formData.contactEmail) > 1000){
+      errMsg += 'Contact Email should have less than 1000 words. '
+      setContactEmailFieldClass(inputErrClass)
+      pass = false
+    }
+    if (pass) {
+      setSubmissionError('')
+    } else {
+      setSubmissionError(errMsg.trimEnd())
+    }
+    return pass
   };
 
   const ContactPhoneField = () => {
@@ -786,6 +907,8 @@ const ResearchPostRequestForm = () => {
     />
   );
 
+  const [postExpirationDateFieldClass, setPostExpirationDateFieldClass] = useState(dateInputClass);
+
   // PARTICIPANT RECRUITMENT END DATE
   const PostExpirationDateField = () => {
     const [localValue, setLocalValue] = useState(formData.postExpirationDate);
@@ -812,12 +935,14 @@ const ResearchPostRequestForm = () => {
         value={localValue}
         onChange={handleChange}
         onBlur={handleBlur}
-        className={dateInputClass}
+        className={postExpirationDateFieldClass}
         min={formData.startDate}
         required
       />
     );
   };
+
+  const [startDateFieldClass, setStartDateFieldClass] = useState(dateInputClass);
 
   // PARTICIPANT RECRUITMENT START DATE
   const StartDateField = () => {
@@ -845,11 +970,13 @@ const ResearchPostRequestForm = () => {
         value={localValue}
         onChange={handleChange}
         onBlur={handleBlur}
-        className={dateInputClass}
+        className={startDateFieldClass}
         required
       />
     );
   };
+
+  const [endDateFieldClass, setEndDateFieldClass] = useState(dateInputClass);
 
   // OVERALL RESEARCH END DATE
   const EndDateField = () => {
@@ -873,38 +1000,47 @@ const ResearchPostRequestForm = () => {
         value={localValue}
         onChange={handleChange}
         onBlur={handleBlur}
-        className={dateInputClass}
+        className={endDateFieldClass}
         min={formData.postExpirationDate}
       />
     );
   };
 
   const DateFieldValidation = () => {
-    console.log(formData)
+    let pass = true
+    let errMsg = ''
+    setStartDateFieldClass(dateInputClass)
+    setPostExpirationDateFieldClass(dateInputClass)
+    setEndDateFieldClass(dateInputClass)
     if (formData.startDate === ''){
-      setSubmissionError("Recruitment Start Date cannot be empty.")
-    } else if (formData.postExpirationDate === ''){
-      setSubmissionError("Recruitment End Date cannot be empty.")
-    } else if (new Date(formData.startDate) > new Date(formData.postExpirationDate)) {
-      setSubmissionError("Recruitment End Date must be after Recruitment Start Date.");
-    } else if (formData.endDate !== '' && new Date(formData.postExpirationDate) > new Date(formData.endDate)) {
-      setSubmissionError("Estimated Study End Date must be after Recruitment End Date.");
-    } else {
-      setSubmissionError('')
-      return true
+      errMsg += "Recruitment Start Date cannot be empty. "
+      setStartDateFieldClass(dateInputErrClass)
+      pass = false
     }
-    if (new Date(proposedStartAndEndDates.startDate) > new Date(proposedStartAndEndDates.endDate)) {
-      
-      // setIsSubmitting(false); // Stop submission as the dates are invalid
-      return; // Exit the function to prevent further execution
+    if (formData.postExpirationDate === ''){
+      errMsg += "Recruitment End Date cannot be empty. "
+      setPostExpirationDateFieldClass(dateInputErrClass)
+      pass = false
+    }
+    if (new Date(formData.startDate) > new Date(formData.postExpirationDate)) {
+      errMsg += "Recruitment End Date must be after Recruitment Start Date. "
+      setStartDateFieldClass(dateInputErrClass)
+      setPostExpirationDateFieldClass(dateInputErrClass)
+      pass = false
+    }
+    if (formData.endDate !== '' && new Date(formData.postExpirationDate) > new Date(formData.endDate)) {
+      errMsg += "Estimated Study End Date must be after Recruitment End Date. "
+      setPostExpirationDateFieldClass(dateInputErrClass)
+      setEndDateFieldClass(dateInputErrClass)
+      pass = false
     }
 
-    if (new Date(proposedStartAndEndDates.endDate) > new Date(formData.endDate)) {
-      setSubmissionError("The research end date must be after the recruitment end date.");
-      // setIsSubmitting(false); // Stop submission as the dates are invalid
-      return; // Exit the function to prevent further execution
+    if (pass) {
+      setSubmissionError('')
+    } else {
+      setSubmissionError(errMsg.trimEnd())
     }
-    return false
+    return pass
   };
 
   const [isSubmitting, setIsSubmitting] = useState(false);

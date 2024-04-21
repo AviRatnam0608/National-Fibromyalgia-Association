@@ -42,9 +42,9 @@ const ExtendedParticipantCard = ({ participant }) => {
   };
 
   useEffect(() => {
-    if (studyHistory && studyHistory.length !== 0) {
-      fetchResearchParticipation();
-    }
+    studyHistory && studyHistory.length !== 0
+      ? fetchResearchParticipation()
+      : setResearchParticipation([]);
   }, [studyHistory]);
 
   return (

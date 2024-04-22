@@ -32,39 +32,39 @@ const AdminFeedbackCard = (props) => {
   };
 
   return (
-    <div class="max-w-4xl mx-auto bg-white rounded-lg border border-gray-200 shadow-md overflow-hidden flex flex-col md:flex-row my-5">
-      <div class="flex-1 p-4">
-        <div class="flex justify-between items-center">
-          <h5 class="text-xl font-semibold tracking-tight text-gray-900">
+    <div className="max-w-4xl mx-auto bg-white rounded-lg border border-gray-200 shadow-md overflow-hidden flex flex-col md:flex-row my-5">
+      <div className="flex-1 p-4">
+        <div className="flex justify-between items-center">
+          <h5 className="text-xl font-semibold tracking-tight text-gray-900">
             {title}
           </h5>
           <img
-            class="w-10 h-10 rounded-full"
+            className="w-10 h-10 rounded-full"
             src={`${logoUri}`}
             alt="Study Logo"
           />
         </div>
 
-        <p class="mt-2 text-sm text-gray-700">{description}</p>
+        <p className="mt-2 text-sm text-gray-700">{description}</p>
 
-        <div class="mt-4">
-          <h6 class="font-semibold text-gray-900">Principal Investigator:</h6>
-          <p class="text-sm text-gray-600">{principalInvestigator}</p>
+        <div className="mt-4">
+          <h6 className="font-semibold text-gray-900">Principal Investigator:</h6>
+          <p className="text-sm text-gray-600">{principalInvestigator}</p>
         </div>
 
-        <div class="mt-4">
-          <h6 class="font-semibold text-gray-900">Recruitment Duration:</h6>
-          <h3 class="text-sm text-gray-600">
+        <div className="mt-4">
+          <h6 className="font-semibold text-gray-900">Recruitment Duration:</h6>
+          <h3 className="text-sm text-gray-600">
             <span className="font-semibold">Start Date:</span>{" "}
             {getDate(startDate)}
           </h3>
-          <h3 class="text-sm text-gray-600">
+          <h3 className="text-sm text-gray-600">
             <span className="font-semibold">End Date:</span> {getDate(recruitEndDate)}
           </h3>
         </div>
 
-        <div class="mt-4">
-          <h6 class="font-semibold text-gray-900">Research Topics:</h6>
+        <div className="mt-4">
+          <h6 className="font-semibold text-gray-900">Research Topics:</h6>
           <div className="flex-col flex gap-2 mt-1">
             <p>
               <span className="text-sm text-gray-600">Medical Conditions:</span>{" "}
@@ -86,37 +86,37 @@ const AdminFeedbackCard = (props) => {
           Participant Information
         </h4>
 
-        <div class="mt-4">
-          <h6 class="font-semibold text-gray-900">Participant Experience:</h6>
-          <p class="text-sm text-gray-600">{procedure}</p>
+        <div className="mt-4">
+          <h6 className="font-semibold text-gray-900">Participant Experience:</h6>
+          <p className="text-sm text-gray-600">{procedure}</p>
         </div>
 
-        <div class="mt-4">
-          <h6 class="font-semibold text-gray-900">Inclusion Criteria:</h6>
-          <p class="text-sm text-gray-600">{inclusionCriteria}</p>
+        <div className="mt-4">
+          <h6 className="font-semibold text-gray-900">Inclusion Criteria:</h6>
+          <p className="text-sm text-gray-600">{inclusionCriteria}</p>
         </div>
 
-        <div class="mt-4">
-          <h6 class="font-semibold text-gray-900">Exclusion Criteria:</h6>
-          <p class="text-sm text-gray-600">{exclusionCriteria}</p>
+        <div className="mt-4">
+          <h6 className="font-semibold text-gray-900">Exclusion Criteria:</h6>
+          <p className="text-sm text-gray-600">{exclusionCriteria}</p>
         </div>
 
-        <div class="mt-4">
-          <h6 class="font-semibold text-gray-900">Location:</h6>
-          <p class="text-sm text-gray-600">{location}</p>
+        <div className="mt-4">
+          <h6 className="font-semibold text-gray-900">Location:</h6>
+          <p className="text-sm text-gray-600">{location}</p>
         </div>
 
-        <div class="mt-4">
-          <h6 class="font-semibold text-gray-900">Participant Compensation:</h6>
-          <p class="text-sm text-gray-600">{compensation}</p>
+        <div className="mt-4">
+          <h6 className="font-semibold text-gray-900">Participant Compensation:</h6>
+          <p className="text-sm text-gray-600">{compensation}</p>
         </div>
 
         <Divider />
         <h4 className="font-bold text-lg text-gray-800">NFA Information</h4>
 
-        <div class="mt-4">
-          <h6 class="font-semibold text-gray-900">NFA Compensation:</h6>
-          <p class="text-sm text-gray-600">{nfaCompensation}</p>
+        <div className="mt-4">
+          <h6 className="font-semibold text-gray-900">NFA Compensation:</h6>
+          <p className="text-sm text-gray-600">{nfaCompensation}</p>
         </div>
 
         <Divider />

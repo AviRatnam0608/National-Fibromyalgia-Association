@@ -48,24 +48,24 @@ const ExtendedParticipantCard = ({ participant }) => {
   }, [studyHistory]);
 
   return (
-    <div class="max-w-4xl mx-auto bg-white rounded-lg border border-gray-200 shadow-md overflow-hidden my-5">
-      <div class="flex-1 p-4">
-        <div class="flex justify-between items-center">
+    <div className="max-w-4xl mx-auto bg-white rounded-lg border border-gray-200 shadow-md overflow-hidden my-5">
+      <div className="flex-1 p-4">
+        <div className="flex justify-between items-center">
           <div className="flex items-center gap-5">
-            <h5 class="text-xl font-semibold tracking-tight text-gray-900">
+            <h5 className="text-xl font-semibold tracking-tight text-gray-900">
               {firstName} {lastName}
             </h5>
           </div>
         </div>
 
-        <div class="mt-4">
-          <h6 class="font-semibold text-gray-900">
+        <div className="mt-4">
+          <h6 className="font-semibold text-gray-900">
             Participant Basic Information:
           </h6>
-          <h3 class="text-sm text-gray-600">
+          <h3 className="text-sm text-gray-600">
             <span className="font-semibold">Date of Birth:</span> {birthday}
           </h3>
-          <h3 class="text-sm text-gray-600">
+          <h3 className="text-sm text-gray-600">
             <span className="font-semibold">Date of Birth:</span> {birthday}
           </h3>
         </div>
@@ -80,7 +80,7 @@ const ExtendedParticipantCard = ({ participant }) => {
             researchParticipation.map((research) => (
               <div className="flex flex-col gap-2 bg-gray-100 p-5 border rounded-lg my-2">
                 <div className="flex items-center gap-5">
-                  <h5 class="text-lg font-semibold tracking-tight text-gray-900">
+                  <h5 className="text-lg font-semibold tracking-tight text-gray-900">
                     {research.title}
                   </h5>
                   <p className="text-sm text-gray-700">
@@ -124,19 +124,19 @@ const ExtendedParticipantCard = ({ participant }) => {
         <Divider />
         <h4 className="font-bold text-lg text-gray-800">Medical Information</h4>
 
-        <div class="mt-4">
-          <h6 class="font-semibold text-gray-900">Current Compensation:</h6>
-          <p class="text-sm text-gray-600">{curCondition}</p>
+        <div className="mt-4">
+          <h6 className="font-semibold text-gray-900">Current Compensation:</h6>
+          <p className="text-sm text-gray-600">{curCondition}</p>
         </div>
 
-        <div class="mt-4">
-          <h6 class="font-semibold text-gray-900">Diagnosis:</h6>
-          <p class="text-sm text-gray-600">{isDiagnosed}</p>
+        <div className="mt-4">
+          <h6 className="font-semibold text-gray-900">Diagnosis:</h6>
+          <p className="text-sm text-gray-600">{isDiagnosed}</p>
         </div>
 
-        <div class="mt-4">
-          <h6 class="font-semibold text-gray-900">Past Condition(s):</h6>
-          <p class="text-sm text-gray-600">{pastCondition}</p>
+        <div className="mt-4">
+          <h6 className="font-semibold text-gray-900">Past Condition(s):</h6>
+          <p className="text-sm text-gray-600">{pastCondition}</p>
         </div>
 
         <Divider />

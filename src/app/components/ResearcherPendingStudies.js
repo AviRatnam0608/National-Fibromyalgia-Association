@@ -92,25 +92,25 @@ const ResearcherPending = () => {
       </div>
       {selectedSubmission?.map((submissionItem) => (
         <ResearchFeedbackCard id={submissionItem.id} {...submissionItem}>
-          <div class="w-full md:w-96 border-t md:border-t-0 md:border-l border-gray-200 p-4">
-            <h5 class="text-lg font-semibold text-gray-900">Feedback</h5>
+          <div className="w-full md:w-96 border-t md:border-t-0 md:border-l border-gray-200 p-4">
+            <h5 className="text-lg font-semibold text-gray-900">Feedback</h5>
 
-            <p class="mt-2 text-sm text-gray-600">
+            <p className="mt-2 text-sm text-gray-600">
               {submissionItem.feedback?.length !== 0
                 ? submissionItem.feedback
                 : "N/A"}
             </p>
 
-            <div class="flex mt-4">
+            <div className="flex mt-4">
               <button
-                class="bg-green-500 hover:bg-green-700 text-white active:bg-green-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-2 ease-linear transition-all duration-150"
+                className="bg-green-500 hover:bg-green-700 text-white active:bg-green-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-2 ease-linear transition-all duration-150"
                 type="button"
                 onClick={() => handleAcceptProposal(submissionItem.id)}
               >
                 Accept
               </button>
               <button
-                class="bg-red-500 hover:bg-red-700 text-white active:bg-red-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150"
+                className="bg-red-500 hover:bg-red-700 text-white active:bg-red-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150"
                 type="button"
                 onClick={() => handleRejectProposal(submissionItem.id)}
               >

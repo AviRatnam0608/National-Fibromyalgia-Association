@@ -62,9 +62,7 @@ const ResearchPostRequestForm = () => {
     topics: [],
     types: [],
   });
-
-  console.log("selectedTags", formData);
-
+  
   const totalSteps = 10;
 
   const fetchTagOptions = async () => {
@@ -210,32 +208,6 @@ const ResearchPostRequestForm = () => {
   function countWords(str) {
     return str.trim().split(/\s+/).length;
   }
-
-  // const TextAreaField = ({ name, placeholder, globalValue }) => {
-  //   const [localValue, setLocalValue] = useState(globalValue);
-
-  //   const handleChange = (e) => {
-  //     setLocalValue(e.target.value);
-  //   };
-
-  //   const handleBlur = () => {
-  //     setFormData((prevFormData) => ({
-  //       ...prevFormData,
-  //       [name]: localValue,
-  //     }));
-  //   };
-
-  //   return (
-  //     <textarea
-  //       name={name}
-  //       placeholder={placeholder}
-  //       value={localValue}
-  //       onChange={handleChange}
-  //       onBlur={handleBlur}
-  //       className={textareaClass}
-  //     />
-  //   );
-  // };
 
   const IrbNumberField = () => (
     <InputField

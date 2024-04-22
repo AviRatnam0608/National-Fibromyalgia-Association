@@ -23,6 +23,7 @@ import MultipleSelectChip from "../MultipleChipSelect/MultipleChipSelect";
 import { Divider } from "../ExtendedResearchCard/ExtendedResearchCard";
 import BigHeader from "../BigHeader/BigHeader";
 import CustomStepper from "../Stepper/Stepper";
+import { InputField, TextAreaField } from "../FormField/FormField";
 
 const ResearchPostRequestForm = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -62,7 +63,7 @@ const ResearchPostRequestForm = () => {
     types: [],
   });
 
-  console.log("selectedTags", selectedTags);
+  console.log("selectedTags", formData);
 
   const totalSteps = 10;
 
@@ -210,112 +211,65 @@ const ResearchPostRequestForm = () => {
     return str.trim().split(/\s+/).length;
   }
 
-  const TextAreaField = ({ name, placeholder, globalValue }) => {
-    const [localValue, setLocalValue] = useState(globalValue);
+  // const TextAreaField = ({ name, placeholder, globalValue }) => {
+  //   const [localValue, setLocalValue] = useState(globalValue);
 
-    const handleChange = (e) => {
-      setLocalValue(e.target.value);
-    };
+  //   const handleChange = (e) => {
+  //     setLocalValue(e.target.value);
+  //   };
 
-    const handleBlur = () => {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        [name]: localValue,
-      }));
-    };
+  //   const handleBlur = () => {
+  //     setFormData((prevFormData) => ({
+  //       ...prevFormData,
+  //       [name]: localValue,
+  //     }));
+  //   };
 
-    return (
-      <textarea
-        name={name}
-        placeholder={placeholder}
-        value={localValue}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        className={textareaClass}
-      />
-    );
-  };
+  //   return (
+  //     <textarea
+  //       name={name}
+  //       placeholder={placeholder}
+  //       value={localValue}
+  //       onChange={handleChange}
+  //       onBlur={handleBlur}
+  //       className={textareaClass}
+  //     />
+  //   );
+  // };
 
-  const IrbNumberField = () => {
-    const [localValue, setLocalValue] = useState(formData.irbNumber);
-
-    const handleChange = (e) => {
-      setLocalValue(e.target.value);
-    };
-
-    const handleBlur = () => {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        irbNumber: localValue,
-      }));
-    };
-
-    return (
-      <input
-        type="text"
-        name="irbNumber"
-        value={localValue}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        placeholder="IRB or Research Number (Optional)"
-        className={inputClass}
-      />
-    );
-  };
+  const IrbNumberField = () => (
+    <InputField
+      name="irbNumber"
+      placeholder="IRB or Research Number (Optional)"
+      globalValue={formData.irbNumber}
+      setGlobalFormData={setFormData}
+      className={inputClass}
+    />
+  );
 
   const [titleFieldClass, setTitleFieldClass] = useState(inputClass);
 
-  const TitleField = () => {
-    const [localValue, setLocalValue] = useState(formData.title);
-    const handleChange = (e) => {
-      setLocalValue(e.target.value);
-    };
-    const handleBlur = () => {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        title: localValue,
-      }));
-    };
-    return (
-      <input
-        type="text"
-        name="title"
-        value={localValue}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        placeholder="Title"
-        className={titleFieldClass}
-      />
-    );
-  };
+  const TitleField = () => (
+    <InputField
+      name="title"
+      placeholder="Title"
+      globalValue={formData.title}
+      setGlobalFormData={setFormData}
+      className={titleFieldClass}
+    />
+  );
 
   const [principalInvestigatorFieldClass, setPrincipalInvestigatorFieldClass] = useState(inputClass);
 
-  const PrincipalInvestigatorField = () => {
-    const [localValue, setLocalValue] = useState(
-      formData.principalInvestigator
-    );
-    const handleChange = (e) => {
-      setLocalValue(e.target.value);
-    };
-    const handleBlur = () => {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        principalInvestigator: localValue,
-      }));
-    };
-    return (
-      <input
-        type="text"
-        name="principalInvestigator"
-        value={localValue}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        placeholder="Principal Investigator Name"
-        className={principalInvestigatorFieldClass}
-      />
-    );
-  };
+  const PrincipalInvestigatorField = () => (
+    <InputField
+      name="principalInvestigator"
+      placeholder="Principal Investigator Name"
+      globalValue={formData.principalInvestigator}
+      setGlobalFormData={setFormData}
+      className={principalInvestigatorFieldClass}
+    />
+  );
 
   const BasicInfoFieldValidation = () => {
     let pass = true
@@ -398,33 +352,15 @@ const ResearchPostRequestForm = () => {
 
   const [descriptionFieldClass, setDescriptionFieldClass] = useState(textareaClass);
 
-  const DescriptionField = () => {
-    const [localValue, setLocalValue] = useState(
-      formData.description
-    );
-
-    const handleChange = (e) => {
-      setLocalValue(e.target.value);
-    };
-
-    const handleBlur = () => {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        description: localValue,
-      }));
-    };
-
-    return (
-      <textarea
-        name="description"
-        placeholder="Description & Purpose of the Study"
-        value={localValue}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        className={descriptionFieldClass}
-      />
-    );
-  };
+  const DescriptionField = () => (
+    <TextAreaField
+      name="description"
+      placeholder="Description & Purpose of the Study"
+      globalValue={formData.description}
+      setGlobalFormData={setFormData}
+      className={descriptionFieldClass}
+    />
+  );
 
   const DescriptionFieldValidation = () => {
     let pass = true
@@ -450,33 +386,15 @@ const ResearchPostRequestForm = () => {
 
   const [procedureFieldClass, setProcedureFieldClass] = useState(textareaClass);
 
-  const ProcedureField = () => {
-    const [localValue, setLocalValue] = useState(
-      formData.procedure
-    );
-
-    const handleChange = (e) => {
-      setLocalValue(e.target.value);
-    };
-
-    const handleBlur = () => {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        procedure: localValue,
-      }));
-    };
-
-    return (
-      <textarea
-        name="procedure"
-        placeholder="Participant Experience Details"
-        value={localValue}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        className={procedureFieldClass}
-      />
-    );
-  };
+  const ProcedureField = () => (
+    <TextAreaField
+      name="procedure"
+      placeholder="Participant Experience Details"
+      globalValue={formData.procedure}
+      setGlobalFormData={setFormData}
+      className={procedureFieldClass}
+    />
+  );
 
   const ProcedureFieldValidation = () => {
     let pass = true
@@ -502,31 +420,15 @@ const ResearchPostRequestForm = () => {
 
   const [locationFieldClass, setLocationFieldClass] = useState(textareaClass);
 
-  const LocationField = () => {
-    const [localValue, setLocalValue] = useState(formData.location);
-
-    const handleChange = (e) => {
-      setLocalValue(e.target.value);
-    };
-
-    const handleBlur = () => {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        location: localValue,
-      }));
-    };
-
-    return (
-      <textarea
-        name="location"
-        placeholder="Study Location (Virtual, In-Person, Hybrid?)"
-        value={localValue}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        className={locationFieldClass}
-      />
-    );
-  };
+  const LocationField = () => (
+    <TextAreaField
+      name="location"
+      placeholder="Study Location (Virtual, In-Person, Hybrid?)"
+      globalValue={formData.location}
+      setGlobalFormData={setFormData}
+      className={locationFieldClass}
+    />
+  );
 
   const LocationFieldValidation = () => {
     let pass = true
@@ -552,61 +454,27 @@ const ResearchPostRequestForm = () => {
 
   const [compensationFieldClass, setCompensationFieldClass] = useState(inputClass);
 
-  const CompensationField = () => {
-    const [localValue, setLocalValue] = useState(formData.compensation);
-
-    const handleChange = (e) => {
-      setLocalValue(e.target.value);
-    };
-
-    const handleBlur = () => {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        compensation: localValue,
-      }));
-    };
-
-    return (
-      <input
-        type="text"
-        name="compensation"
-        value={localValue}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        placeholder="Will participants be compensated?"
-        className={compensationFieldClass}
-      />
-    );
-  };
+  const CompensationField = () => (
+    <InputField
+      name="compensation"
+      placeholder="Will participants be compensated?"
+      globalValue={formData.compensation}
+      setGlobalFormData={setFormData}
+      className={compensationFieldClass}
+    />
+  );
 
   const [nfaCompensationFieldClass, setNfaCompensationFieldClass] = useState(inputClass);
 
-  const NfaCompensationField = () => {
-    const [localValue, setLocalValue] = useState(formData.nfaCompensation);
-
-    const handleChange = (e) => {
-      setLocalValue(e.target.value);
-    };
-
-    const handleBlur = () => {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        nfaCompensation: localValue,
-      }));
-    };
-
-    return (
-      <input
-        type="text"
-        name="nfaCompensation"
-        value={localValue}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        placeholder="Will NFA be compensated?"
-        className={nfaCompensationFieldClass}
-      />
-    );
-  };
+  const NfaCompensationField = () => (
+    <InputField
+      name="nfaCompensation"
+      placeholder="Will NFA be compensated?"
+      globalValue={formData.nfaCompensation}
+      setGlobalFormData={setFormData}
+      className={nfaCompensationFieldClass}
+    />
+  );
 
   const CompensationFieldValidation = () => {
     let pass = true
@@ -651,59 +519,27 @@ const ResearchPostRequestForm = () => {
 
   const [inclusionCriteriaFieldClass, setInclusionCriteriaFieldClass] = useState(textareaClass);
 
-  const InclusionCriteriaField = () => {
-    const [localValue, setLocalValue] = useState(formData.inclusionCriteria);
-
-    const handleChange = (e) => {
-      setLocalValue(e.target.value);
-    };
-
-    const handleBlur = () => {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        inclusionCriteria: localValue,
-      }));
-    };
-
-    return (
-      <textarea
-        name="inclusionCriteria"
-        placeholder="Participant Inclusion Criteria"
-        value={localValue}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        className={inclusionCriteriaFieldClass}
-      />
-    );
-  };
+  const InclusionCriteriaField = () => (
+    <TextAreaField
+      name="inclusionCriteria"
+      placeholder="Participant Inclusion Criteria"
+      globalValue={formData.inclusionCriteria}
+      setGlobalFormData={setFormData}
+      className={inclusionCriteriaFieldClass}
+    />
+  );
 
   const [exclusionCriteriaFieldClass, setExclusionCriteriaFieldClass] = useState(textareaClass);
 
-  const ExclusionCriteriaField = () => {
-    const [localValue, setLocalValue] = useState(formData.exclusionCriteria);
-
-    const handleChange = (e) => {
-      setLocalValue(e.target.value);
-    };
-
-    const handleBlur = () => {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        exclusionCriteria: localValue,
-      }));
-    };
-
-    return (
-      <textarea
-        name="exclusionCriteria"
-        placeholder="Participant Exclusion Criteria"
-        value={localValue}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        className={exclusionCriteriaFieldClass}
-      />
-    );
-  };
+  const ExclusionCriteriaField = () => (
+    <TextAreaField
+      name="exclusionCriteria"
+      placeholder="Participant Exclusion Criteria"
+      globalValue={formData.exclusionCriteria}
+      setGlobalFormData={setFormData}
+      className={exclusionCriteriaFieldClass}
+    />
+  );
 
   const CriteriaFieldValidation = () => {
     let pass = true
@@ -736,60 +572,28 @@ const ResearchPostRequestForm = () => {
 
   const [contactNameFieldClass, setContactNameFieldClass] = useState(textareaClass);
 
-  const ContactNameField = () => {
-    const [localValue, setLocalValue] = useState(formData.contactName);
-
-    const handleChange = (e) => {
-      setLocalValue(e.target.value);
-    };
-
-    const handleBlur = () => {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        contactName: localValue,
-      }));
-    };
-
-    return (
-      <textarea
-        name="contactName"
-        placeholder="Contact Name"
-        value={localValue}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        className={contactNameFieldClass}
-      />
-    );
-  };
+  const ContactNameField = () => (
+    <TextAreaField
+      name="contactName"
+      placeholder="Contact Name"
+      globalValue={formData.contactName}
+      setGlobalFormData={setFormData}
+      className={contactNameFieldClass}
+    />
+  );
 
   const [contactEmailFieldClass, setContactEmailFieldClass] = useState(inputClass);
 
-  const ContactEmailField = () => {
-    const [localValue, setLocalValue] = useState(formData.contactEmail);
-
-    const handleChange = (e) => {
-      setLocalValue(e.target.value);
-    };
-
-    const handleBlur = () => {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        contactEmail: localValue,
-      }));
-    };
-
-    return (
-      <input
-        type="email"
-        name="contactEmail"
-        value={localValue}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        placeholder="Contact Email"
-        className={contactEmailFieldClass}
-      />
-    );
-  };
+  const ContactEmailField = () => (
+    <InputField
+      name="contactEmail"
+      placeholder="Contact Email"
+      globalValue={formData.contactEmail}
+      setGlobalFormData={setFormData}
+      className={contactEmailFieldClass}
+      type="email"
+    />
+  );
 
   const ContactFieldValidation = () => {
     let pass = true
@@ -824,85 +628,37 @@ const ResearchPostRequestForm = () => {
     return pass
   };
 
-  const ContactPhoneField = () => {
-    const [localValue, setLocalValue] = useState(formData.contactPhone);
+  const ContactPhoneField = () => (
+    <InputField
+      name="contactPhone"
+      placeholder="Contact Phone (Optional)"
+      globalValue={formData.contactPhone}
+      setGlobalFormData={setFormData}
+      className={inputClass}
+      type="tel"
+    />
+  );
 
-    const handleChange = (e) => {
-      setLocalValue(e.target.value);
-    };
+  const ContactWebsiteField = () => (
+    <InputField
+      name="contactWebsite"
+      placeholder="Contact Website (Optional)"
+      globalValue={formData.contactWebsite}
+      setGlobalFormData={setFormData}
+      className={inputClass}
+      type="url"
+    />
+  );
 
-    const handleBlur = () => {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        contactPhone: localValue,
-      }));
-    };
-
-    return (
-      <input
-        type="tel"
-        name="contactPhone"
-        value={localValue}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        placeholder="Contact Phone (optional)"
-        className={inputClass}
-      />
-    );
-  };
-
-  const ContactWebsiteField = () => {
-    const [localValue, setLocalValue] = useState(formData.contactWebsite);
-
-    const handleChange = (e) => {
-      setLocalValue(e.target.value);
-    };
-
-    const handleBlur = () => {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        contactWebsite: localValue,
-      }));
-    };
-
-    return (
-      <input
-        type="url"
-        name="contactWebsite"
-        value={localValue}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        placeholder="Contact Website (optional)"
-        className={inputClass}
-      />
-    );
-  };
-
-  const AdditionalLinksField = () => {
-    const [localValue, setLocalValue] = useState(formData.additionalLinks);
-
-    const handleChange = (e) => {
-      setLocalValue(e.target.value);
-    };
-
-    const handleBlur = () => {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        additionalLinks: localValue,
-      }));
-    };
-
-    return (
-      <textarea
-        name="additionalLinks"
-        placeholder="Additional Links, such as surveys (optional)"
-        value={localValue}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        className={textareaClass}
-      />
-    );
-  };
+  const AdditionalLinksField = () => (
+    <TextAreaField
+      name="additionalLinks"
+      placeholder="Additional Links, such as surveys (optional)"
+      globalValue={formData.additionalLinks}
+      setGlobalFormData={setFormData}
+      className={textareaClass}
+    />
+  );
 
   const RelatedResearchField = () => (
     <TextAreaField
@@ -1089,60 +845,146 @@ const ResearchPostRequestForm = () => {
     {
       id: 1,
       title: "Basic Information",
-      description: "Research Title, Principal Investigator, and IRB Number",
-      validation: BasicInfoFieldValidation
+      description: "Please complete the fields below.",
+      validation: BasicInfoFieldValidation,
+      components: (
+        <>
+          <TitleField />
+          <PrincipalInvestigatorField />
+          <IrbNumberField />
+        </>
+      )
     },
     {
       id: 2,
       title: "Area of Study",
-      description: "Research Description, Topics, and Research Type",
-      validation: DescriptionFieldValidation
+      description: "Please provide a paragraph explaining your research goals in common terms. Additionally, select any topics on medical conditions, research topics and the research type.",
+      validation: DescriptionFieldValidation,
+      components: (
+        <>
+          <DescriptionField />
+          <ResearchTopicsField />
+        </>
+      )
     },
     {
       id: 3,
       title: "Participant Experience",
-      description: "Timeline, Meetings, Procedures, and Participant Experience",
-      validation: ProcedureFieldValidation
+      description: "Please provide details on timeline, required meetings, duration of meetings, required procedures, and any other essential participant experiences.",
+      validation: ProcedureFieldValidation,
+      components: (
+        <ProcedureField />
+      )
     },
     {
       id: 4,
       title: "Location",
-      description: "Location of the Study",
-      validation: LocationFieldValidation
+      description: "Please provide details on the location of the study. If the study is in-person list a city and state.",
+      validation: LocationFieldValidation,
+      components: (
+        <LocationField />
+      )
     },
     {
       id: 5,
       title: "Compensation",
-      description: "Participant and NFA Compensation Details",
-      validation: CompensationFieldValidation
+      description: "Please provide any compenstation details below. If yes, please list an amount.",
+      validation: CompensationFieldValidation,
+      components: (
+        <>
+          <NfaCompensationField />
+          <CompensationField />
+        </>
+      )
     },
     {
       id: 6,
-      title: "Criteria",
-      description: "Participant Inclusion and Exclusion Criteria",
-      validation: CriteriaFieldValidation
+      title: "Participant Prefrences",
+      description: "Please provide the basic requirements of the research.",
+      validation: CriteriaFieldValidation,
+      components: (
+        <>
+          <InclusionCriteriaField />
+          <ExclusionCriteriaField />
+        </>
+      )
     },
     {
       id: 7,
       title: "Contact Info",
-      description: "Contact Name, Email, and Phone",
-      validation: ContactFieldValidation
+      description: "Please provide a contact for the study.",
+      validation: ContactFieldValidation,
+      components: (
+        <>
+          <ContactNameField />
+          <ContactEmailField />
+          <ContactPhoneField />
+        </>
+      )
     },
     {
       id: 8,
       title: "External Links",
-      description: "Contact Website, Additional Links, and Related Research",
+      description: "Please provide any additonal information below.",
+      components: (
+        <>
+          <ContactWebsiteField />
+          <AdditionalLinksField />
+          <RelatedResearchField />
+        </>
+      )
     },
     {
       id: 9,
       title: "Media",
       description: "Logo and Video upload",
+      components: (
+        <>
+          <LogoField />
+          <p className="text-sm mb-4 text-black">
+            Please upload a logo for you organization.
+          </p>
+          <VideoField />
+          <p className="text-sm mb-4 text-black">
+            Optionally, you can also provide a video summary explaining your
+            study. Max 5min
+          </p>
+        </>
+      )
     },
     {
       id: 10,
       title: "Timeline",
-      description: "Participant Recruitment and Research End Dates",
-      validation: DateFieldValidation
+      description: "Please give your best estimate for the dates below.",
+      validation: DateFieldValidation,
+      components: (
+        <>
+          <StartDateField />
+          <p className="text-sm mb-4 text-black">
+            What day will participant recruitment for this study begin?
+          </p>
+          <RecruitEndDateField />
+          <p className="text-sm mb-4 text-black">
+            What day will participant recruitment close for this study?
+          </p>
+          {proposedStartAndEndDates.startDate &&
+            proposedStartAndEndDates.endDate && (
+              <p className="text-sm mb-4 text-black font-bold">
+                This study will be open to participants for{" "}
+                {calculateDaysBetweenDates(
+                  proposedStartAndEndDates.startDate,
+                  proposedStartAndEndDates.endDate
+                )}{" "}
+                days.
+              </p>
+            )}
+          <EndDateField />
+          <p className="text-sm mb-4 text-black">
+            Please list an estimate of when you will have final research
+            results.
+          </p>
+        </>
+      )
     },
   ];
 
@@ -1151,160 +993,15 @@ const ResearchPostRequestForm = () => {
       <BigHeader>Research Post Request Form</BigHeader>
       <CustomStepper steps={steps} currentStep={currentStep} />
       <div className={formSectionClass}>
-        {currentStep === 1 && (
-          <div>
-            <h2 className="text-lg font-bold mb-4 text-black text-center">
-              Step 1: Basic Information
-            </h2>
-            <p className="text-sm mb-4 text-black font-bold">
-              Please complete the fields below.
-            </p>
-            <TitleField />
-            <PrincipalInvestigatorField />
-            <IrbNumberField />
-          </div>
-        )}
-        {currentStep === 2 && (
-          <div>
-            <h2 className="text-lg font-bold mb-4 text-black text-center">
-              Step 2: Area of Study
-            </h2>
-            <p className="text-sm mb-4 text-black font-bold">
-              Please provide a paragraph explaining your research goals in
-              common terms. Additionally, select any topics on medical
-              conditions, research topics and the research type.
-            </p>
-            <DescriptionField />
-            <ResearchTopicsField />
-          </div>
-        )}
-        {currentStep === 3 && (
-          <div>
-            <h2 className="text-lg font-bold mb-4 text-black text-center">
-              Step 3: Participant Experience
-            </h2>
-            <p className="text-sm mb-4 text-black font-bold">
-              Please provide details on timeline, required meetings, duration of
-              meetings, required procedures, and any other essential participant
-              experiences.
-            </p>
-            <ProcedureField />
-          </div>
-        )}
-        {currentStep === 4 && (
-          <div>
-            <h2 className="text-lg font-bold mb-4 text-black text-center">
-              Step 4: Location
-            </h2>
-            <p className="text-sm mb-4 text-black font-bold">
-              Please provide details on the location of the study. If the study
-              is in-person list a city and state.
-            </p>
-            <LocationField />
-          </div>
-        )}
-        {currentStep === 5 && (
-          <div>
-            <h2 className="text-lg font-bold mb-4 text-black text-center">
-              Step 5: Compensation
-            </h2>
-            <p className="text-sm mb-4 text-black font-bold">
-              Please provide any compenstation details below. If yes, please
-              list an amount.
-            </p>
-
-            <NfaCompensationField />
-            <CompensationField />
-          </div>
-        )}
-        {currentStep === 6 && (
-          <div>
-            <h2 className="text-lg font-bold mb-4 text-black text-center">
-              Step 6: Participant Prefrences
-            </h2>
-            <p className="text-sm mb-4 text-black font-bold">
-              Please provide the basic requirements of the research.
-            </p>
-            <InclusionCriteriaField />
-            <ExclusionCriteriaField />
-          </div>
-        )}
-        {currentStep === 7 && (
-          <div>
-            <h2 className="text-lg font-bold mb-4 text-black text-center">
-              Step 7: Contact Info
-            </h2>
-            <p className="text-sm mb-4 text-black font-bold">
-              Please provide a contact for the study.
-            </p>
-            <ContactNameField />
-            <ContactEmailField />
-            <ContactPhoneField />
-          </div>
-        )}
-        {currentStep === 8 && (
-          <div>
-            <h2 className="text-lg font-bold mb-4 text-black text-center">
-              Step 8: External Links
-            </h2>
-            <p className="text-sm mb-4 text-black font-bold">
-              Please provide any additonal information below.
-            </p>
-            <ContactWebsiteField />
-            <AdditionalLinksField />
-            <RelatedResearchField />
-          </div>
-        )}
-        {currentStep === 9 && (
-          <div>
-            <h2 className="text-lg font-bold mb-4 text-black text-center">
-              Step 9: Media{" "}
-            </h2>
-            <LogoField />
-            <p className="text-sm mb-4 text-black">
-              Please upload a logo for you organization.
-            </p>
-            <VideoField />
-            <p className="text-sm mb-4 text-black">
-              Optionally, you can also provide a video summary explaining your
-              study. Max 5min
-            </p>
-          </div>
-        )}
-        {currentStep === 10 && (
-          <div>
-            <h2 className="text-lg font-bold mb-4 text-black text-center">
-              Step 10: Timeline
-            </h2>
-            <p className="text-sm mb-4 text-black font-bold">
-              Please give your best estimate for the dates below.
-            </p>
-            <StartDateField />
-            <p className="text-sm mb-4 text-black">
-              What day will participant recruitment for this study begin?
-            </p>
-            <RecruitEndDateField />
-            <p className="text-sm mb-4 text-black">
-              What day will participant recruitment close for this study?
-            </p>
-            {proposedStartAndEndDates.startDate &&
-              proposedStartAndEndDates.endDate && (
-                <p className="text-sm mb-4 text-black font-bold">
-                  This study will be open to participants for{" "}
-                  {calculateDaysBetweenDates(
-                    proposedStartAndEndDates.startDate,
-                    proposedStartAndEndDates.endDate
-                  )}{" "}
-                  days.
-                </p>
-              )}
-            <EndDateField />
-            <p className="text-sm mb-4 text-black">
-              Please list an estimate of when you will have final research
-              results.
-            </p>
-          </div>
-        )}
+        <div>
+          <h2 className="text-lg font-bold mb-4 text-black text-center">
+            {`Step ${currentStep}: ${steps[currentStep-1].title}`}
+          </h2>
+          <p className="text-sm mb-4 text-black font-bold">
+            {`${steps[currentStep-1].description}`}
+          </p>
+          {steps[currentStep-1].components}
+        </div>
         {isSubmitting && <p>Submitting form...</p>}
         {submissionError && (
           <p className="text-red-500">{submissionError}</p>

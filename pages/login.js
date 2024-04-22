@@ -24,9 +24,8 @@ const AuthForm = () => {
             if (isLogin) {
                 await signInWithEmailAndPassword(auth, email, password);
             } else {
-                await createUserWithEmailAndPassword(auth, email, password);
-                const submissionRef = doc(db, "Profile");
-                await setDoc(submissionRef, { status: 'approved' });
+                const userCred = await createUserWithEmailAndPassword(auth, email, password);
+                await setDoc(doc(db, 'Profile', userCred.user.uid), {email: email, identity: 'researcher'});
             }
             router.push('/Dashboard');
         } catch (error) {

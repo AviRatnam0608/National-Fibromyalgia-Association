@@ -46,6 +46,14 @@ const ResearchPostRequestForm = () => {
     postExpirationDate: "",
   });
 
+  const [contactformData, setContactFormData] = useState({
+    contactName: "",
+    contactEmail: "",
+    contactPhone: "",
+    contactWebsite: "",
+    additionalLinks: "",
+  });
+
   const [proposedStartAndEndDates, setProposedStartAndEndDates] = useState({
     startDate: "",
     endDate: "",
@@ -545,6 +553,11 @@ const ResearchPostRequestForm = () => {
         ...prevFormData,
         contactName: localValue,
       }));
+
+      setContactFormData((prevFormData) => ({
+        ...prevFormData,
+        contactName: localValue,
+      }));
     };
 
     return (
@@ -568,6 +581,10 @@ const ResearchPostRequestForm = () => {
 
     const handleBlur = () => {
       setFormData((prevFormData) => ({
+        ...prevFormData,
+        contactEmail: localValue,
+      }));
+      setContactFormData((prevFormData) => ({
         ...prevFormData,
         contactEmail: localValue,
       }));
@@ -598,6 +615,11 @@ const ResearchPostRequestForm = () => {
         ...prevFormData,
         contactPhone: localValue,
       }));
+
+      setContactFormData((prevFormData) => ({
+        ...prevFormData,
+        contactPhone: localValue,
+      }));
     };
 
     return (
@@ -625,6 +647,11 @@ const ResearchPostRequestForm = () => {
         ...prevFormData,
         contactWebsite: localValue,
       }));
+
+      setContactFormData((prevFormData) => ({
+        ...prevFormData,
+        contactWebsite: localValue,
+      }));
     };
 
     return (
@@ -649,6 +676,11 @@ const ResearchPostRequestForm = () => {
 
     const handleBlur = () => {
       setFormData((prevFormData) => ({
+        ...prevFormData,
+        additionalLinks: localValue,
+      }));
+
+      setContactFormData((prevFormData) => ({
         ...prevFormData,
         additionalLinks: localValue,
       }));
@@ -791,14 +823,12 @@ const ResearchPostRequestForm = () => {
 
       if (new Date(proposedStartAndEndDates.startDate) > new Date(proposedStartAndEndDates.endDate)) {
         setSubmissionError("The recruitment close date must be after the start date.");
-        // setIsSubmitting(false); // Stop submission as the dates are invalid
-        return; // Exit the function to prevent further execution
+        return; 
       }
   
       if (new Date(proposedStartAndEndDates.endDate) > new Date(formData.endDate)) {
         setSubmissionError("The research end date must be after the recuitment end date.");
-        // setIsSubmitting(false); // Stop submission as the dates are invalid
-        return; // Exit the function to prevent further execution
+        return; 
       }
 
     
@@ -806,17 +836,27 @@ const ResearchPostRequestForm = () => {
         ...formData,
         logo: logoPath,
         video: videoPath,
-        status: "adminPending", // Set default status to 'adminPending'
+        status: "adminPending",
         researchTopics: selectedTags,
       });
 
+      await addDoc(collection(db, "researchContact"), {
+        ...contactformData,
+      });
+
       console.log("Form submitted successfully");
+
       setSubmissionSuccess(true);
     } catch (error) {
+
       console.error("Error submitting form: ", error);
+
       setSubmissionError("Failed to submit the form. Please try again.");
+
     } finally {
+
       setIsSubmitting(false);
+
     }
   };
 

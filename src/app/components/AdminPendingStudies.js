@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { db } from "../firebase";
 import { getDoc, getDocs, collection, doc, updateDoc, writeBatch } from "firebase/firestore";
-import AdminFeedbackCard from "./AdminCardFeedback.js/AdminCardFeedback";
+import AdminFeedbackCard from "./AdminCardFeedback/AdminCardFeedback";
 import BigHeader from "./BigHeader/BigHeader";
 import { Divider } from "./ExtendedResearchCard/ExtendedResearchCard";
 

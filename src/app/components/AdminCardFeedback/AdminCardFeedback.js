@@ -31,6 +31,7 @@ const AdminFeedbackCard = (props) => {
     return d.toLocaleDateString("en-US", options);
   };
 
+
   return (
     <div class="max-w-4xl mx-auto bg-white rounded-lg border border-gray-200 shadow-md overflow-hidden flex flex-col md:flex-row my-5">
       <div class="flex-1 p-4">
@@ -40,7 +41,7 @@ const AdminFeedbackCard = (props) => {
           </h5>
           <img
             class="w-10 h-10 rounded-full"
-            src={`${logo}`}
+            src={`${logo}` || 'public/images/defaultLogo.png'}
             alt="Study Logo"
           />
         </div>

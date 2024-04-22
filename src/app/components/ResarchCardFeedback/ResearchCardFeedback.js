@@ -40,7 +40,7 @@ const ResearchFeedbackCard = (props) => {
           </h5>
           <img
             class="w-10 h-10 rounded-full"
-            src={`${logo}`}
+            src={`${logo}` || 'public/images/defaultLogo.png'}
             alt="Study Logo"
           />
         </div>

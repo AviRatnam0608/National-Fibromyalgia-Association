@@ -47,7 +47,7 @@ const ExtendedResearchCard = ({ research }) => {
           </div>
           <img
             class="w-10 h-10 rounded-full"
-            src={`${research.logo}`}
+            src={`${research.logo}` || 'public/images/defaultLogo.png'}
             alt="Study Logo"
           />
         </div>

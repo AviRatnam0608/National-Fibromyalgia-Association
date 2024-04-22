@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import Tab from "@/app/components/Tab/Tab";
 
 export const checkIfResearchActive = (research) => {
-  const endDate = new Date(research?.postExpirationDate);
+  const endDate = new Date(research?.recruitEndDate);
   const currentDate = new Date();
   return currentDate < endDate;
 };

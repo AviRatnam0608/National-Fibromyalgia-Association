@@ -9,7 +9,7 @@ import { db } from "@/app/firebase";
 import Tab from "@/app/components/Tab/Tab";
 
 export const checkIfResearchDatePassed = (research) => {
-  const endDate = new Date(research?.postExpirationDate);
+  const endDate = new Date(research?.recruitEndDate);
   const currentDate = new Date();
   return currentDate > endDate;
 };

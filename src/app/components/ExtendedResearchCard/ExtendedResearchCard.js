@@ -47,13 +47,13 @@ const ExtendedResearchCard = ({ research }) => {
           </div>
           <img
             class="w-10 h-10 rounded-full"
-            src={`${research.logo}`}
+            src={`${research.logoUri}`}
             alt="Study Logo"
           />
         </div>
 
         <p class="mt-2 text-sm text-gray-700">
-          {research.descriptionAndPurpose}
+          {research.description}
         </p>
 
         <div class="mt-4">
@@ -69,13 +69,13 @@ const ExtendedResearchCard = ({ research }) => {
           </h3>
           <h3 class="text-sm text-gray-600">
             <span className="font-semibold">End Date:</span>{" "}
-            {getDate(research.postExpirationDate)}
+            {getDate(research.recruitEndDate)}
           </h3>
         </div>
 
         <div class="mt-4">
           <h6 class="font-semibold text-gray-900">Research End Date:</h6>
-          <p class="text-sm text-gray-600">{getDate(research.endDate)}</p>
+          <p class="text-sm text-gray-600">{getDate(research.studyEndDate)}</p>
         </div>
 
         <div class="mt-4">
@@ -103,7 +103,7 @@ const ExtendedResearchCard = ({ research }) => {
 
         <div class="mt-4">
           <h6 class="font-semibold text-gray-900">Participant Experience:</h6>
-          <p class="text-sm text-gray-600">{research.participantExperience}</p>
+          <p class="text-sm text-gray-600">{research.procedure}</p>
         </div>
 
         <div class="mt-4">
@@ -189,7 +189,7 @@ const ExtendedResearchCard = ({ research }) => {
           <h6 class="font-semibold text-gray-900">Video Presentation:</h6>
           <div class="text-sm text-gray-600">
             <video class="w-full" controls>
-              <source src={research.video} type="video/mp4" />
+              <source src={research.videoUri} type="video/mp4" />
               Your browser does not support the video tag.
             </video>
           </div>

@@ -69,7 +69,7 @@ const Modal = ({ isOpen, onClose, submission }) => {
           </div>
           <div style={fieldBorderStyle}>
             <h2><strong>Description:</strong></h2>
-            <p>{submission.descriptionAndPurpose}</p>
+            <p>{submission.description}</p>
           </div>
           <div style={fieldBorderStyle}>
             <h2><strong>Principal Investigator:</strong></h2>
@@ -89,7 +89,7 @@ const Modal = ({ isOpen, onClose, submission }) => {
           </div>
           <div style={fieldBorderStyle}>
             <h2><strong>Participant Experience:</strong></h2>
-            <p>{submission.participantExperience}</p>
+            <p>{submission.procedure}</p>
           </div>
           <div style={fieldBorderStyle}>
             <h2><strong>NFA Compensation:</strong></h2>
@@ -129,7 +129,7 @@ const Modal = ({ isOpen, onClose, submission }) => {
           </div>
           <div style={fieldBorderStyle}>
             <h2><strong>Post Expiration Date:</strong></h2>
-            <p>{submission.postExpirationDate}</p>
+            <p>{submission.recruitEndDate}</p>
           </div>
           {/* Add any other fields here */}
         </>

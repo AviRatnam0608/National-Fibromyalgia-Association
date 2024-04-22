@@ -30,13 +30,13 @@ const ResearchPostRequestForm = () => {
     irbNumber: "",
     principalInvestigator: "",
     title: "",
-    descriptionAndPurpose: "",
-    participantExperience: "",
+    description: "",
+    procedure: "",
     location: "",
     compensation: "",
     nfaCompensation: "",
-    logo: "",
-    video: "",
+    logoUri: "",
+    videoUri: "",
     inclusionCriteria: "",
     exclusionCriteria: "",
     contactName: "",
@@ -45,9 +45,9 @@ const ResearchPostRequestForm = () => {
     contactWebsite: "",
     additionalLinks: "",
     relatedResearch: "",
-    postExpirationDate: "",
+    recruitEndDate: "",
     startDate: "",
-    endDate: "",
+    studyEndDate: "",
   });
 
   const [proposedStartAndEndDates, setProposedStartAndEndDates] = useState({
@@ -130,7 +130,7 @@ const ResearchPostRequestForm = () => {
             // Here, you could update your database with the downloadURL and update the UI to show the uploaded logo
             setFormData((prevFormData) => ({
               ...prevFormData,
-              logo: downloadURL,
+              logoUri: downloadURL,
             }));
           });
         }
@@ -176,7 +176,7 @@ const ResearchPostRequestForm = () => {
             // Here, you could update your database with the downloadURL and update the UI to show the uploaded file
             setFormData((prevFormData) => ({
               ...prevFormData,
-              video: downloadURL,
+              videoUri: downloadURL,
             }));
           });
         }
@@ -396,11 +396,11 @@ const ResearchPostRequestForm = () => {
     </>
   );
 
-  const [descriptionAndPurposeFieldClass, setDescriptionAndPurposeFieldClass] = useState(textareaClass);
+  const [descriptionFieldClass, setDescriptionFieldClass] = useState(textareaClass);
 
-  const DescriptionAndPurposeField = () => {
+  const DescriptionField = () => {
     const [localValue, setLocalValue] = useState(
-      formData.descriptionAndPurpose
+      formData.description
     );
 
     const handleChange = (e) => {
@@ -410,34 +410,34 @@ const ResearchPostRequestForm = () => {
     const handleBlur = () => {
       setFormData((prevFormData) => ({
         ...prevFormData,
-        descriptionAndPurpose: localValue,
+        description: localValue,
       }));
     };
 
     return (
       <textarea
-        name="descriptionAndPurpose"
+        name="description"
         placeholder="Description & Purpose of the Study"
         value={localValue}
         onChange={handleChange}
         onBlur={handleBlur}
-        className={descriptionAndPurposeFieldClass}
+        className={descriptionFieldClass}
       />
     );
   };
 
-  const DescriptionAndPurposeFieldValidation = () => {
+  const DescriptionFieldValidation = () => {
     let pass = true
     let errMsg = ''
-    setDescriptionAndPurposeFieldClass(textareaClass)
-    if (formData.descriptionAndPurpose === ''){
+    setDescriptionFieldClass(textareaClass)
+    if (formData.description === ''){
       errMsg += 'Description & Purpose of the Study cannot be empty. '
-      setDescriptionAndPurposeFieldClass(textareaErrClass)
+      setDescriptionFieldClass(textareaErrClass)
       pass = false
     }
-    if (countWords(formData.descriptionAndPurpose) > 1000){
+    if (countWords(formData.description) > 1000){
       errMsg += 'Description & Purpose of the Study should have less than 1000 words. '
-      setDescriptionAndPurposeFieldClass(textareaErrClass)
+      setDescriptionFieldClass(textareaErrClass)
       pass = false
     }
     if (pass) {
@@ -448,11 +448,11 @@ const ResearchPostRequestForm = () => {
     return pass
   };
 
-  const [participantExperienceFieldClass, setParticipantExperienceFieldClass] = useState(textareaClass);
+  const [procedureFieldClass, setProcedureFieldClass] = useState(textareaClass);
 
-  const ParticipantExperienceField = () => {
+  const ProcedureField = () => {
     const [localValue, setLocalValue] = useState(
-      formData.participantExperience
+      formData.procedure
     );
 
     const handleChange = (e) => {
@@ -462,34 +462,34 @@ const ResearchPostRequestForm = () => {
     const handleBlur = () => {
       setFormData((prevFormData) => ({
         ...prevFormData,
-        participantExperience: localValue,
+        procedure: localValue,
       }));
     };
 
     return (
       <textarea
-        name="participantExperience"
+        name="procedure"
         placeholder="Participant Experience Details"
         value={localValue}
         onChange={handleChange}
         onBlur={handleBlur}
-        className={participantExperienceFieldClass}
+        className={procedureFieldClass}
       />
     );
   };
 
-  const ParticipantExperienceFieldValidation = () => {
+  const ProcedureFieldValidation = () => {
     let pass = true
     let errMsg = ''
-    setParticipantExperienceFieldClass(textareaClass)
-    if (formData.participantExperience === ''){
+    setProcedureFieldClass(textareaClass)
+    if (formData.procedure === ''){
       errMsg += 'Participant Experience cannot be empty. '
-      setParticipantExperienceFieldClass(textareaErrClass)
+      setProcedureFieldClass(textareaErrClass)
       pass = false
     }
-    if (countWords(formData.participantExperience) > 1000){
+    if (countWords(formData.procedure) > 1000){
       errMsg += 'Participant Experience should have less than 1000 words. '
-      setParticipantExperienceFieldClass(textareaErrClass)
+      setProcedureFieldClass(textareaErrClass)
       pass = false
     }
     if (pass) {
@@ -914,11 +914,11 @@ const ResearchPostRequestForm = () => {
     />
   );
 
-  const [postExpirationDateFieldClass, setPostExpirationDateFieldClass] = useState(dateInputClass);
+  const [recruitEndDateFieldClass, setRecruitEndDateFieldClass] = useState(dateInputClass);
 
   // PARTICIPANT RECRUITMENT END DATE
-  const PostExpirationDateField = () => {
-    const [localValue, setLocalValue] = useState(formData.postExpirationDate);
+  const RecruitEndDateField = () => {
+    const [localValue, setLocalValue] = useState(formData.recruitEndDate);
 
     const handleChange = (e) => {
       setLocalValue(e.target.value);
@@ -927,7 +927,7 @@ const ResearchPostRequestForm = () => {
     const handleBlur = () => {
       setFormData((prevFormData) => ({
         ...prevFormData,
-        postExpirationDate: localValue,
+        recruitEndDate: localValue,
       }));
       setProposedStartAndEndDates({
         ...proposedStartAndEndDates,
@@ -938,11 +938,11 @@ const ResearchPostRequestForm = () => {
     return (
       <input
         type="date"
-        name="postExpirationDate"
+        name="recruitEndDate"
         value={localValue}
         onChange={handleChange}
         onBlur={handleBlur}
-        className={postExpirationDateFieldClass}
+        className={recruitEndDateFieldClass}
         min={formData.startDate}
         required
       />
@@ -987,7 +987,7 @@ const ResearchPostRequestForm = () => {
 
   // OVERALL RESEARCH END DATE
   const EndDateField = () => {
-    const [localValue, setLocalValue] = useState(formData.endDate);
+    const [localValue, setLocalValue] = useState(formData.studyEndDate);
 
     const handleChange = (e) => {
       setLocalValue(e.target.value);
@@ -996,19 +996,19 @@ const ResearchPostRequestForm = () => {
     const handleBlur = () => {
       setFormData((prevFormData) => ({
         ...prevFormData,
-        endDate: localValue,
+        studyEndDate: localValue,
       }));
     };
 
     return (
       <input
         type="date"
-        name="endDate"
+        name="studyEndDate"
         value={localValue}
         onChange={handleChange}
         onBlur={handleBlur}
         className={endDateFieldClass}
-        min={formData.postExpirationDate}
+        min={formData.recruitEndDate}
       />
     );
   };
@@ -1017,27 +1017,27 @@ const ResearchPostRequestForm = () => {
     let pass = true
     let errMsg = ''
     setStartDateFieldClass(dateInputClass)
-    setPostExpirationDateFieldClass(dateInputClass)
+    setRecruitEndDateFieldClass(dateInputClass)
     setEndDateFieldClass(dateInputClass)
     if (formData.startDate === ''){
       errMsg += "Recruitment Start Date cannot be empty. "
       setStartDateFieldClass(dateInputErrClass)
       pass = false
     }
-    if (formData.postExpirationDate === ''){
+    if (formData.recruitEndDate === ''){
       errMsg += "Recruitment End Date cannot be empty. "
-      setPostExpirationDateFieldClass(dateInputErrClass)
+      setRecruitEndDateFieldClass(dateInputErrClass)
       pass = false
     }
-    if (new Date(formData.startDate) > new Date(formData.postExpirationDate)) {
+    if (new Date(formData.startDate) > new Date(formData.recruitEndDate)) {
       errMsg += "Recruitment End Date must be after Recruitment Start Date. "
       setStartDateFieldClass(dateInputErrClass)
-      setPostExpirationDateFieldClass(dateInputErrClass)
+      setRecruitEndDateFieldClass(dateInputErrClass)
       pass = false
     }
-    if (formData.endDate !== '' && new Date(formData.postExpirationDate) > new Date(formData.endDate)) {
+    if (formData.studyEndDate !== '' && new Date(formData.recruitEndDate) > new Date(formData.studyEndDate)) {
       errMsg += "Estimated Study End Date must be after Recruitment End Date. "
-      setPostExpirationDateFieldClass(dateInputErrClass)
+      setRecruitEndDateFieldClass(dateInputErrClass)
       setEndDateFieldClass(dateInputErrClass)
       pass = false
     }
@@ -1096,13 +1096,13 @@ const ResearchPostRequestForm = () => {
       id: 2,
       title: "Area of Study",
       description: "Research Description, Topics, and Research Type",
-      validation: DescriptionAndPurposeFieldValidation
+      validation: DescriptionFieldValidation
     },
     {
       id: 3,
       title: "Participant Experience",
       description: "Timeline, Meetings, Procedures, and Participant Experience",
-      validation: ParticipantExperienceFieldValidation
+      validation: ProcedureFieldValidation
     },
     {
       id: 4,
@@ -1174,7 +1174,7 @@ const ResearchPostRequestForm = () => {
               common terms. Additionally, select any topics on medical
               conditions, research topics and the research type.
             </p>
-            <DescriptionAndPurposeField />
+            <DescriptionField />
             <ResearchTopicsField />
           </div>
         )}
@@ -1188,7 +1188,7 @@ const ResearchPostRequestForm = () => {
               meetings, required procedures, and any other essential participant
               experiences.
             </p>
-            <ParticipantExperienceField />
+            <ProcedureField />
           </div>
         )}
         {currentStep === 4 && (
@@ -1283,7 +1283,7 @@ const ResearchPostRequestForm = () => {
             <p className="text-sm mb-4 text-black">
               What day will participant recruitment for this study begin?
             </p>
-            <PostExpirationDateField />
+            <RecruitEndDateField />
             <p className="text-sm mb-4 text-black">
               What day will participant recruitment close for this study?
             </p>

@@ -6,10 +6,10 @@ import {
 const AdminFeedbackCard = (props) => {
   const {
     title,
-    logo,
-    descriptionAndPurpose,
+    logoUri,
+    description,
     researchTopics,
-    participantExperience,
+    procedure,
     inclusionCriteria,
     exclusionCriteria,
     principalInvestigator,
@@ -20,7 +20,7 @@ const AdminFeedbackCard = (props) => {
     contactPhone,
     contactWebsite,
     startDate,
-    endDate,
+    recruitEndDate,
     nfaCompensation,
     children,
   } = props;
@@ -40,12 +40,12 @@ const AdminFeedbackCard = (props) => {
           </h5>
           <img
             class="w-10 h-10 rounded-full"
-            src={`${logo}`}
+            src={`${logoUri}`}
             alt="Study Logo"
           />
         </div>
 
-        <p class="mt-2 text-sm text-gray-700">{descriptionAndPurpose}</p>
+        <p class="mt-2 text-sm text-gray-700">{description}</p>
 
         <div class="mt-4">
           <h6 class="font-semibold text-gray-900">Principal Investigator:</h6>
@@ -59,7 +59,7 @@ const AdminFeedbackCard = (props) => {
             {getDate(startDate)}
           </h3>
           <h3 class="text-sm text-gray-600">
-            <span className="font-semibold">End Date:</span> {getDate(endDate)}
+            <span className="font-semibold">End Date:</span> {getDate(recruitEndDate)}
           </h3>
         </div>
 
@@ -88,7 +88,7 @@ const AdminFeedbackCard = (props) => {
 
         <div class="mt-4">
           <h6 class="font-semibold text-gray-900">Participant Experience:</h6>
-          <p class="text-sm text-gray-600">{participantExperience}</p>
+          <p class="text-sm text-gray-600">{procedure}</p>
         </div>
 
         <div class="mt-4">

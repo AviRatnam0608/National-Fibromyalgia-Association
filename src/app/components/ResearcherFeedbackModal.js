@@ -69,7 +69,7 @@ const ResearcherModal = ({ isOpen, onClose, submission }) => {
           </div>
           <div style={fieldBorderStyle}>
             <h2><strong>Description:</strong></h2>
-            <p>{submission.descriptionAndPurpose}</p>
+            <p>{submission.description}</p>
           </div>
           <div style={fieldBorderStyle}>
             <h2><strong>Principal Investigator:</strong></h2>

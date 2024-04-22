@@ -1,12 +1,12 @@
 import React from "react";
 
 export const Divider = () => {
-  return <div class="border-t border-gray-200 my-5"></div>;
+  return <div className="border-t border-gray-200 my-5"></div>;
 };
 
 export const tagComponent = (tags) => {
   return tags.map((tag) => (
-    <span class="inline-block text-xs bg-gray-200 rounded-full px-3 py-1 font-semibold text-gray-700 mr-2">
+    <span className="inline-block text-xs bg-gray-200 rounded-full px-3 py-1 font-semibold text-gray-700 mr-2">
       {tag}
     </span>
   ));
@@ -34,11 +34,11 @@ const ExtendedResearchCard = ({ research }) => {
   };
 
   return (
-    <div class="max-w-4xl mx-auto bg-white rounded-lg border border-gray-200 shadow-md overflow-hidden my-5">
-      <div class="flex-1 p-4">
-        <div class="flex justify-between items-center">
+    <div className="max-w-4xl mx-auto bg-white rounded-lg border border-gray-200 shadow-md overflow-hidden my-5">
+      <div className="flex-1 p-4">
+        <div className="flex justify-between items-center">
           <div className="flex items-center gap-5">
-            <h5 class="text-xl font-semibold tracking-tight text-gray-900">
+            <h5 className="text-xl font-semibold tracking-tight text-gray-900">
               {research.title}
             </h5>
             <p className="text-sm text-gray-700">
@@ -46,40 +46,40 @@ const ExtendedResearchCard = ({ research }) => {
             </p>
           </div>
           <img
-            class="w-10 h-10 rounded-full"
+            className="w-10 h-10 rounded-full"
             src={`${research.logoUri}`}
             alt="Study Logo"
           />
         </div>
 
-        <p class="mt-2 text-sm text-gray-700">
+        <p className="mt-2 text-sm text-gray-700">
           {research.description}
         </p>
 
-        <div class="mt-4">
-          <h6 class="font-semibold text-gray-900">Principal Investigator:</h6>
-          <p class="text-sm text-gray-600">{research.principalInvestigator}</p>
+        <div className="mt-4">
+          <h6 className="font-semibold text-gray-900">Principal Investigator:</h6>
+          <p className="text-sm text-gray-600">{research.principalInvestigator}</p>
         </div>
 
-        <div class="mt-4">
-          <h6 class="font-semibold text-gray-900">Recruitment Duration:</h6>
-          <h3 class="text-sm text-gray-600">
+        <div className="mt-4">
+          <h6 className="font-semibold text-gray-900">Recruitment Duration:</h6>
+          <h3 className="text-sm text-gray-600">
             <span className="font-semibold">Start Date:</span>{" "}
             {getDate(research.startDate)}
           </h3>
-          <h3 class="text-sm text-gray-600">
+          <h3 className="text-sm text-gray-600">
             <span className="font-semibold">End Date:</span>{" "}
             {getDate(research.recruitEndDate)}
           </h3>
         </div>
 
-        <div class="mt-4">
-          <h6 class="font-semibold text-gray-900">Research End Date:</h6>
-          <p class="text-sm text-gray-600">{getDate(research.studyEndDate)}</p>
+        <div className="mt-4">
+          <h6 className="font-semibold text-gray-900">Research End Date:</h6>
+          <p className="text-sm text-gray-600">{getDate(research.studyEndDate)}</p>
         </div>
 
-        <div class="mt-4">
-          <h6 class="font-semibold text-gray-900">Research Topics:</h6>
+        <div className="mt-4">
+          <h6 className="font-semibold text-gray-900">Research Topics:</h6>
           <div className="flex-col flex gap-2 mt-1">
             <p>
               <span className="text-sm text-gray-600">Medical Conditions:</span>{" "}
@@ -101,43 +101,43 @@ const ExtendedResearchCard = ({ research }) => {
           Participant Information
         </h4>
 
-        <div class="mt-4">
-          <h6 class="font-semibold text-gray-900">Participant Experience:</h6>
-          <p class="text-sm text-gray-600">{research.procedure}</p>
+        <div className="mt-4">
+          <h6 className="font-semibold text-gray-900">Participant Experience:</h6>
+          <p className="text-sm text-gray-600">{research.procedure}</p>
         </div>
 
-        <div class="mt-4">
-          <h6 class="font-semibold text-gray-900">Inclusion Criteria:</h6>
-          <p class="text-sm text-gray-600">{research.inclusionCriteria}</p>
+        <div className="mt-4">
+          <h6 className="font-semibold text-gray-900">Inclusion Criteria:</h6>
+          <p className="text-sm text-gray-600">{research.inclusionCriteria}</p>
         </div>
 
-        <div class="mt-4">
-          <h6 class="font-semibold text-gray-900">Exclusion Criteria:</h6>
-          <p class="text-sm text-gray-600">{research.exclusionCriteria}</p>
+        <div className="mt-4">
+          <h6 className="font-semibold text-gray-900">Exclusion Criteria:</h6>
+          <p className="text-sm text-gray-600">{research.exclusionCriteria}</p>
         </div>
 
-        <div class="mt-4">
-          <h6 class="font-semibold text-gray-900">Location:</h6>
-          <p class="text-sm text-gray-600">{research.location}</p>
+        <div className="mt-4">
+          <h6 className="font-semibold text-gray-900">Location:</h6>
+          <p className="text-sm text-gray-600">{research.location}</p>
         </div>
 
-        <div class="mt-4">
-          <h6 class="font-semibold text-gray-900">Participant Compensation:</h6>
-          <p class="text-sm text-gray-600">{research.compensation}</p>
+        <div className="mt-4">
+          <h6 className="font-semibold text-gray-900">Participant Compensation:</h6>
+          <p className="text-sm text-gray-600">{research.compensation}</p>
         </div>
 
         <Divider />
         <h4 className="font-bold text-lg text-gray-800">NFA Information</h4>
 
-        <div class="mt-4">
-          <h6 class="font-semibold text-gray-900">NFA Compensation:</h6>
-          <p class="text-sm text-gray-600">{research.nfaCompensation}</p>
+        <div className="mt-4">
+          <h6 className="font-semibold text-gray-900">NFA Compensation:</h6>
+          <p className="text-sm text-gray-600">{research.nfaCompensation}</p>
         </div>
 
-        <div class="mt-4">
-          <h6 class="font-semibold text-gray-900">Status:</h6>
+        <div className="mt-4">
+          <h6 className="font-semibold text-gray-900">Status:</h6>
           <p
-            class={`text-sm ${
+            className={`text-sm ${
               statusColor[research.status]
             } font-semibold text-gray-600`}
           >
@@ -173,22 +173,22 @@ const ExtendedResearchCard = ({ research }) => {
 
         <Divider />
         <h4 className="font-bold text-lg text-gray-800">Extra</h4>
-        <div class="mt-4">
-          <p class="text-sm text-gray-600">
-            <h6 class="font-semibold text-gray-900">Additional Links:</h6>
+        <div className="mt-4">
+          <p className="text-sm text-gray-600">
+            <h6 className="font-semibold text-gray-900">Additional Links:</h6>
             {research.additionalLinks ? research.additionalLinks : "N/A"}
           </p>
         </div>
-        <div class="mt-4">
-          <p class="text-sm text-gray-600">
-            <h6 class="font-semibold text-gray-900">Related Research:</h6>
+        <div className="mt-4">
+          <p className="text-sm text-gray-600">
+            <h6 className="font-semibold text-gray-900">Related Research:</h6>
             {research.relatedResearch ? research.relatedResearch : "N/A"}
           </p>
         </div>
-        <div class="mt-4">
-          <h6 class="font-semibold text-gray-900">Video Presentation:</h6>
-          <div class="text-sm text-gray-600">
-            <video class="w-full" controls>
+        <div className="mt-4">
+          <h6 className="font-semibold text-gray-900">Video Presentation:</h6>
+          <div className="text-sm text-gray-600">
+            <video className="w-full" controls>
               <source src={research.videoUri} type="video/mp4" />
               Your browser does not support the video tag.
             </video>

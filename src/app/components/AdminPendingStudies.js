@@ -159,8 +159,8 @@ const AdminPending = () => {
             {...submissionItem}
             acceptResearchHandler={handleApprove}
           >
-            <div class="w-full md:w-96 border-t md:border-t-0 md:border-l border-gray-200 p-4">
-              <h5 class="text-lg font-semibold text-gray-900">Feedback</h5>
+            <div className="w-full md:w-96 border-t md:border-t-0 md:border-l border-gray-200 p-4">
+              <h5 className="text-lg font-semibold text-gray-900">Feedback</h5>
               <p className="text-gray-500 text-sm">
                 If you have no feedback to provide, leave the feedback text area
                 below empty.
@@ -181,9 +181,9 @@ const AdminPending = () => {
                   }}
                 />
               </div>
-              <div class="flex gap-2 mt-4 align-middle">
+              <div className="flex gap-2 mt-4 align-middle">
                 <button
-                  class="bg-green-500 hover:bg-green-700 text-white active:bg-green-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150"
+                  className="bg-green-500 hover:bg-green-700 text-white active:bg-green-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150"
                   type="button"
                   onClick={() => {
                     setSelectedOption("accepted");
@@ -193,7 +193,7 @@ const AdminPending = () => {
                   Accept
                 </button>
                 <button
-                  class="disabled:bg-gray-500 bg-red-500 hover:bg-red-700 text-white active:bg-red-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150"
+                  className="disabled:bg-gray-500 bg-red-500 hover:bg-red-700 text-white active:bg-red-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150"
                   type="button"
                   onClick={() => {
                     setSelectedOption("denied");
@@ -203,7 +203,7 @@ const AdminPending = () => {
                   Reject
                 </button>
                 <button
-                  class="bg-blue-500 hover:bg-blue-700 text-white active:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150"
+                  className="bg-blue-500 hover:bg-blue-700 text-white active:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150"
                   type="button"
                   disabled={!feedback[submissionItem.id]}
                   onClick={() => handleRejectWithFeedback(submissionItem.id)}
@@ -220,7 +220,7 @@ const AdminPending = () => {
                       Important!
                     </p>
                   </div>
-                  <p class="text-sm text-gray-700">
+                  <p className="text-sm text-gray-700">
                     The study will be{" "}
                     <span
                       className={`font-semibold ${
@@ -234,10 +234,10 @@ const AdminPending = () => {
                     ! <br /> Do you want to send an email notification to the
                     researcher?
                   </p>
-                  <div class="flex gap-2 mt-4 align-middle">
+                  <div className="flex gap-2 mt-4 align-middle">
                     {selectedOption === "accepted" && (
                       <button
-                        class="bg-green-500 hover:bg-green-700 text-white active:bg-green-600 font-bold uppercase text-xs px-3 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150"
+                        className="bg-green-500 hover:bg-green-700 text-white active:bg-green-600 font-bold uppercase text-xs px-3 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150"
                         type="button"
                         onClick={() => {
                           window.location.href = emailTemplate(
@@ -252,7 +252,7 @@ const AdminPending = () => {
                     )}
                     {selectedOption === "denied" && (
                       <button
-                        class="disabled:bg-gray-500 bg-red-500 hover:bg-red-700 text-white active:bg-red-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150"
+                        className="disabled:bg-gray-500 bg-red-500 hover:bg-red-700 text-white active:bg-red-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150"
                         type="button"
                         onClick={() => {
                           window.location.href = emailTemplate(
@@ -266,7 +266,7 @@ const AdminPending = () => {
                       </button>
                     )}
                     <button
-                      class="inline-block text-gray-700 bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded shadow-md cursor-pointer transition-colors duration-300"
+                      className="inline-block text-gray-700 bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded shadow-md cursor-pointer transition-colors duration-300"
                       onClick={() => {
                         selectedOption === "accepted"
                           ? handleApprove(submissionItem.id)

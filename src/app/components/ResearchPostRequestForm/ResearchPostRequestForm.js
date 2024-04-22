@@ -888,7 +888,7 @@ const ResearchPostRequestForm = () => {
     {
       id: 5,
       title: "Compensation",
-      description: "Please provide any compenstation details below. If yes, please list an amount.",
+      description: "Please provide any compensation details below. If yes, please list an amount.",
       validation: CompensationFieldValidation,
       components: (
         <>
@@ -899,7 +899,7 @@ const ResearchPostRequestForm = () => {
     },
     {
       id: 6,
-      title: "Participant Prefrences",
+      title: "Participant Preferences",
       description: "Please provide the basic requirements of the research.",
       validation: CriteriaFieldValidation,
       components: (
@@ -925,7 +925,7 @@ const ResearchPostRequestForm = () => {
     {
       id: 8,
       title: "External Links",
-      description: "Please provide any additonal information below.",
+      description: "Please provide any additional information below.",
       components: (
         <>
           <ContactWebsiteField />

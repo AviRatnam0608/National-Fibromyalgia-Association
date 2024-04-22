@@ -1,9 +1,13 @@
 export const inputClass = "border rounded w-full py-2 px-3 text-black mb-4";
+export const inputErrClass = "border border-rose-500 rounded w-full py-2 px-3 text-black mb-4";
 export const textareaClass = "border rounded w-full py-2 px-3 text-black mb-4";
+export const textareaErrClass = "border border-rose-500 rounded w-full py-2 px-3 text-black mb-4";
 export const fileInputClass =
   "form-input w-full border rounded w-full py-2 px-3 text-black";
 export const dateInputClass =
   "form-input w-full border rounded w-full py-2 px-3 text-black";
+export const dateInputErrClass =
+  "form-input w-full border border-rose-500 rounded w-full py-2 px-3 text-black";
 export const formContainerClass =
   "flex flex-col justify-center items-center min-h-screen overflow-hidden";
 export const formSectionClass =

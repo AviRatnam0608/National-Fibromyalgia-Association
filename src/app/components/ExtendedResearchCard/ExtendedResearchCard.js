@@ -189,7 +189,7 @@ const ExtendedResearchCard = ({ research }) => {
           <h6 class="font-semibold text-gray-900">Video Presentation:</h6>
           <div class="text-sm text-gray-600">
             <video class="w-full" controls>
-              <source src={research.videoUrl} type="video/mp4" />
+              <source src={research.video} type="video/mp4" />
               Your browser does not support the video tag.
             </video>
           </div>

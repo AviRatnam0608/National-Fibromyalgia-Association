@@ -8,14 +8,17 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: '#AC1E52',  
-        secondary: '#2B6785', 
-        text: '#1A202C',     
-        background: '#F7FAFC', 
-        border: '#E2E8F0',   
+        primary: "#AC1E52",
+        secondary: "#2B6785",
+        text: "#1A202C",
+        background: "#F7FAFC",
+        border: "#E2E8F0",
+        primaryHover: "#B52761",
+        primaryBorder: "#920F34",
+        primaryDarker: "#400017",
         // add other colors as needed
-      }
-    }
+      },
+    },
   },
   plugins: [],
-}
+};

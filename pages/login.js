@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../src/app/firebase';
+import { db } from '../src/app/firebase';
+import { collection, getDocs, setDoc, doc } from 'firebase/firestore';
 
 const AuthForm = () => {
     const [email, setEmail] = useState('');
@@ -22,7 +24,8 @@ const AuthForm = () => {
             if (isLogin) {
                 await signInWithEmailAndPassword(auth, email, password);
             } else {
-                await createUserWithEmailAndPassword(auth, email, password);
+                const userCred = await createUserWithEmailAndPassword(auth, email, password);
+                await setDoc(doc(db, 'Profile', userCred.user.uid), {email: email, identity: 'researcher'});
             }
             router.push('/Dashboard');
         } catch (error) {

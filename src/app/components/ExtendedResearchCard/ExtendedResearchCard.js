@@ -22,14 +22,14 @@ const ExtendedResearchCard = ({ research }) => {
   const pendingStatus = {
     adminPending: "Pending Admin Approval",
     researcherPending: "Pending Researcher Approval",
-    accepted: "Accepted",
+    approved: "Approved",
     denied: "Denied",
   };
 
   const statusColor = {
     adminPending: "text-yellow-600",
     researcherPending: "text-yellow-600",
-    accepted: "text-green-600",
+    approved: "text-green-600",
     denied: "text-red-700",
   };
 
@@ -52,13 +52,15 @@ const ExtendedResearchCard = ({ research }) => {
           />
         </div>
 
-        <p className="mt-2 text-sm text-gray-700">
-          {research.description}
-        </p>
+        <p className="mt-2 text-sm text-gray-700">{research.description}</p>
 
         <div className="mt-4">
-          <h6 className="font-semibold text-gray-900">Principal Investigator:</h6>
-          <p className="text-sm text-gray-600">{research.principalInvestigator}</p>
+          <h6 className="font-semibold text-gray-900">
+            Principal Investigator:
+          </h6>
+          <p className="text-sm text-gray-600">
+            {research.principalInvestigator}
+          </p>
         </div>
 
         <div className="mt-4">
@@ -75,7 +77,9 @@ const ExtendedResearchCard = ({ research }) => {
 
         <div className="mt-4">
           <h6 className="font-semibold text-gray-900">Research End Date:</h6>
-          <p className="text-sm text-gray-600">{getDate(research.studyEndDate)}</p>
+          <p className="text-sm text-gray-600">
+            {getDate(research.studyEndDate)}
+          </p>
         </div>
 
         <div className="mt-4">
@@ -102,7 +106,9 @@ const ExtendedResearchCard = ({ research }) => {
         </h4>
 
         <div className="mt-4">
-          <h6 className="font-semibold text-gray-900">Participant Experience:</h6>
+          <h6 className="font-semibold text-gray-900">
+            Participant Experience:
+          </h6>
           <p className="text-sm text-gray-600">{research.procedure}</p>
         </div>
 
@@ -122,7 +128,9 @@ const ExtendedResearchCard = ({ research }) => {
         </div>
 
         <div className="mt-4">
-          <h6 className="font-semibold text-gray-900">Participant Compensation:</h6>
+          <h6 className="font-semibold text-gray-900">
+            Participant Compensation:
+          </h6>
           <p className="text-sm text-gray-600">{research.compensation}</p>
         </div>
 
@@ -137,9 +145,7 @@ const ExtendedResearchCard = ({ research }) => {
         <div className="mt-4">
           <h6 className="font-semibold text-gray-900">Status:</h6>
           <p
-            className={`text-sm ${
-              statusColor[research.status]
-            } font-semibold text-gray-600`}
+            className={`text-sm ${statusColor[research.status]} font-semibold`}
           >
             {pendingStatus[research.status]}
           </p>
@@ -151,14 +157,20 @@ const ExtendedResearchCard = ({ research }) => {
         <div className="mt-4">
           <p className="text-sm text-gray-600">Name: {research.contactName}</p>
           <p className="text-sm">
-            {'Email: '}
-            <a className="text-blue-500 hover:underline" href={`mailto:${research.contactEmail}`}>
+            {"Email: "}
+            <a
+              className="text-blue-500 hover:underline"
+              href={`mailto:${research.contactEmail}`}
+            >
               {research.contactEmail}
             </a>
           </p>
           <p className="text-sm">
-            {'Phone: '}
-            <a className="text-blue-500 hover:underline" href={`tel:${research.contactPhone}`}>
+            {"Phone: "}
+            <a
+              className="text-blue-500 hover:underline"
+              href={`tel:${research.contactPhone}`}
+            >
               {research.contactPhone}
             </a>
           </p>
@@ -184,14 +196,18 @@ const ExtendedResearchCard = ({ research }) => {
         <div className="mt-4">
           <div className="text-sm text-gray-600">
             <h6 className="font-semibold text-gray-900">Related Research:</h6>
-            {research.relatedResearch && research.relatedResearch.length !== 0 ? research.relatedResearch.map((element, idx) => {
-                return (
-                  <p key={idx} className="text-sm text-blue-500 hover:underline">
-                    <a href={element}>{element}</a>
-                  </p>
-                )
-              }
-            ) : 'N/A'}
+            {research.relatedResearch && research.relatedResearch.length !== 0
+              ? research.relatedResearch.map((element, idx) => {
+                  return (
+                    <p
+                      key={idx}
+                      className="text-sm text-blue-500 hover:underline"
+                    >
+                      <a href={element}>{element}</a>
+                    </p>
+                  );
+                })
+              : "N/A"}
           </div>
         </div>
         <div className="mt-4">

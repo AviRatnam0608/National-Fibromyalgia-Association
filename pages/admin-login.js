@@ -116,14 +116,6 @@ const AuthForm = () => {
               : "Signup"}
           </button>
         </form>
-        <button
-          onClick={toggleForm}
-          className="text-sm text-primary hover:underline"
-        >
-          {isLogin
-            ? "Need an account? Signup"
-            : "Already have an account? Login"}
-        </button>
       </div>
       <span className="my-5 text-gray-500">
         Are you a researcher?{" "}

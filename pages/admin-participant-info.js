@@ -16,7 +16,7 @@ const AdminParticipantInfo = () => {
 
   const fetchParticipantInfo = async () => {
     const participants = [];
-    const querySnapshot = await getDocs(collection(db, "Profile"));
+    const querySnapshot = await getDocs(collection(db, "Profile"), where('identity', '==', 'participant'));
     const participantData = querySnapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
@@ -40,6 +40,7 @@ const AdminParticipantInfo = () => {
       }
       fetchIdentity()
     }
+    fetchParticipantInfo()
   }, [currentUser, loading, router]);
 
   const handleSelectParticipant = (participantInfo) => {

@@ -36,9 +36,9 @@ function ResearcherNavBar() {
             Login
           </a>
           <a
-            href="/"
+            href="/dashboard"
             className={`px-2 ${hoverStyling} ${
-              isActive("/") ? activeStyling : ""
+              isActive("/dashboard") ? activeStyling : ""
             }`}
           >
             Home

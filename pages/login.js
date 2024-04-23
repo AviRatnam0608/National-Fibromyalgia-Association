@@ -59,7 +59,7 @@ const AuthForm = () => {
                 const userCred = await signInWithEmailAndPassword(auth, email, password);
                 const user = await getUserProfile(userCred.user.uid)
                 if (user.identity === 'researcher') {
-                    router.push('/');
+                    router.push('/dashboard');
                 } else if (user.identity === 'admin') {
                     router.push('/admin-dashboard');
                 } else {
@@ -83,7 +83,7 @@ const AuthForm = () => {
                     identity: 'researcher'
                 };
                 await setDoc(doc(db, 'Profile', userCred.user.uid), userData);
-                router.push('/');
+                router.push('/dashboard');
             }
         } catch (error) {
             console.error('Authentication failed: ', error);

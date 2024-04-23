@@ -1,5 +1,5 @@
 import { db } from "../firebase";
-import { doc, getDocs, setDoc } from "firebase/firestore";
+import { doc, getDoc, collection, query, where, setDoc, FieldPath } from "firebase/firestore";
 import { updateDoc } from "firebase/firestore";
 
 export const createUserProfileDocument = async (userAuth, additionalData) => {
@@ -19,4 +19,17 @@ export const updateUserRole = async (uid, newRole) => {
   await updateDoc(userRef, {
     role: newRole,
   });
+};
+
+export const getUserProfile = async (uid) => {
+  const snap = await getDoc(doc(db, "Profile", uid))
+
+  if (snap.exists()) {
+    console.log(snap.data())
+    return snap.data()
+  }
+  else {
+    console.log("No such document")
+    return {}
+  }
 };

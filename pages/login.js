@@ -70,7 +70,7 @@ const AuthForm = () => {
                     additionalInfo,
                     identity: 'researcher'
                 };
-                await setDoc(doc(db, 'Profiles', userCred.user.uid), userData);
+                await setDoc(doc(db, 'ResearcherProfiles', userCred.user.uid), userData);
                 router.push('/Dashboard');
             }
         } catch (error) {

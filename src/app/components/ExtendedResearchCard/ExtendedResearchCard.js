@@ -150,14 +150,16 @@ const ExtendedResearchCard = ({ research }) => {
 
         <div className="mt-4">
           <p className="text-sm text-gray-600">Name: {research.contactName}</p>
-          <p className="text-sm text-blue-500 hover:underline">
-            <a href={`mailto:${research.contactEmail}`}>
-              Email: {research.contactEmail}
+          <p className="text-sm">
+            {'Email: '}
+            <a className="text-blue-500 hover:underline" href={`mailto:${research.contactEmail}`}>
+              {research.contactEmail}
             </a>
           </p>
-          <p className="text-sm text-blue-500 hover:underline">
-            <a href={`tel:${research.contactPhone}`}>
-              Phone: {research.contactPhone}
+          <p className="text-sm">
+            {'Phone: '}
+            <a className="text-blue-500 hover:underline" href={`tel:${research.contactPhone}`}>
+              {research.contactPhone}
             </a>
           </p>
           <p className="text-sm text-blue-500 hover:underline">
@@ -174,16 +176,23 @@ const ExtendedResearchCard = ({ research }) => {
         <Divider />
         <h4 className="font-bold text-lg text-gray-800">Extra</h4>
         <div className="mt-4">
-          <p className="text-sm text-gray-600">
+          <div className="text-sm text-gray-600">
             <h6 className="font-semibold text-gray-900">Additional Links:</h6>
             {research.additionalLinks ? research.additionalLinks : "N/A"}
-          </p>
+          </div>
         </div>
         <div className="mt-4">
-          <p className="text-sm text-gray-600">
+          <div className="text-sm text-gray-600">
             <h6 className="font-semibold text-gray-900">Related Research:</h6>
-            {research.relatedResearch ? research.relatedResearch : "N/A"}
-          </p>
+            {research.relatedResearch && research.relatedResearch.length !== 0 ? research.relatedResearch.map((element, idx) => {
+                return (
+                  <p key={idx} className="text-sm text-blue-500 hover:underline">
+                    <a href={element}>{element}</a>
+                  </p>
+                )
+              }
+            ) : 'N/A'}
+          </div>
         </div>
         <div className="mt-4">
           <h6 className="font-semibold text-gray-900">Video Presentation:</h6>

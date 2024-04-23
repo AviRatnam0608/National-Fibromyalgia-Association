@@ -56,13 +56,15 @@ const ResearchPostRequestForm = () => {
     endDate: "",
   });
 
+  const [relatedResearchString, setRelatedResearchString] = useState("");
+
   const [tagOptions, setTagOptions] = useState({});
   const [selectedTags, setSelectedTags] = useState({
     conditions: [],
     topics: [],
     types: [],
   });
-  
+
   const totalSteps = 10;
 
   const fetchTagOptions = async () => {
@@ -625,22 +627,35 @@ const ResearchPostRequestForm = () => {
   const AdditionalLinksField = () => (
     <TextAreaField
       name="additionalLinks"
-      placeholder="Additional Links, such as surveys (optional)"
+      placeholder="Additional Links, such as surveys (Optional)"
       globalValue={formData.additionalLinks}
       setGlobalFormData={setFormData}
       className={textareaClass}
     />
   );
 
-  const RelatedResearchField = () => (
-    <TextAreaField
-      name="relatedResearch"
-      placeholder="Links to Related Research (optional)"
-      globalValue={formData.relatedResearch}
-      setGlobalFormData={setFormData}
-      className={textareaClass}
-    />
-  );
+  const RelatedResearchField = () =>{
+    const [localValue, setLocalValue] = useState(relatedResearchString)
+  
+    const handleChange = e => {
+      setLocalValue(e.target.value)
+    }
+  
+    const handleBlur = () => {
+      setRelatedResearchString(localValue)
+    }
+  
+    return (
+      <textarea
+        name="relatedResearch"
+        placeholder="Links to Related Research (Optional)"
+        value={localValue}
+        className={textareaClass}
+        onChange={handleChange}
+        onBlur={handleBlur}
+      />
+    )
+  };
 
   const [recruitEndDateFieldClass, setRecruitEndDateFieldClass] = useState(dateInputClass);
 
@@ -791,6 +806,7 @@ const ResearchPostRequestForm = () => {
     try {
       await addDoc(collection(db, "researchStudies"), {
         ...formData,
+        relatedResearch: relatedResearchString.trim() !== "" ? relatedResearchString.split(/\r?\n/) : [],
         status: "adminPending", // Set default status to 'adminPending'
         researchTopics: selectedTags,
       });
@@ -902,6 +918,9 @@ const ResearchPostRequestForm = () => {
         <>
           <ContactWebsiteField />
           <AdditionalLinksField />
+          <p className="text-sm mb-4 text-black">
+            If you have related research, paste the links below and use 'Enter' to divide them (eg. one link per line).
+          </p>
           <RelatedResearchField />
         </>
       )

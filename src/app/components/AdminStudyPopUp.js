@@ -125,7 +125,14 @@ const Modal = ({ isOpen, onClose, submission }) => {
           </div>
           <div style={fieldBorderStyle}>
             <h2><strong>Related Research:</strong></h2>
-            <p>{submission.relatedResearch}</p>
+            {submission.relatedResearch ? submission.relatedResearch.map((element, idx) => {
+              return (
+                <p key={idx} className="text-blue-500 hover:underline">
+                  <a href={element}>{element}</a>
+                </p>
+              )
+            }
+            ) : ''}
           </div>
           <div style={fieldBorderStyle}>
             <h2><strong>Post Expiration Date:</strong></h2>

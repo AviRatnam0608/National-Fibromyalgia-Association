@@ -98,7 +98,7 @@ const PastStudiesArchive = () => {
   // Redirect to login page if not logged in
   useEffect(() => {
     if (!currentUser) {
-      router.push("/login");
+      router.push("/admin-login");
     }
   }, [currentUser, router]);
 

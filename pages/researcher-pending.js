@@ -1,6 +1,6 @@
 import ResearcherPending from "@/app/components/ResearcherPendingStudies";
 import React, { useEffect } from "react";
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { useAuth } from '../src/app/services/AuthContext';
 import { getUserProfile } from '@/app/services/firestoreOperations';
 

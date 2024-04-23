@@ -65,7 +65,13 @@ function ResearcherNavBar() {
             hover:bg-primary 
             hover:text-white
             hover:shadow-lg
-            bg-white border border-2 text-primary rounded-lg py-1`}
+            border border-2 text-primary rounded-lg py-1
+            ${
+              isActive("/admin-pending")
+                ? "active: bg-primaryDarker text-white"
+                : "bg-white"
+            }
+            `}
           >
             Pending Studies
           </a>

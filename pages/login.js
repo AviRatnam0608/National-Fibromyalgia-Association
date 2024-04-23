@@ -3,6 +3,9 @@ import { useRouter } from 'next/router';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth, db } from '../src/app/firebase'; 
 import { doc, setDoc } from 'firebase/firestore';
+import { getUserProfile } from '@/app/services/firestoreOperations';
+import { useAuth } from '@/app/services/AuthContext';
+import { logOut } from '@/app/services/authService';
 
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
@@ -53,8 +56,17 @@ const AuthForm = () => {
 
         try {
             if (isLogin) {
-                await signInWithEmailAndPassword(auth, email, password);
-                router.push('/Dashboard');
+                const userCred = await signInWithEmailAndPassword(auth, email, password);
+                const user = await getUserProfile(userCred.user.uid)
+                if (user.identity === 'researcher') {
+                    router.push('/dashboard');
+                } else if (user.identity === 'admin') {
+                    router.push('/admin-dashboard');
+                } else {
+                    logOut()
+                    setError({ form: 'User is not authenticated' });
+                    setLoading(false);
+                }
             } else {
                 const userCred = await createUserWithEmailAndPassword(auth, email, password);
                 const userData = {
@@ -70,8 +82,8 @@ const AuthForm = () => {
                     additionalInfo,
                     identity: 'researcher'
                 };
-                await setDoc(doc(db, 'ResearcherProfiles', userCred.user.uid), userData);
-                router.push('/Dashboard');
+                await setDoc(doc(db, 'Profile', userCred.user.uid), userData);
+                router.push('/dashboard');
             }
         } catch (error) {
             console.error('Authentication failed: ', error);

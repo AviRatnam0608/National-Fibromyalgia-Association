@@ -4,8 +4,11 @@ import ExtendedResearchCard from "@/app/components/ExtendedResearchCard/Extended
 import ResearchCard from "@/app/components/ResearchCard/ResearchCard";
 import { db } from "@/app/firebase";
 import { collection, getDocs } from "firebase/firestore";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Tab from "@/app/components/Tab/Tab";
+import { useRouter } from 'next/router';
+import { useAuth } from '../src/app/services/AuthContext';
+import { getUserProfile } from '@/app/services/firestoreOperations';
 
 export const checkIfResearchActive = (research) => {
   const endDate = new Date(research?.recruitEndDate);
@@ -14,6 +17,24 @@ export const checkIfResearchActive = (research) => {
 };
 
 const Dashboard = () => {
+  const { currentUser, loading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    // If not loading and no user is logged in, redirect to login page
+    if (!loading && !currentUser) {
+      router.push('/admin-login');
+    } else if (currentUser) {
+      async function fetchIdentity() {
+        const user = await getUserProfile(currentUser.uid)
+        if (user.identity !== 'admin') {
+          router.push('/admin-login');
+        }
+      }
+      fetchIdentity()
+    }
+  }, [currentUser, loading, router]);
+
   const [activeTab, setActiveTab] = useState("active");
   const [filteredResearchData, setFilteredResearchData] = useState([]);
   const [selectedResearch, setSelectedResearch] = useState({});

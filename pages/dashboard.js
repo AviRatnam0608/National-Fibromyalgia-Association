@@ -1,27 +1,46 @@
-import React, { useState, useEffect } from "react";
-import { useAuth } from "../src/app/services/AuthContext";
-import { useRouter } from "next/router";
+"use client";
+import BigHeader from "@/app/components/BigHeader/BigHeader";
 import ExtendedResearchCard from "@/app/components/ExtendedResearchCard/ExtendedResearchCard";
 import ResearchCard from "@/app/components/ResearchCard/ResearchCard";
-import BigHeader from "@/app/components/BigHeader/BigHeader";
-import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/app/firebase";
+import { collection, getDocs } from "firebase/firestore";
+import React, { useEffect, useState } from "react";
 import Tab from "@/app/components/Tab/Tab";
+import { useRouter } from 'next/router';
+import { useAuth } from '../src/app/services/AuthContext';
 import { getUserProfile } from '@/app/services/firestoreOperations';
 
-export const checkIfResearchDatePassed = (research) => {
+export const checkIfResearchActive = (research) => {
   const endDate = new Date(research?.recruitEndDate);
   const currentDate = new Date();
-  return currentDate > endDate;
+  return currentDate < endDate;
 };
 
-const PastStudiesArchive = () => {
-  const [activeTab, setActiveTab] = useState("denied");
+const Dashboard = () => {
+  const { currentUser, loading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    // If not loading and no user is logged in, redirect to login page
+    if (!loading && !currentUser) {
+      router.push('/login');
+    } else if (currentUser) {
+      async function fetchIdentity() {
+        const user = await getUserProfile(currentUser.uid)
+        if (user.identity !== 'researcher') {
+          router.push('/login');
+        }
+      }
+      fetchIdentity()
+    }
+  }, [currentUser, loading, router]);
+
+  const [activeTab, setActiveTab] = useState("active");
   const [filteredResearchData, setFilteredResearchData] = useState([]);
   const [selectedResearch, setSelectedResearch] = useState({});
   const [showResearchInfo, setShowResearchInfo] = useState(false);
 
-  const [deniedResearchData, setDeniedResearchData] = useState([]);
+  const [activeResearchData, setActiveResearchData] = useState([]);
   const [completedResearchData, setCompletedResearchData] = useState([]);
 
   const fetchResearchStudies = async () => {
@@ -38,21 +57,18 @@ const PastStudiesArchive = () => {
   };
 
   const filterResearchData = (researchData) => {
-    const deniedData = researchData.filter(
-      (research) => research.status === "denied"
+    const activeData = researchData.filter((research) =>
+      checkIfResearchActive(research)
     );
-    const completedData = researchData.filter((research) =>
-      checkIfResearchDatePassed(research)
+    const completedData = researchData.filter(
+      (research) => !checkIfResearchActive(research)
     );
 
-    console.log(deniedData);
-
-    setDeniedResearchData(deniedData);
+    setActiveResearchData(activeData);
     setCompletedResearchData(completedData);
-    setFilteredResearchData(researchData);
 
-    if (activeTab === "denied") {
-      setFilteredResearchData(deniedData);
+    if (activeTab === "active") {
+      setFilteredResearchData(activeData);
     } else {
       setFilteredResearchData(completedData);
     }
@@ -60,10 +76,12 @@ const PastStudiesArchive = () => {
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
-    if (tab === "denied") {
-      setFilteredResearchData(deniedResearchData);
+    if (tab === "active") {
+      setFilteredResearchData(activeResearchData);
+      // console.log(filteredResearchData);
     } else {
       setFilteredResearchData(completedResearchData);
+      // console.log(filteredResearchData);
     }
   };
 
@@ -90,36 +108,15 @@ const PastStudiesArchive = () => {
     return word.charAt(0).toUpperCase() + word.slice(1);
   };
 
-  console.log(filteredResearchData);
-  console.log(activeTab);
-
-  const { currentUser, loading } = useAuth();
-  const router = useRouter();
-
-  useEffect(() => {
-    // If not loading and no user is logged in, redirect to login page
-    if (!loading && !currentUser) {
-      router.push('/admin-login');
-    } else if (currentUser) {
-      async function fetchIdentity() {
-        const user = await getUserProfile(currentUser.uid)
-        if (user.identity !== 'admin') {
-          router.push('/admin-login');
-        }
-      }
-      fetchIdentity()
-    }
-  }, [currentUser, loading, router]);
-
   return (
     <div className="px-12 h-screen">
-      <BigHeader>Denied and Expired Research Postings</BigHeader>
+      <BigHeader>Welcome to the NFA Admin Portal</BigHeader>
       <section className="my-6">
         <div>
           <div className="flex justify-start rounded-t-lg">
             <Tab
-              label={"Denied"}
-              onClickFunction={() => handleButtonClick("denied")}
+              label={"Active"}
+              onClickFunction={() => handleButtonClick("active")}
               activeTab={activeTab}
             />
             <Tab
@@ -137,7 +134,7 @@ const PastStudiesArchive = () => {
             <section>
               <div className="flex">
                 <div className="w-full justify-center">
-                  {activeTab === "denied" &&
+                  {activeTab === "active" &&
                     filteredResearchData.map((research) => (
                       <ResearchCard
                         key={research.id}
@@ -179,4 +176,4 @@ const PastStudiesArchive = () => {
   );
 };
 
-export default PastStudiesArchive;
+export default Dashboard;

@@ -1,16 +1,25 @@
 import React, { useEffect } from "react";
-import { useRouter } from "next/router";
 import ResearchPostRequestForm from "../src/app/components/ResearchPostRequestForm/ResearchPostRequestForm";
-import { useAuth } from "../src/app/services/AuthContext";
+import { useRouter } from 'next/router';
+import { useAuth } from '../src/app/services/AuthContext';
+import { getUserProfile } from '@/app/services/firestoreOperations';
 
 const NewResearchPage = () => {
   const { currentUser, loading } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-    // Redirect to login page if not logged in and not loading
+    // If not loading and no user is logged in, redirect to login page
     if (!loading && !currentUser) {
-      router.push('/login'); // Replace '/login' with your login route if it's different
+      router.push('/login');
+    } else if (currentUser) {
+      async function fetchIdentity() {
+        const user = await getUserProfile(currentUser.uid)
+        if (user.identity !== 'researcher') {
+          router.push('/login');
+        }
+      }
+      fetchIdentity()
     }
   }, [currentUser, loading, router]);
 

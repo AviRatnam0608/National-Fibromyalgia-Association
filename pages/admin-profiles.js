@@ -1,17 +1,26 @@
 import React from 'react';
 import { useAuth } from '../src/app/services/AuthContext';
 import { useRouter } from 'next/router';
+import { getUserProfile } from '@/app/services/firestoreOperations';
 
 function Pending() {
-  const { currentUser } = useAuth();
+  const { currentUser, loading } = useAuth();
   const router = useRouter();
 
-  // If there's no current user, redirect to the login page
-  React.useEffect(() => {
-    if (!currentUser) {
-      router.push('/login'); // Adjust the path to your login page as necessary
+  useEffect(() => {
+    // If not loading and no user is logged in, redirect to login page
+    if (!loading && !currentUser) {
+      router.push('/login');
+    } else if (currentUser) {
+      async function fetchIdentity() {
+        const user = await getUserProfile(currentUser.uid)
+        if (user.identity !== 'admin') {
+          router.push('/login');
+        }
+      }
+      fetchIdentity()
     }
-  }, [currentUser, router]);
+  }, [currentUser, loading, router]);
 
   // Alternatively, instead of redirecting, you can show a message or a loading indicator while checking the user's status
   if (!currentUser) {

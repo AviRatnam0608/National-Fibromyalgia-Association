@@ -4,8 +4,13 @@ import ExtendedParticipantCard from "@/app/components/ParticipantExtendedCard/Pa
 import { db } from "@/app/firebase";
 import { collection, getDocs } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
+import { useAuth } from "../src/app/services/AuthContext";
+import { useRouter } from "next/router";
+import { getUserProfile } from '@/app/services/firestoreOperations';
 
 const AdminParticipantInfo = () => {
+  const { currentUser, loading } = useAuth();
+  const router = useRouter();
   const [participantList, setParticipantList] = useState(null);
   const [selectedParticipant, setSelectedParticipant] = useState(null);
 
@@ -23,8 +28,19 @@ const AdminParticipantInfo = () => {
   };
 
   useEffect(() => {
-    fetchParticipantInfo();
-  }, []);
+    // If not loading and no user is logged in, redirect to login page
+    if (!loading && !currentUser) {
+      router.push('/login');
+    } else if (currentUser) {
+      async function fetchIdentity() {
+        const user = await getUserProfile(currentUser.uid)
+        if (user.identity !== 'admin') {
+          router.push('/login');
+        }
+      }
+      fetchIdentity()
+    }
+  }, [currentUser, loading, router]);
 
   const handleSelectParticipant = (participantInfo) => {
     setSelectedParticipant(participantInfo);

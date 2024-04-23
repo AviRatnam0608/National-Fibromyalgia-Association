@@ -7,6 +7,7 @@ import BigHeader from "@/app/components/BigHeader/BigHeader";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/app/firebase";
 import Tab from "@/app/components/Tab/Tab";
+import { getUserProfile } from '@/app/services/firestoreOperations';
 
 export const checkIfResearchDatePassed = (research) => {
   const endDate = new Date(research?.recruitEndDate);
@@ -15,9 +16,6 @@ export const checkIfResearchDatePassed = (research) => {
 };
 
 const PastStudiesArchive = () => {
-  const { currentUser } = useAuth();
-  const router = useRouter();
-
   const [activeTab, setActiveTab] = useState("denied");
   const [filteredResearchData, setFilteredResearchData] = useState([]);
   const [selectedResearch, setSelectedResearch] = useState({});
@@ -95,16 +93,23 @@ const PastStudiesArchive = () => {
   console.log(filteredResearchData);
   console.log(activeTab);
 
-  // Redirect to login page if not logged in
-  useEffect(() => {
-    if (!currentUser) {
-      router.push("/login");
-    }
-  }, [currentUser, router]);
+  const { currentUser, loading } = useAuth();
+  const router = useRouter();
 
-  if (!currentUser) {
-    return null; // or a loading indicator if you prefer
-  }
+  useEffect(() => {
+    // If not loading and no user is logged in, redirect to login page
+    if (!loading && !currentUser) {
+      router.push('/login');
+    } else if (currentUser) {
+      async function fetchIdentity() {
+        const user = await getUserProfile(currentUser.uid)
+        if (user.identity !== 'admin') {
+          router.push('/login');
+        }
+      }
+      fetchIdentity()
+    }
+  }, [currentUser, loading, router]);
 
   return (
     <div className="px-12 h-screen">

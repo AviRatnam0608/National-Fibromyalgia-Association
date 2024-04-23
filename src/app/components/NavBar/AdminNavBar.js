@@ -2,6 +2,9 @@
 
 import { NavBarContainer, activeStyling, hoverStyling } from "./NavBar.styles";
 import { useEffect, useState } from "react";
+import LogoutButton from "../LogoutButton";
+import { auth } from '../../firebase'
+
 
 function ResearcherNavBar() {
   const [currentPath, setCurrentPath] = useState(window.location.pathname);
@@ -28,34 +31,30 @@ function ResearcherNavBar() {
         <h1 className="text-xl font-bold">National Fibromyalgia Association</h1>
         <div>
           <a
-            href="/login"
-            className={`px-2 ${hoverStyling} ${
-              isActive("/login") ? activeStyling : ""
-            }`}
+            href="/admin-login"
+            className={`px-2 ${hoverStyling} ${isActive("/admin-login") ? activeStyling : ""
+              }`}
           >
             Login
           </a>
           <a
             href="/admin-dashboard"
-            className={`px-2 ${hoverStyling} ${
-              isActive("/admin-dashboard") ? activeStyling : ""
-            }`}
+            className={`px-2 ${hoverStyling} ${isActive("/admin-dashboard") ? activeStyling : ""
+              }`}
           >
             Dashboard
           </a>
           <a
             href="/admin-past-studies"
-            className={`px-2 ${hoverStyling} ${
-              isActive("/admin-past-studies") ? activeStyling : ""
-            }`}
+            className={`px-2 ${hoverStyling} ${isActive("/admin-past-studies") ? activeStyling : ""
+              }`}
           >
             Archive
           </a>
           <a
             href="/admin-participant-info"
-            className={`px-2 ${hoverStyling} ${
-              isActive("/admin-participant-info") ? activeStyling : ""
-            }`}
+            className={`px-2 ${hoverStyling} ${isActive("/admin-participant-info") ? activeStyling : ""
+              }`}
           >
             Particpant Info
           </a>
@@ -69,6 +68,8 @@ function ResearcherNavBar() {
           >
             Pending Studies
           </a>
+
+          <LogoutButton />
         </div>
       </div>
     </nav>

@@ -10,7 +10,7 @@ const AdminPendingPage = () => {
   useEffect(() => {
     // If not loading and no user is logged in, redirect to login page
     if (!loading && !currentUser) {
-      router.push('/login');
+      router.push('/admin-login');
     }
   }, [currentUser, loading, router]);
 

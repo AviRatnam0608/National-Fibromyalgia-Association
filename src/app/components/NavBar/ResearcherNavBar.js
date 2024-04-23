@@ -2,6 +2,8 @@
 
 import { NavBarContainer, activeStyling, hoverStyling } from "./NavBar.styles";
 import { useEffect, useState } from "react";
+import { auth } from '../../firebase'
+import LogoutButton from "../LogoutButton";
 
 function ResearcherNavBar() {
   const [currentPath, setCurrentPath] = useState(window.location.pathname);
@@ -29,25 +31,22 @@ function ResearcherNavBar() {
         <div>
           <a
             href="/login"
-            className={`px-2 ${hoverStyling} ${
-              isActive("/login") ? activeStyling : ""
-            }`}
+            className={`px-2 ${hoverStyling} ${isActive("/login") ? activeStyling : ""
+              }`}
           >
             Login
           </a>
           <a
             href="/"
-            className={`px-2 ${hoverStyling} ${
-              isActive("/") ? activeStyling : ""
-            }`}
+            className={`px-2 ${hoverStyling} ${isActive("/") ? activeStyling : ""
+              }`}
           >
             Home
           </a>
           <a
             href="/researcher-pending"
-            className={`px-2 ${hoverStyling} ${
-              isActive("/researcher-pending") ? activeStyling : ""
-            }`}
+            className={`px-2 ${hoverStyling} ${isActive("/researcher-pending") ? activeStyling : ""
+              }`}
           >
             Pending
           </a>
@@ -57,13 +56,13 @@ function ResearcherNavBar() {
               hover:bg-primary 
               hover:text-white
               hover:shadow-lg
-              bg-white border border-2 text-primary rounded-lg py-1 ${
-                isActive("/rpr-form") ? activeStyling : ""
+              bg-white border border-2 text-primary rounded-lg py-1 ${isActive("/rpr-form") ? activeStyling : ""
               }
               `}
           >
             New Post
           </a>
+          <LogoutButton />
         </div>
       </div>
     </nav>

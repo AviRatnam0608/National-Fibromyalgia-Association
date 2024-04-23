@@ -57,8 +57,10 @@ function ResearcherNavBar() {
               hover:bg-primary 
               hover:text-white
               hover:shadow-lg
-              bg-white border border-2 text-primary rounded-lg py-1 ${
-                isActive("/rpr-form") ? activeStyling : ""
+              border border-2 text-primary rounded-lg py-1 ${
+                isActive("/rpr-form")
+                  ? "active: bg-primaryDarker text-white"
+                  : "bg-white"
               }
               `}
           >

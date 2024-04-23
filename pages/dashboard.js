@@ -6,7 +6,7 @@ import { db } from "@/app/firebase";
 import { collection, getDocs } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import Tab from "@/app/components/Tab/Tab";
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { useAuth } from '../src/app/services/AuthContext';
 import { getUserProfile } from '@/app/services/firestoreOperations';
 

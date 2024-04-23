@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../src/app/services/AuthContext";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import ExtendedResearchCard from "@/app/components/ExtendedResearchCard/ExtendedResearchCard";
 import ResearchCard from "@/app/components/ResearchCard/ResearchCard";
 import BigHeader from "@/app/components/BigHeader/BigHeader";

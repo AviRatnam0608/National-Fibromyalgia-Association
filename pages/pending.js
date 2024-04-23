@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/router'; // Import useRouter for redirection
+import { useRouter } from 'next/navigation'; // Import useRouter for redirection
 import { useAuth } from '../src/app/services/AuthContext'; // Import useAuth hook
 import { db } from '../src/app/firebase';
 import { collection, getDocs, updateDoc, doc } from 'firebase/firestore';

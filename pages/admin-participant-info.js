@@ -2,10 +2,10 @@ import BigHeader from "@/app/components/BigHeader/BigHeader";
 import ParticipantCard from "@/app/components/ParticipantCard/ParticipantCard";
 import ExtendedParticipantCard from "@/app/components/ParticipantExtendedCard/ParticipantExtendedCard";
 import { db } from "@/app/firebase";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, where } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../src/app/services/AuthContext";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { getUserProfile } from '@/app/services/firestoreOperations';
 
 const AdminParticipantInfo = () => {

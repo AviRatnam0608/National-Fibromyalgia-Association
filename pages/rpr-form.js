@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import ResearchPostRequestForm from "../src/app/components/ResearchPostRequestForm/ResearchPostRequestForm";
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { useAuth } from '../src/app/services/AuthContext';
 import { getUserProfile } from '@/app/services/firestoreOperations';
 

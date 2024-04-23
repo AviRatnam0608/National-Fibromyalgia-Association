@@ -10,12 +10,12 @@ function Pending() {
   useEffect(() => {
     // If not loading and no user is logged in, redirect to login page
     if (!loading && !currentUser) {
-      router.push('/login');
+      router.push('/admin-login');
     } else if (currentUser) {
       async function fetchIdentity() {
         const user = await getUserProfile(currentUser.uid)
         if (user.identity !== 'admin') {
-          router.push('/login');
+          router.push('/admin-login');
         }
       }
       fetchIdentity()

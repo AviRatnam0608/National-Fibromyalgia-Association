@@ -25,7 +25,7 @@ import BigHeader from "../BigHeader/BigHeader";
 import CustomStepper from "../Stepper/Stepper";
 import { InputField, TextAreaField } from "../FormField/FormField";
 
-const ResearchPostRequestForm = () => {
+const ResearchPostRequestForm = ({uid}) => {
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({
     irbNumber: "",
@@ -809,6 +809,7 @@ const ResearchPostRequestForm = () => {
         relatedResearch: relatedResearchString.trim() !== "" ? relatedResearchString.split(/\r?\n/) : [],
         status: "adminPending", // Set default status to 'adminPending'
         researchTopics: selectedTags,
+        researcherId: uid
       });
 
       console.log("Form submitted successfully");

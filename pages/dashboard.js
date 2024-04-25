@@ -6,9 +6,9 @@ import { db } from "@/app/firebase";
 import { collection, getDocs } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import Tab from "@/app/components/Tab/Tab";
-import { useRouter } from 'next/navigation';
-import { useAuth } from '../src/app/services/AuthContext';
-import { getUserProfile } from '@/app/services/firestoreOperations';
+import { useRouter } from "next/navigation";
+import { useAuth } from "../src/app/services/AuthContext";
+import { getUserProfile } from "@/app/services/firestoreOperations";
 
 export const checkIfResearchActive = (research) => {
   const endDate = new Date(research?.recruitEndDate);
@@ -23,15 +23,15 @@ const Dashboard = () => {
   useEffect(() => {
     // If not loading and no user is logged in, redirect to login page
     if (!loading && !currentUser) {
-      router.push('/login');
+      router.push("/login");
     } else if (currentUser) {
       async function fetchIdentity() {
-        const user = await getUserProfile(currentUser.uid)
-        if (user.identity !== 'researcher') {
-          router.push('/login');
+        const user = await getUserProfile(currentUser?.uid);
+        if (user.identity !== "researcher") {
+          router.push("/login");
         }
       }
-      fetchIdentity()
+      fetchIdentity();
     }
   }, [currentUser, loading, router]);
 
@@ -50,8 +50,10 @@ const Dashboard = () => {
       id: doc.id,
       ...doc.data(),
     }));
-    submissionsData.map((doc) => {
-      researchData.push(doc);
+    submissionsData.forEach((doc) => {
+      if (doc.researcherId === currentUser?.uid) {
+        researchData.push(doc);
+      }
     });
     filterResearchData(researchData);
   };
@@ -78,10 +80,8 @@ const Dashboard = () => {
     setActiveTab(tab);
     if (tab === "active") {
       setFilteredResearchData(activeResearchData);
-      // console.log(filteredResearchData);
     } else {
       setFilteredResearchData(completedResearchData);
-      // console.log(filteredResearchData);
     }
   };
 
@@ -110,7 +110,10 @@ const Dashboard = () => {
 
   return (
     <div className="px-12 h-screen">
-      <BigHeader>Welcome to the NFA Admin Portal</BigHeader>
+      <BigHeader>
+        Welcome to the Researcher Portal{" "}
+        {currentUser?.displayName ? `, ${currentUser?.displayName}!` : " !"}
+      </BigHeader>
       <section className="my-6">
         <div>
           <div className="flex justify-start rounded-t-lg">

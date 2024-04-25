@@ -6,7 +6,8 @@ import { collection, getDocs, where } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../src/app/services/AuthContext";
 import { useRouter } from "next/navigation";
-import { getUserProfile } from '@/app/services/firestoreOperations';
+import { getUserProfile } from "@/app/services/firestoreOperations";
+import NothingToShow from "@/app/components/NothingToShow/NothingToShow";
 
 const AdminParticipantInfo = () => {
   const { currentUser, loading } = useAuth();
@@ -16,7 +17,10 @@ const AdminParticipantInfo = () => {
 
   const fetchParticipantInfo = async () => {
     const participants = [];
-    const querySnapshot = await getDocs(collection(db, "Profile"), where('identity', '==', 'participant'));
+    const querySnapshot = await getDocs(
+      collection(db, "Profile"),
+      where("identity", "==", "participant")
+    );
     const participantData = querySnapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
@@ -30,17 +34,17 @@ const AdminParticipantInfo = () => {
   useEffect(() => {
     // If not loading and no user is logged in, redirect to login page
     if (!loading && !currentUser) {
-      router.push('/admin-login');
+      router.push("/admin-login");
     } else if (currentUser) {
       async function fetchIdentity() {
-        const user = await getUserProfile(currentUser.uid)
-        if (user.identity !== 'admin') {
-          router.push('/admin-login');
+        const user = await getUserProfile(currentUser.uid);
+        if (user.identity !== "admin") {
+          router.push("/admin-login");
         }
       }
-      fetchIdentity()
+      fetchIdentity();
     }
-    fetchParticipantInfo()
+    fetchParticipantInfo();
   }, [currentUser, loading, router]);
 
   const handleSelectParticipant = (participantInfo) => {
@@ -52,6 +56,9 @@ const AdminParticipantInfo = () => {
       <BigHeader>Participant Information</BigHeader>
       <div className="flex">
         <div className="flex-1 p-4">
+          {participantList?.length === 0 && (
+            <NothingToShow description="No participants found" />
+          )}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             {participantList?.map((participantInfo) => (
               <ParticipantCard

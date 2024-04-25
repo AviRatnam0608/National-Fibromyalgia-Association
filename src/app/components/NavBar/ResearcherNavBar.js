@@ -2,10 +2,11 @@
 
 import { NavBarContainer, activeStyling, hoverStyling } from "./NavBar.styles";
 import { useEffect, useState } from "react";
-import { auth } from '../../firebase'
 import LogoutButton from "../LogoutButton";
+import { useAuth } from "@/app/services/AuthContext";
 
 function ResearcherNavBar() {
+  const { currentUser, loading } = useAuth();
   const [currentPath, setCurrentPath] = useState(window.location.pathname);
 
   useEffect(() => {
@@ -29,13 +30,16 @@ function ResearcherNavBar() {
       <div className="max-w-6xl mx-auto flex justify-between items-center">
         <h1 className="text-xl font-bold">National Fibromyalgia Association</h1>
         <div>
-          <a
-            href="/login"
-            className={`px-2 ${hoverStyling} ${isActive("/login") ? activeStyling : ""
+          {!currentUser && (
+            <a
+              href="/login"
+              className={`px-2 ${hoverStyling} ${
+                isActive("/login") ? activeStyling : ""
               }`}
-          >
-            Login
-          </a>
+            >
+              Login
+            </a>
+          )}
           <a
             href="/dashboard"
             className={`px-2 ${hoverStyling} ${
@@ -46,8 +50,9 @@ function ResearcherNavBar() {
           </a>
           <a
             href="/researcher-pending"
-            className={`px-2 ${hoverStyling} ${isActive("/researcher-pending") ? activeStyling : ""
-              }`}
+            className={`px-2 ${hoverStyling} ${
+              isActive("/researcher-pending") ? activeStyling : ""
+            }`}
           >
             Pending
           </a>
@@ -66,7 +71,7 @@ function ResearcherNavBar() {
           >
             New Post
           </a>
-          <LogoutButton />
+          {currentUser && <LogoutButton />}
         </div>
       </div>
     </nav>

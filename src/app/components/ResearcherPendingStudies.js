@@ -1,11 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { getDoc, getDocs, collection, doc, updateDoc, writeBatch } from "firebase/firestore";
+import {
+  getDoc,
+  getDocs,
+  collection,
+  doc,
+  updateDoc,
+  writeBatch,
+} from "firebase/firestore";
 import { db } from "../firebase";
 import BigHeader from "./BigHeader/BigHeader";
 import ResearchFeedbackCard from "./ResarchCardFeedback/ResearchCardFeedback";
 import { Divider } from "./ExtendedResearchCard/ExtendedResearchCard";
+import { useAuth } from "../services/AuthContext";
+import NothingToShow from "./NothingToShow/NothingToSHow";
 
 const ResearcherPending = () => {
+  const { currentUser } = useAuth();
   const [selectedSubmission, setSelectedSubmission] = useState(null);
 
   const handleViewFeedback = async () => {
@@ -15,8 +25,13 @@ const ResearcherPending = () => {
         id: doc.id,
         ...doc.data(),
       }));
+
+      const userSubmissions = submissions.filter(
+        (submission) => submission.researcherId === currentUser.uid
+      );
+
       setSelectedSubmission(
-        submissions.filter(
+        userSubmissions.filter(
           (submission) => submission.status === "researcherPending"
         )
       );
@@ -40,7 +55,7 @@ const ResearcherPending = () => {
         // Prepare the data to be updated and copied
         const updatedData = {
           ...docSnap.data(),
-          status: "accepted"  // Updating the status
+          status: "accepted", // Updating the status
         };
 
         // Update the document in 'researchStudies'
@@ -54,11 +69,11 @@ const ResearcherPending = () => {
 
         // Commit all batched writes to Firestore
         await batch.commit();
-        console.log('Proposal accepted and data copied successfully');
+        console.log("Proposal accepted and data copied successfully");
 
         // Optionally, call a function to refresh the view to reflect changes
         handleViewFeedback();
-    } else {
+      } else {
         console.error("No such document!");
       }
     } catch (error) {
@@ -90,6 +105,9 @@ const ResearcherPending = () => {
         them. Use the 'Accept' or 'Reject' buttons to approve or deny the
         research/ research feedback posting.
       </div>
+      {selectedSubmission?.length === 0 ? (
+        <NothingToShow description={"No research proposals pending feedback"} />
+      ) : null}
       {selectedSubmission?.map((submissionItem) => (
         <ResearchFeedbackCard id={submissionItem.id} {...submissionItem}>
           <div className="w-full md:w-96 border-t md:border-t-0 md:border-l border-gray-200 p-4">

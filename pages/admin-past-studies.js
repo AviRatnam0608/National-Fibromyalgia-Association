@@ -7,7 +7,8 @@ import BigHeader from "@/app/components/BigHeader/BigHeader";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/app/firebase";
 import Tab from "@/app/components/Tab/Tab";
-import { getUserProfile } from '@/app/services/firestoreOperations';
+import { getUserProfile } from "@/app/services/firestoreOperations";
+import NothingToShow from "@/app/components/NothingToShow/NothingToShow";
 
 export const checkIfResearchDatePassed = (research) => {
   const endDate = new Date(research?.recruitEndDate);
@@ -99,15 +100,15 @@ const PastStudiesArchive = () => {
   useEffect(() => {
     // If not loading and no user is logged in, redirect to login page
     if (!loading && !currentUser) {
-      router.push('/admin-login');
+      router.push("/admin-login");
     } else if (currentUser) {
       async function fetchIdentity() {
-        const user = await getUserProfile(currentUser.uid)
-        if (user.identity !== 'admin') {
-          router.push('/admin-login');
+        const user = await getUserProfile(currentUser.uid);
+        if (user.identity !== "admin") {
+          router.push("/admin-login");
         }
       }
-      fetchIdentity()
+      fetchIdentity();
     }
   }, [currentUser, loading, router]);
 
@@ -137,6 +138,17 @@ const PastStudiesArchive = () => {
             <section>
               <div className="flex">
                 <div className="w-full justify-center">
+                  {filteredResearchData.length === 0 && (
+                    <div className="my-5">
+                      <NothingToShow
+                        description={
+                          activeTab === "denied"
+                            ? `${"No denied research"}`
+                            : `${"No completed research"}`
+                        }
+                      />
+                    </div>
+                  )}
                   {activeTab === "denied" &&
                     filteredResearchData.map((research) => (
                       <ResearchCard

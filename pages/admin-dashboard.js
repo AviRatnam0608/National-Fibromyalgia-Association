@@ -9,6 +9,7 @@ import Tab from "@/app/components/Tab/Tab";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../src/app/services/AuthContext";
 import { getUserProfile } from "@/app/services/firestoreOperations";
+import NothingToShow from "@/app/components/NothingToShow/NothingToShow";
 
 export const checkIfResearchActive = (research) => {
   const endDate = new Date(research?.recruitEndDate);
@@ -78,10 +79,8 @@ const Dashboard = () => {
     setActiveTab(tab);
     if (tab === "active") {
       setFilteredResearchData(activeResearchData);
-      // console.log(filteredResearchData);
     } else {
       setFilteredResearchData(completedResearchData);
-      // console.log(filteredResearchData);
     }
   };
 
@@ -134,6 +133,17 @@ const Dashboard = () => {
             <section>
               <div className="flex">
                 <div className="w-full justify-center">
+                  {filteredResearchData.length === 0 && (
+                    <div className="my-5">
+                      <NothingToShow
+                        description={
+                          activeTab === "active"
+                            ? `${"No active research"}`
+                            : `${"No completed research"}`
+                        }
+                      />
+                    </div>
+                  )}
                   {activeTab === "active" &&
                     filteredResearchData.map((research) => (
                       <ResearchCard

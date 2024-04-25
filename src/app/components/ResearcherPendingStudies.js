@@ -12,7 +12,7 @@ import BigHeader from "./BigHeader/BigHeader";
 import ResearchFeedbackCard from "./ResarchCardFeedback/ResearchCardFeedback";
 import { Divider } from "./ExtendedResearchCard/ExtendedResearchCard";
 import { useAuth } from "../services/AuthContext";
-import NothingToShow from "./NothingToShow/NothingToSHow";
+import NothingToShow from "./NothingToShow/NothingToShow";
 
 const ResearcherPending = () => {
   const { currentUser } = useAuth();

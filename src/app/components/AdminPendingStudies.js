@@ -12,6 +12,7 @@ import AdminFeedbackCard from "./AdminCardFeedback.js/AdminCardFeedback";
 import BigHeader from "./BigHeader/BigHeader";
 import { Divider } from "./ExtendedResearchCard/ExtendedResearchCard";
 import { FaExclamationTriangle } from "react-icons/fa";
+import NothingToShow from "./NothingToShow/NothingToShow";
 
 const AdminPending = () => {
   const [submissions, setSubmissions] = useState([]);
@@ -305,9 +306,7 @@ const AdminPending = () => {
           </AdminFeedbackCard>
         ))
       ) : (
-        <div className="text-gray-500 font-semibold border-2 rounded-md text-center">
-          No pending submissions
-        </div>
+        <NothingToShow description={"No research studies pending"} />
       )}
     </div>
   );

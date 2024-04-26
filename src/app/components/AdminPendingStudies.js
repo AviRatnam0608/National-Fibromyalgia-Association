@@ -134,7 +134,7 @@ const AdminPending = () => {
   };
 
   const emailTemplate = (submissionItem, status) => {
-    const senderEmail = "avinashr@umich.edu";
+    const senderEmail = "lynne@ourcpc.com";
     const receiverEmail = `${submissionItem.contactEmail}`; // The receiver's email address
     const subject = emailTemplateOptions(submissionItem, status, "subject"); // Subject line of the email
     const body = emailTemplateOptions(submissionItem, status, "body"); // Body of the email
